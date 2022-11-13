@@ -1,0 +1,10 @@
+#
+# Adds libs for java jdk/sdk
+#
+
+packages:
+	install::
+		libasound2		action=install
+		libxp6			action=install
+		libxt6			action=install
+		libxtst6		action=install

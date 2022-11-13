@@ -1,0 +1,110 @@
+#
+# Add pgdb cron scripts
+#
+packages:
+	any::
+	 	time	action=install
+		
+copy:
+	mrhpgdb3::
+		$(cfe_files)/m4n_2.11.2/bin
+			dest=/m4n/bin
+			server=${cfe_host}
+			mode=755 owner=root	group=root
+			recurse=inf
+			backup=false
+			purge=false
+			type=checksum
+			ignore=.svn
+			ignore=.hg
+			ignore=.project
+		${cfe_files}/etc/cron.d/m4n-mrhpgdb3
+			dest=/etc/cron.d/m4n-mrhpgdb3
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			backup=false
+			type=checksum		
+	mrhpgdb4::
+		$(cfe_files)/m4n_2.11.2
+			dest=/m4n
+			server=${cfe_host}
+			mode=755 owner=root	group=root
+			recurse=inf
+			backup=false
+			purge=false
+			type=checksum
+			ignore=.svn
+			ignore=.hg
+			ignore=.project
+		${cfe_files}/etc/m4n-scripts.conf-m4n-mrhpgdb4
+			dest=/etc/m4n-scripts.conf
+			server=${cfe_host}
+			mode=644
+			owner=root
+			group=root
+			type=checksum
+		${cfe_files}/etc/cron.d/m4n-mrhpgdb4
+			dest=/etc/cron.d/m4n-mrhpgdb4
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			backup=false
+			type=checksum	
+	mrhpgdb5::
+		$(cfe_files)/m4n_2.11.2
+			dest=/m4n
+			server=${cfe_host}
+			mode=755 owner=root	group=root
+			recurse=inf
+			backup=false
+			purge=false
+			type=checksum
+			ignore=.svn
+			ignore=.hg
+			ignore=.project
+		${cfe_files}/etc/cron.d/m4n-mrhpgdb5
+			dest=/etc/cron.d/m4n-mrhpgdb5
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			backup=false
+			type=checksum		
+	tohpgdb1::
+		$(cfe_files)/m4n_2.11.2
+			dest=/m4n/update
+			server=${cfe_host}
+			mode=755 owner=root	group=root
+			recurse=inf
+			backup=false
+			purge=false
+			type=checksum
+			ignore=.svn
+			ignore=.hg
+			ignore=.project
+	    $(cfe_files)/m4n_2.11.2
+			dest=/m4n/beta
+			server=${cfe_host}
+			mode=755 owner=root	group=root
+			recurse=inf
+			backup=false
+			purge=false
+			type=checksum
+			ignore=.svn
+			ignore=.hg
+			ignore=.project
+	    $(cfe_files)/m4n_2.11.4
+			dest=/m4n/dev
+			server=${cfe_host}
+			mode=755 owner=root	group=root
+			recurse=inf
+			backup=false
+			purge=false
+			type=checksum
+			ignore=.svn
+			ignore=.hg
+			ignore=.project
+        ${cfe_files}/etc/cron.d/m4n-tohpgdb1
+			dest=/etc/cron.d/m4n-tohpgdb1
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			backup=false
+			type=checksum
+			

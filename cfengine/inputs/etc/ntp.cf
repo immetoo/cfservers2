@@ -1,0 +1,60 @@
+#
+# manages the ntp time deamon
+#
+
+control:
+	any::
+		ntp_config	= ( /etc/ntp.conf )
+		ntp_drift	= ( /var/lib/ntp/ntp.drift )
+		ntp_default	= ( /etc/default/ntp )
+		ntp_check_xenU	 = ( /usr/local/sbin/check_ntpd_xenU.sh )
+		ntp_check_xenU_cron= ( /etc/cron.d/ntp-check )
+
+packages:
+	install.DEBIAN_4|DEBIAN_5|DEBIAN_6::
+		ntp
+			action=install
+	install.DEBIAN_3::
+		ntp-server
+			action=install
+		
+copy:
+	any::
+		${cfe_files}${ntp_config}
+			dest=${ntp_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=NTP_SERVER_RESTART
+		${cfe_files}${ntp_default}
+			dest=${ntp_default}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=NTP_SERVER_RESTART
+
+	# Test for sats first, they seem to have this the most.
+	SRV_SAT|SRV_DEV|NET_DMZ::
+		${cfe_files}${ntp_check_xenU}
+			dest=${ntp_check_xenU}
+			server=${cfe_host}
+			type=checksum
+			mode=700 owner=root group=root
+		${cfe_files}${ntp_check_xenU_cron}
+			dest=${ntp_check_xenU_cron}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=600 owner=root group=root	
+
+files:
+	any::
+		${ntp_config}	owner=root group=root mode=644	action=fixall define=NTP_SERVER_RESTART
+		${ntp_default}	owner=root group=root mode=644	action=fixall define=NTP_SERVER_RESTART
+# Commented out because ntp restarted every hour:
+#		${ntp_drift}	owner=ntp group=ntp mode=600	action=fixall define=NTP_SERVER_RESTART
+
+shellcommands:
+	NTP_SERVER_RESTART.(DEBIAN_4|DEBIAN_5|DEBIAN_6)::
+		"/etc/init.d/ntp restart"
+	NTP_SERVER_RESTART.DEBIAN_3::
+		"/etc/init.d/ntp-server restart"

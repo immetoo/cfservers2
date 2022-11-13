@@ -1,0 +1,4 @@
+#
+# This file is managed by cfengine
+#
+BACKUP="/data/www /data/www1 /data/www2 /data/www3";

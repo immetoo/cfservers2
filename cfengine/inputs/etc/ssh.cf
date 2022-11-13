@@ -1,0 +1,46 @@
+#
+# Manages ssh
+#
+
+control:
+	any::
+		ssh_config  = ( /etc/ssh/ssh_config )
+		sshd_config = ( /etc/ssh/sshd_config )
+
+files:
+	any::
+		${ssh_config}					mode=644 owner=root group=root action=fixall
+		${sshd_config}					mode=644 owner=root	group=root action=fixall
+		/etc/ssh/moduli					mode=644 owner=root group=root action=fixall
+		/etc/ssh/ssh_host_dsa_key   	mode=600 owner=root	group=root checksum=md5 action=fixall
+		/etc/ssh/ssh_host_dsa_key.pub	mode=644 owner=root group=root checksum=md5	action=fixall
+		/etc/ssh/ssh_host_rsa_key		mode=600 owner=root	group=root checksum=md5	action=fixall
+		/etc/ssh/ssh_host_rsa_key.pub	mode=644 owner=root	group=root checksum=md5	action=fixall
+
+copy:
+	any::
+		${cfe_files}${sshd_config}
+			dest=${sshd_config}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+			define=SSHD_RESTART
+		${cfe_files}${ssh_config}
+			dest=${ssh_config}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+			
+			
+
+shellcommands:
+	SSHD_RESTART::
+		"/etc/init.d/ssh restart"
+
+# 20110309-TL Disabled lines below to see if we'll
+#             experience an improvement on the hh:02
+#             outages
+# made sure there is an sshd running
+#processes:
+#	any::
+#		"sshd" restart "/etc/init.d/ssh restart"

@@ -1,0 +1,19 @@
+#
+# Manages logcheck
+#
+
+control:
+	any::
+		logcheck_ignore_ucarp	= ( /etc/logcheck/ignore.d.server/logcheck-ucarp )
+
+copy:
+	any::
+		${cfe_files}${logcheck_ignore_ucarp}
+			dest=${logcheck_ignore_ucarp}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+			
+files:
+	any::
+		${logcheck_ignore_ucarp}	mode=640 owner=root group=logcheck action=fixall

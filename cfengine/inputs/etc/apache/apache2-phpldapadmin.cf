@@ -1,0 +1,36 @@
+#
+# Adds phpldapadmin to apache2
+#
+
+packages:
+	any::
+		phpldapadmin			action=install
+		
+control:
+	any::
+		phpldapadmin_apache	= ( /etc/apache2/sites-available/ldapadmin.mbuyu.nl )
+		phpldapadmin_config	= ( /etc/phpldapadmin/config.php )
+		
+copy:
+	any::
+		${cfe_files}${phpldapadmin_apache}
+			dest=${phpldapadmin_apache}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+		${cfe_files}${phpldapadmin_config}
+			dest=${phpldapadmin_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/sites-enabled/ldapadmin.mbuyu.nl ->! ${phpldapadmin_apache} define=APACHE2_RESTART
+
+shellcommands:
+	APACHE2_LDAP_ADMIN_CONF::
+		"/bin/rm -rf /etc/apache2/conf.d/phpldapadmin"
+

@@ -1,0 +1,56 @@
+#
+# This file is managed by cfengine
+#
+
+# THE loopback interface
+auto lo
+iface lo inet loopback
+
+# DMZ machine interface
+auto eth0
+iface eth0 inet static
+	address 172.16.24.3
+	gateway 172.16.24.254
+	netmask 255.255.255.0
+	broadcast 172.16.24.255
+	post-up route add -net 172.16.26.0 netmask 255.255.255.0 gw 172.16.24.254 eth0
+	post-up route add -net 172.16.16.0 netmask 255.255.240.0 gw 172.16.24.221 eth0
+	post-up ifup eth0:0
+
+# SMZ machine interface
+auto eth1
+iface eth1 inet static
+	address 172.16.27.3
+	netmask 255.255.255.0
+	post-up ifup eth1:1
+
+# ucarp managed DMZ interface
+iface eth0:0 inet manual
+	down /usr/local/sbin/ucarp-stop.sh vip252
+	up ucarp -i eth0:0  \
+		-s 172.16.24.3   \
+		-a 172.16.24.252  \
+		-v 252 -p eR5ajexa \
+		-P -z -k 10 -r 10 --daemonize -x vip252 \
+		--upscript=/usr/local/sbin/ucarp-vip-up.sh \
+		--downscript=/usr/local/sbin/ucarp-vip-down.sh
+
+iface eth0:0:ucarp inet static
+	address 172.16.24.252
+	netmask 255.255.255.0
+
+# ucarp managed SMZ interface
+iface eth1:1 inet manual
+	down /usr/local/sbin/ucarp-stop.sh vip254
+	up ucarp -i eth1:1  \
+		-s 172.16.27.3   \
+		-a 172.16.27.254  \
+		-v 254 -p Aeti9thu \
+		-P -z -k 10 -r 10 --daemonize -x vip254 \
+		--upscript=/usr/local/sbin/ucarp-vip-up.sh \
+		--downscript=/usr/local/sbin/ucarp-vip-down.sh 
+
+iface eth1:1:ucarp inet static
+	address 172.16.27.254
+	netmask 255.255.255.0
+

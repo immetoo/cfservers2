@@ -1,0 +1,33 @@
+## apcupsd.conf v1.1 ##
+# apcupsd: Needs the above version line to startup !!
+#
+# This file is managed by cfengine
+#
+
+# todo; redo to usb cable for masters
+#
+# 20110106-TL Disabled rule below since it returns 
+#             the following error:
+#                  Bogus configuration value (*invalid-ups-class*)
+# UPSCLASS netmaster
+#
+UPSCABLE smart
+UPSTYPE snmp
+DEVICE 172.16.27.223:161:APC:apc_ups
+LOCKFILE /var/lock
+ONBATTERYDELAY 6
+BATTERYLEVEL 5
+MINUTES 3
+TIMEOUT 0
+ANNOY 300
+ANNOYDELAY 60
+NOLOGON disable
+KILLDELAY 0
+NETSERVER off
+EVENTSFILE /var/log/apcupsd.events
+EVENTSFILEMAX 10
+UPSMODE disable
+STATTIME 0
+STATFILE /var/log/apcupsd.status
+LOGSTATS off
+DATATIME 0

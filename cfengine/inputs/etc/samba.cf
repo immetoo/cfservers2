@@ -1,0 +1,31 @@
+#
+# Addes samba 
+#
+
+packages:
+	install::
+		samba				action=install
+		smbfs				action=install
+
+
+control:
+	any::
+		smb_conf		= ( /etc/samba/smb.conf )
+		
+		
+copy:
+	any::
+		${cfe_files}${smb_conf}
+			dest=${smb_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=SAMBA_RESTART
+
+files:
+	any::
+		${smb_conf}		owner=root group=root mode=644	action=fixall define=SAMBA_RESTART
+								
+shellcommands:
+	SAMBA_RESTART::
+		"/etc/init.d/samba restart"

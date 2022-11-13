@@ -1,0 +1,6 @@
+#
+# This file is managed by cfengine
+#
+
+command[system_procs_openvpn]=/usr/lib/nagios/plugins/check_procs -c 1,1 -C openvpn
+command[check_openvpn_tun]=/usr/lib/nagios/plugins/check_ping -H 172.16.31.1 -w 14,10% -c 100,80% -p 10 -t 10 -4

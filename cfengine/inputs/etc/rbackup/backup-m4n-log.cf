@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_m4n_log	= ( /etc/rbackup/conf.d/backup-m4n-log )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_m4n_log}
+			dest=${rbackup_m4n_log}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

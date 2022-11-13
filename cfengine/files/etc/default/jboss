@@ -1,0 +1,10 @@
+# M4N JBoss configuration
+
+# The address JBoss should bind on, possible values are: LOCALHOST, HOSTNAME, ALL
+BIND="ALL"
+
+# Give none staging env for jboss startup script
+M4N_STAGING="-Dm4n.staging=none"
+
+
+

@@ -1,0 +1,5 @@
+Explanation: This file is managed by cfengine
+Explanation: pin default on squeeze
+Package: *
+Pin: release a=squeeze
+Pin-Priority: 1234

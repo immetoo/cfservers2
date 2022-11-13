@@ -1,0 +1,17 @@
+#excludes:
+- .*jpg
+- .*JPG
+- .*mp3
+- .*MP3
+- .*MOV
+- .*mov
+- .*m4b
+- .*AVI
+- .*avi
+- .DS_Store
+- .Thumbs.db
+- /data/public/office/fotos_uitjes_feestjes
+- /data/public/office/Fotos_uitjes_feestjes
+- /data/public/software
+- /data/public/techniek/dumps
+

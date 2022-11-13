@@ -1,0 +1,1 @@
+CREATE INDEX rows_to_be_updated_month_payment_period_id_idx ON rows_to_be_updated_month (payment_period_id);

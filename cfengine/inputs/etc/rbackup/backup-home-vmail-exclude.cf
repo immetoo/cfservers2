@@ -1,0 +1,16 @@
+#
+# On mail servers we need to exclude some dirs.
+#
+
+
+control:
+	any::
+		rbackup_home_vmail_exclude	= ( /etc/rbackup/conf.d/backup-home-vmail-exclude )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_home_vmail_exclude}
+			dest=${rbackup_home_vmail_exclude}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

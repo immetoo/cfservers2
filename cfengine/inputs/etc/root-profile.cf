@@ -1,0 +1,18 @@
+# .profile file for root
+
+control:
+	any::
+		profile_root	= ( /root/.profile )
+
+copy:
+	any::		
+		${cfe_files}${profile_root}
+			dest=${profile_root}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+
+files:
+	any::
+		${proftpd_config}	owner=root group=root mode=600	action=fixall 
+		${proftpd_pam}   	owner=root group=root mode=600	action=fixall

@@ -1,0 +1,7 @@
+#
+# Addes vhost_alias.load
+#
+
+links:
+	any::
+		/etc/apache2/mods-enabled/vhost_alias.load ->! ../mods-available/vhost_alias.load define=APACHE2_RESTART

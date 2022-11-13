@@ -1,0 +1,39 @@
+#!/bin/sh
+#
+# pings ucarp to print status message so we can read master/backup state.
+#
+
+# Copy args
+VIP_ID=$1
+
+# Check valid VIP_ID
+if [ "$VIP_ID" == "" ]; then
+        echo "No vip_id given as argument";
+        exit 1;
+fi;
+
+# Find the ucarp process id
+UCARP_PID=`ps -ef -u root|egrep "ucarp(.*)${VIP_ID}"|egrep -v "grep|check" | awk '{print $2}'`;
+if [ "$UCARP_PID" == "" ]; then
+        echo "No ucarp process found for ${VIP_ID}";
+        exit 1; // WARNING
+fi;
+# print vip id log message
+kill -USR1 ${UCARP_PID};
+
+# Get log message
+VIP_LOG=`tail -n100 /var/log/daemon.log |egrep "ucarp(.*)INFO(.*)${VIP_ID}"|tail -n1|awk '{print $7" on "$9" id "$11}'`;
+
+# Check for failure and append resaon for it.
+if [ "$VIP_LOG" == "" ]; then
+        echo "No ucarp status msg.";
+        exit 2; // CRITICAL
+fi
+
+# print message
+echo $VIP_LOG;
+
+# normal exit
+exit 0;
+
+  

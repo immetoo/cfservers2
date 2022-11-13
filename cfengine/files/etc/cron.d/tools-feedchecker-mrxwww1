@@ -1,0 +1,8 @@
+#
+# This file is managed by cfengine
+#
+
+# checks content of feeds compared to previous batch - created graphs etc
+0 06,12,15 * * *        root    wget http://tools.m4n.nl/feedchecker/cronjob.php > /dev/null 2>&1
+
+# EOF

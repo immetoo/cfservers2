@@ -1,0 +1,16 @@
+#
+# Returns the maill addy.
+# postfix ignores the return value
+#
+bind_dn= uid=postfix,ou=services,dc=m4n,dc=nl
+bind_pw= superP
+server_host=ldaps://ldap3.lan.mbuyu.nl ldaps://ldap1.lan.mbuyu.nl
+server_port=636
+bind= yes
+timeout= 20
+search_base= ou=users,dc=m4n,dc=nl
+#changed, so you can disable sending while enabling autoreply
+query_filter= (&(objectclass=mailAccount)(mail=%s)(mailActive=TRUE))
+result_attribute= mail
+scope=sub
+version=3

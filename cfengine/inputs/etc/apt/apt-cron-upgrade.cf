@@ -1,0 +1,36 @@
+#
+# Sets the apt auto upgrades correctly etc
+#
+
+
+control:
+	any::
+		apt_periodic_config         = ( /etc/apt/apt.conf.d/99periodic )
+		apt_unattended_config		= ( /etc/apt/apt.conf.d/50unattended-upgrades )
+
+packages:
+	install::
+		unattended-upgrades			action=install
+		
+copy:
+	any::
+		${cfe_files}${apt_unattended_config}
+			dest=${apt_unattended_config}
+			server=${cfe_host}
+			type=checksum
+			backup=false			
+			owner=root group=root mode=644			
+	!SRV_NOUPGRADE::
+		${cfe_files}${apt_periodic_config}
+			dest=${apt_periodic_config}
+			server=${cfe_host}
+			type=checksum
+			backup=false	
+			owner=root group=root mode=644			
+	SRV_NOUPGRADE::
+		${cfe_files}${apt_periodic_config}-noupgrade
+			dest=${apt_periodic_config}
+			server=${cfe_host}
+			type=checksum
+			backup=false	
+			owner=root group=root mode=644

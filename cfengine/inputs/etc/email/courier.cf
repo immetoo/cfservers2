@@ -1,0 +1,61 @@
+#
+# installs courier and configs it.
+#
+
+packages:
+	install::
+		courier-imap				action=install
+		courier-imap-ssl			action=install
+		courier-authlib				action=install
+		courier-authlib-ldap		action=install
+		courier-ldap				action=install
+		
+control:
+	any::
+		courier_quota		= ( /etc/courier/quotawarnmsg )
+		courier_imapd		= ( /etc/courier/imapd )
+		courier_imapd_ssl	= ( /etc/courier/imapd-ssl )
+		courier_auth		= ( /etc/courier/authdaemonrc )
+		courier_auth_ldap	= ( /etc/courier/authldaprc )
+		
+copy:
+	any::
+		${cfe_files}${courier_quota}
+			dest=${courier_quota}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+		${cfe_files}${courier_imapd}
+			dest=${courier_imapd}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=COURIER_IMAP_RESTART
+		${cfe_files}${courier_imapd_ssl}
+			dest=${courier_imapd_ssl}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=COURIER_IMAPS_RESTART
+		${cfe_files}${courier_auth}
+			dest=${courier_auth}
+			server=${cfe_host}
+			type=checksum
+			owner=daemon group=daemon mode=660
+			define=COURIER_AUTH_RESTART
+		${cfe_files}${courier_auth_ldap}
+			dest=${courier_auth_ldap}
+			server=${cfe_host}
+			type=checksum
+			owner=daemon group=daemon mode=660
+			define=COURIER_AUTH_LDAP_RESTART
+			
+shellcommands:
+	COURIER_IMAP_RESTART::
+		"/etc/init.d/courier-imap restart"	
+	COURIER_IMAPS_RESTART::
+		"/etc/init.d/courier-imap-ssl restart"	
+	COURIER_AUTH_RESTART::
+		"/etc/init.d/courier-authdaemon restart"	
+	COURIER_AUTH_LDAP_RESTART::
+		"/etc/init.d/courier-authdaemon restart"	

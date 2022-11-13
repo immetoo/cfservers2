@@ -1,0 +1,20 @@
+#
+# This file is managed by cfengine.
+#
+# docs:
+# 	- http://tomcat.apache.org/connectors-doc/config/apache.html
+#
+
+
+# Minimal jk configuration
+JkWorkerProperty worker.list=ajp13,api_ajp13
+
+# default
+JkWorkerProperty worker.ajp13.type=ajp13
+JkWorkerProperty worker.ajp13.host=web0.test.mbuyu.nl
+JkWorkerProperty worker.ajp13.port=8009
+
+# other server
+JkWorkerProperty worker.api_ajp13.type=ajp13
+JkWorkerProperty worker.api_ajp13.host=api0.test.mbuyu.nl
+JkWorkerProperty worker.api_ajp13.port=8009

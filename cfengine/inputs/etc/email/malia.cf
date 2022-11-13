@@ -1,0 +1,19 @@
+#
+# manages the malia.script
+	
+control::
+		minimalist_config	= ( /usr/local/minimalist/minimalist.conf )
+
+copy:
+	SRV_MAIL::
+		${cfe_files}${minimalist_config}
+			dest=${minimalist_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			
+
+files:
+	SRV_MAIL::
+		${minimalist_config}	mode=644 owner=root group=root	action=fixall
+ 

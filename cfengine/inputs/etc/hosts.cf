@@ -1,0 +1,19 @@
+#
+# Copies /etc/hosts
+#
+
+control:
+	any::
+		hosts_config	= ( /etc/hosts )
+
+copy:
+	any.!moxhudson0::
+		${cfe_files}${hosts_config}
+			dest=${hosts_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+files:
+	any::
+		${hosts_config}	owner=root group=root mode=644	action=fixall

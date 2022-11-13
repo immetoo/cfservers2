@@ -1,0 +1,11 @@
+#
+# This file is managed by cfengine
+#
+MAILTO=application@m4n.nl
+
+# run the SQL batches on update, beta and dev once a day at one hour offsets
+30 0 * * *   root    time /m4n/update/bin/nightly_cron_queries.sh update
+30 1 * * *   root    time /m4n/beta/bin/nightly_cron_queries.sh beta
+30 2 * * *   root    time /m4n/dev/bin/nightly_cron_queries.sh dev
+
+# EOF

@@ -1,0 +1,1 @@
+ALTER TABLE click_new ADD CONSTRAINT click_payment_period_id_fkey FOREIGN KEY (payment_period_id) REFERENCES payment_period (id) ON UPDATE CASCADE ON DELETE CASCADE;

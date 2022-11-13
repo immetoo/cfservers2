@@ -1,0 +1,1 @@
+ALTER TABLE view_new ADD CONSTRAINT view_affiliate_id_fkey FOREIGN KEY (affiliate_id) REFERENCES m4nuser (id) ON UPDATE CASCADE ON DELETE CASCADE;

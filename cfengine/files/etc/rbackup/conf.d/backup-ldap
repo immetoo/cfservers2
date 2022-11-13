@@ -1,0 +1,50 @@
+#
+# This file is managed by cfengine
+#
+#
+# Backup openldap
+#
+# done with slapcat which is designed for hot running
+# for backuping openldap backends of hdb or bdb.
+#
+
+BACKUP_PREFIX="/var/backups";
+BACKUP_DIR="$BACKUP_PREFIX/ldap";
+BACKUP_DIR_NEW="$BACKUP_PREFIX/ldap_current";
+
+BACKUP_DIR_PERMISSION="0700";
+BACKUP_FILE_PERMISSION="0600";
+
+# CMDS
+LDAPCAT="/usr/sbin/slapcat";
+
+# USER VARIABLES
+LDAPTREE="dc=m4n,dc=nl"
+
+# Create Backup dirs and set permissions
+mkdir -p -m $BACKUP_DIR_PERMISSION $BACKUP_DIR;
+mkdir -p -m $BACKUP_DIR_PERMISSION $BACKUP_DIR_NEW;
+chmod $BACKUP_DIR_PERMISSION $BACKUP_DIR $BACKUP_DIR_NEW;
+
+# Starting backup
+start_time=`date '+%s'`;
+
+DUMP_FILE="$BACKUP_DIR/ldap-backup.ldif.gz";
+DUMP_FILE_NEW="$BACKUP_DIR_NEW/ldap-backup.ldif.gz";
+
+test -f $DUMP_FILE.3 && mv $DUMP_FILE.3 $DUMP_FILE.4;
+test -f $DUMP_FILE.2 && mv $DUMP_FILE.2 $DUMP_FILE.3;
+test -f $DUMP_FILE.1 && mv $DUMP_FILE.1 $DUMP_FILE.2;
+test -f $DUMP_FILE_NEW && mv $DUMP_FILE_NEW $DUMP_FILE.1;
+
+$LDAPCAT -b $LDAPTREE | gzip > $DUMP_FILE_NEW
+chmod $BACKUP_FILE_PERMISSION $DUMP_FILE_NEW
+
+finish_time=`date '+%s'`;
+duration=`expr $finish_time - $start_time`;
+if [ "$LOG_MODE" == "" ]; then
+	echo "Backup complete in $duration seconds of ldap tree: $LDAPTREE";
+fi;
+
+# backup only current
+BACKUP="$BACKUP_DIR_NEW";

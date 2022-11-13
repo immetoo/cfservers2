@@ -1,0 +1,21 @@
+#
+# Adds hudson.mbuyu.nl to apache2
+#
+
+control:
+	any::
+		code_ci	= ( /etc/apache2/sites-available/ci.mbuyu.nl )
+
+
+copy:
+	any::
+		${cfe_files}${code_ci}
+			dest=${code_ci}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART			
+
+links:
+	any::
+		/etc/apache2/sites-enabled/ci.mbuyu.nl ->! ${code_ci} define=APACHE2_RESTART

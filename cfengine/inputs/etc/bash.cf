@@ -1,0 +1,34 @@
+#
+# Setups bash
+#
+
+
+control:
+	any::
+		bash_config = ( /etc/bash.bashrc )
+		bash_root_profile = ( /root/.profile )
+
+copy:
+	any::
+		${cfe_files}${bash_root_profile}
+			dest=${bash_root_profile}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+	DEBIAN_6::
+		${cfe_files}${bash_config}-squeeze
+			dest=${bash_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+	DEBIAN_4|DEBIAN_5::
+		${cfe_files}${bash_config}-lenny
+			dest=${bash_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+files:
+	any::
+		${bash_config}		mode=644 owner=root group=root action=fixall
+		${bash_root_profile}		mode=644 owner=root group=root action=fixall

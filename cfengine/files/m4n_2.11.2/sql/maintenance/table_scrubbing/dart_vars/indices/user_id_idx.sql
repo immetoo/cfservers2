@@ -1,0 +1,1 @@
+CREATE INDEX dart_vars_user_id_idx ON dart_vars_new (m4n_user_id);

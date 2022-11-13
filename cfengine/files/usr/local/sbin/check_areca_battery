@@ -1,0 +1,90 @@
+#! /bin/bash
+
+CLIMIT=99
+WLIMIT=100
+RAIDCARD=1
+STATE_OK=0
+STATE_CRITICAL=2
+STATE_WARNING=1
+STATE_UNKNOWN=3
+CLI64=/usr/local/sbin/cli64
+print_help() {
+	echo ""
+	echo "Usage: check_areca -w <warning> -c <critical> -n <raidcard>"
+	echo ""
+	echo "NB The order of arguments is important! "
+	echo ""
+	echo "This plugin checks the areca battery status."
+	echo "Needs /usr/sbin/cli64 to be installed on the linux machine."
+	echo "ftp://ftp.areca.com.tw/RaidCards/AP_Drivers/Linux/CLI"
+	exit 0
+}
+
+case "$1" in
+	-w)
+		WLIMIT=$2
+		CLIMIT=$4
+		RAIDCARD=$6
+		;;
+	--help)
+		print_help
+		exit $STATE_OK
+		;;
+	-h)
+		print_help
+		exit $STATE_OK
+		;;
+	*)
+		print_help
+		exit $STATE_OK
+		;;
+
+esac
+
+if [ ! -f $CLI64 ];
+then
+    echo "Missing cli64 file."
+    print_help
+    exit $STATE_UNKNOWN
+fi
+
+
+
+
+if [ `echo $WLIMIT $CLIMIT |awk '{print ($1 < $2)  ? "true" : "false" }'` = "true" ];
+then
+	echo "Error: WARNING value must be above CRITICAL value"
+	print_help
+	exit $STATE_UNKNOWN
+fi
+
+battery_status=`$CLI64 hw info 'curctrl='$RAIDCARD|grep 'Battery Status'|awk '{print $4}'|sed s/%//`
+
+check_areca ()
+{
+
+if [[ ! $battery_status =~ [[:digit:]] ]]
+then
+	battery_status=`$CLI64 hw info 'curctrl='$RAIDCARD|grep 'Battery Status'|awk '{print $4 $5}'`
+    echo "No data about battery status. Check your controller. Battery status: $battery_status controller $RAIDCARD"
+    exit $STATE_CRITICAL
+fi
+
+if [ `echo $battery_status $CLIMIT |awk '{print ($1 < $2) ? "true" : "false" }'` = "true" ];
+then
+    echo "Problems with battery status. Battery status:$battery_status% controller $RAIDCARD"
+    exit $STATE_CRITICAL
+fi
+
+if [ `echo $battery_status $WLIMIT |awk '{print ($1 < $2) ? "true" : "false" }'` = "true" ];
+then
+    echo "Problems with battery status. Battery status:$battery_status% controller $RAIDCARD"
+    exit $STATE_WARNING
+fi
+}
+
+check_areca
+
+echo "Battery OK: $battery_status% on controller $RAIDCARD"
+exit $STATE_OK
+

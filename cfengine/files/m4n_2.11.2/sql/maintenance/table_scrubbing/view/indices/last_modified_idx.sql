@@ -1,0 +1,1 @@
+CREATE INDEX view_last_modified_idx ON view_new (last_modified);

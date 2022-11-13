@@ -1,0 +1,18 @@
+#
+# installs and configures the infiniband 
+
+control:
+	any::
+		modules_file	= ( /etc/modules )
+
+packages:
+	install::
+		ofed		 action=install
+		
+copy:
+	any::
+		${cfe_files}${modules_file}-infiniband
+			dest=${modules_file}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644

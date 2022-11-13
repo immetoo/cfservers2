@@ -1,0 +1,1 @@
+CREATE INDEX view_status_idx ON view_new (status);

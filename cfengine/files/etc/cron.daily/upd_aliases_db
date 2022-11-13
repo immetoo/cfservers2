@@ -1,0 +1,3 @@
+#!/bin/sh
+# Update and make sure /etc/aliases.db exists
+/usr/bin/newaliases

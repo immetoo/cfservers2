@@ -1,0 +1,1 @@
+CREATE INDEX click_zone_id_idx ON click_new (zone_id);

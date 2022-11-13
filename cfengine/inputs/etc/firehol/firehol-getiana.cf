@@ -1,0 +1,19 @@
+control:
+	any::
+		getiana	= ( /etc/firehol/getiana.sh )
+		cron =	( /etc/cron.d/firehol-getiana )
+
+copy:
+	any::
+		${cfe_files}${getiana}
+			dest=${getiana}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=755
+		${cfe_files}${cron}
+			dest=${cron}
+			server=${cfe_host}
+			type=checksum
+			backup=false			
+			owner=root group=root mode=400

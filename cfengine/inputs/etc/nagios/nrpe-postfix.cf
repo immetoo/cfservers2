@@ -1,0 +1,36 @@
+#
+# installs the nagios postfix checks
+#
+
+copy:		
+	any::
+		${cfe_files}/usr/local/sbin/check_postfix_mailq
+			dest=/usr/local/sbin/check_postfix_mailq
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root	
+			
+	!SRV_MAIL.!SRV_NET.!SRV_NS::
+		${cfe_files}${nagios_confd}/postfix.cfg-50
+			dest=${nagios_confd}/postfix.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	!SRV_MAIL.!SRV_NS.SRV_NET::
+		${cfe_files}${nagios_confd}/postfix.cfg-300
+			dest=${nagios_confd}/postfix.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	SRV_MAIL|SRV_NS::
+		${cfe_files}${nagios_confd}/postfix.cfg-1000
+			dest=${nagios_confd}/postfix.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART

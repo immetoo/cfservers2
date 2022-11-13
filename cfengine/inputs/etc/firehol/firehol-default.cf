@@ -1,0 +1,11 @@
+#
+# Manages firehol permissions and files
+#
+
+files:
+	any::
+		/etc/firehol/firehol.conf
+			mode=600
+			owner=root
+			group=root
+			action=fixall

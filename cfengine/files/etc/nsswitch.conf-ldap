@@ -1,0 +1,17 @@
+#
+# This file is managed by cfengine
+#
+
+passwd:         files ldap [NOTFOUND=return] db
+group:          files ldap [NOTFOUND=return] db
+shadow:         files ldap [NOTFOUND=return] db
+
+hosts:          files dns
+networks:       files
+
+protocols:      db files
+services:       db files
+ethers:         db files
+rpc:            db files
+
+netgroup:       nis

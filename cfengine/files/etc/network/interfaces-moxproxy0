@@ -1,0 +1,45 @@
+#
+# This file is managed by cfengine
+#
+
+# THE loopback interface
+auto lo
+iface lo inet loopback
+
+# DMZ machine interface
+auto eth0
+iface eth0 inet static
+	address 172.16.24.11
+	gateway 172.16.24.254
+	netmask 255.255.255.0
+	broadcast 172.16.24.255
+	post-up ifup eth0:0
+	post-up ifup eth0:1
+
+# ucarp managed DMZ interface
+iface eth0:0 inet manual
+	down /usr/local/sbin/ucarp-stop.sh vip13
+	up ucarp -i eth0:0  \
+		-s 172.16.24.11   \
+		-a 172.16.24.13  \
+		-v 13 -p feeYaxe6 \
+		-P -z -k 10 -r 10 --daemonize -x vip13 \
+		--upscript=/usr/local/sbin/ucarp-vip-up.sh \
+		--downscript=/usr/local/sbin/ucarp-vip-down.sh
+iface eth0:0:ucarp inet static
+	address 172.16.24.13
+	netmask 255.255.255.0
+
+iface eth0:1 inet manual
+	down /usr/local/sbin/ucarp-stop.sh vip14
+	up ucarp -i eth0:1  \
+		-s 172.16.24.11   \
+		-a 172.16.24.14  \
+		-v 14 -p ohGh0aez \
+		-P -z -k 100 -r 10 --daemonize -x vip14 \
+		--upscript=/usr/local/sbin/ucarp-vip-up.sh \
+		--downscript=/usr/local/sbin/ucarp-vip-down.sh
+iface eth0:1:ucarp inet static
+	address 172.16.24.14
+	netmask 255.255.255.0
+

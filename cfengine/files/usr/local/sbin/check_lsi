@@ -1,0 +1,32 @@
+#/bin/bash
+
+#
+# possible strings ??;
+# ONLINE
+# etc/etc
+
+
+for LINE in `megarc.bin -ldInfo -a0 -Lall | grep 0x00000000 | awk '{print $2"-"$5}'`
+do
+	if [[ "$LINE" =~ ".*ONLINE" ]]
+	then
+		echo -n ".";
+		# this disk is oke
+	else
+		# only report the first disk failure !!
+		echo $LINE;
+		# WARNING
+		exit 1;
+	fi
+
+done;
+
+
+echo " All disks online.";
+# OK
+exit 0;
+
+# CRITICAL
+# exit 2;
+# UNKNOWN
+# exit 3;

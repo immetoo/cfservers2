@@ -1,0 +1,18 @@
+//
+// This file is managed by cfengine
+//
+
+// mail stuff to root
+Unattended-Upgrade::Mail "root@localhost";
+
+// allowed (origin, archive) pairs
+Unattended-Upgrade::Allowed-Origins {
+	"Debian oldstable";
+	"Debian stable";
+//	"Debian testing";
+};
+
+// never update the packages in this list
+Unattended-Upgrade::Package-Blacklist {
+//	"vim";
+};

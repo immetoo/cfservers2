@@ -1,0 +1,112 @@
+#
+# Set some defaults apache2 files
+#
+
+packages:
+	any::
+		apache2				action=install	define=APACHE2_RESTART
+		psmisc				action=install
+	install.!APACHE2_PHP::
+		apache2-mpm-worker	action=install
+	install.APACHE2_PHP::
+		apache2-mpm-prefork	action=install
+		libapache2-mod-php5	action=install
+		php5-pgsql			action=install
+		php5-xsl			action=install
+		php5-gd				action=install
+		
+control:
+	any::
+		apache2_config		= ( /etc/apache2/apache2.conf )
+		apache2_ports		= ( /etc/apache2/ports.conf )
+		apache2_defhost		= ( /etc/apache2/conf.d/defaulthost.conf )
+		apache2_charset		= ( /etc/apache2/conf.d/charset )
+		apache2_logrotate	= ( /etc/logrotate.d/apache2 )
+		apache2_php5_apache = ( /etc/php5/apache2/php.ini )
+		apache2_php5_cli	= ( /etc/php5/cli/php.ini )	
+
+copy:
+	any::			
+		${cfe_files}${apache2_logrotate}
+			dest=${apache2_logrotate}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+		${cfe_files}${apache2_charset}
+			dest=${apache2_charset}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+		${cfe_files}${apache2_ports}
+			dest=${apache2_ports}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART_DEFAULT
+		
+	# no default on mass hosting servers !!
+	!SRV_WWW::
+		${cfe_files}${apache2_defhost}
+			dest=${apache2_defhost}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+			define=APACHE2_RESTART_DEFAULT
+
+	!SRV_SAT.!SRV_CODE::
+		${cfe_files}${apache2_config}
+			dest=${apache2_config}
+			server=${cfe_host}
+ 			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART_DEFAULT
+
+	SRV_SAT.!SRV_CODE::
+		${cfe_files}${apache2_config}-satellite
+			dest=${apache2_config}
+			server=${cfe_host}
+ 			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART_DEFAULT	
+
+	SRV_CODE.!SRV_SAT::
+		${cfe_files}${apache2_config}-trac
+			dest=${apache2_config}
+			server=${cfe_host}
+ 			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART_DEFAULT
+
+	APACHE2_PHP::
+		${cfe_files}${apache2_php5_apache}
+			dest=${apache2_php5_apache}
+			server=${cfe_host}
+ 			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART_DEFAULT
+		${cfe_files}${apache2_php5_cli}
+			dest=${apache2_php5_cli}
+			server=${cfe_host}
+ 			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART_DEFAULT
+
+links:
+	any::
+		/etc/apache2/mods-enabled/rewrite.load ->! ../mods-available/rewrite.load define=APACHE2_RESTART_DEFAULT
+		/etc/apache2/mods-enabled/ssl.load ->! ../mods-available/ssl.load define=APACHE2_RESTART_DEFAULT
+		/etc/apache2/mods-enabled/ssl.conf ->! ../mods-available/ssl.conf define=APACHE2_RESTART_DEFAULT
+	APACHE2_PHP::
+		/etc/apache2/mods-enabled/php5.conf ->! ../mods-available/php5.conf define=APACHE2_RESTART_DEFAULT
+		/etc/apache2/mods-enabled/php5.load ->! ../mods-available/php5.load define=APACHE2_RESTART_DEFAULT
+
+
+shellcommands:
+	APACHE2_DEFAULT_ENABLED::
+		"/bin/rm -rf /etc/apache2/sites-enabled/000-default"
+
+	# TODO: fix this replace . with |
+	APACHE2_RESTART.APACHE2_RESTART_DEFAULT::
+		"/etc/init.d/apache2 restart"
+		
+		

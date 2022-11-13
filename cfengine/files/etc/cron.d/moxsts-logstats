@@ -1,0 +1,5 @@
+#! /bin/bash
+
+0 0   * * *     root    cd /data/logstats/;./sync-logs.sh;./generate_webalizer.sh;./generate_stats.sh
+
+# EOF

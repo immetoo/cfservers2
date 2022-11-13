@@ -1,0 +1,20 @@
+# This configuration file is read by /etc/init.d/ioscheduler and manages the
+# specific tunable io scheduler properties.
+#
+# Ensure that /etc/init.d/ioscheduler exists and that it has been registered
+# by using 'insserv ioscheduler' (dependency based boot like squeeze) or
+# 'update-rc.d ioscheduler defaults 13' (sequential based boot like lenny).
+# 
+# Note: this file is managed by cfengine!
+
+SCHEDULER_NOOP=""
+NOOP_READ_AHEAD=""
+
+SCHEDULER_ANTICIPATORY=""
+ANTICIPATORY_READ_AHEAD=""
+
+SCHEDULER_DEADLINE="sda sdb sdc"
+DEADLINE_READ_AHEAD="512"
+
+SCHEDULER_CFQ=""
+CFQ_READ_AHEAD=""

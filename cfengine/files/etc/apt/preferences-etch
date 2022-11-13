@@ -1,0 +1,5 @@
+Explanation: This file is managed by cfengine
+Explanation: pin default on etch
+Package: *
+Pin: release a=Etch
+Pin-Priority: 1234

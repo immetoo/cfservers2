@@ -1,0 +1,89 @@
+use strict;
+
+#
+# Place your configuration directives here.  They will override those in
+# earlier files.
+#
+# See /usr/share/doc/amavisd-new/ for documentation and examples of
+# the directives you can use in this file
+#
+$pax='pax';
+
+#------------ Do not modify anything below this line
+
+
+# $mydomain is used just for convenience in the config files and it is not
+# used internally by amavisd-new except in the default X_HEADER_LINE (which
+# Debian overrides by default anyway).
+
+#chomp($mydomain = `head -n 1 /etc/mailname`);
+chomp($mydomain = "m4n.nl");
+
+# amavisd-new needs to know which email domains are to be considered local
+# to the administrative domain.  Only emails to "local" domains are subject
+# to certain functionality, such as the addition of spam tags.
+#
+# Default local domains to $mydomain and all subdomains.  Remember to
+# override or redefine this if $mydomain is changed later in the config
+# sequence.
+
+@local_domains_acl = ( ".$mydomain",".mbuyu.com",".mbuyu.nl",".mbuyu.eu",".mbuyu.org",".m4n.be" );
+
+
+
+##
+## AV Scanners (Debian version)
+##
+
+@av_scanners = (
+
+ ['ClamAV-clamd',
+   \&ask_daemon, ["CONTSCAN {}\n", "/var/run/clamav/clamd.ctl"],
+   qr/\bOK$/, qr/\bFOUND$/,
+   qr/^.*?: (?!Infected Archive)(.*) FOUND$/ ],
+ # NOTE: remember to add the clamav user to the amavis group, and
+ # to properly set clamd to init supplementary groups
+ # When running chrooted one may prefer: ["CONTSCAN {}\n","$MYHOME/clamd"],
+
+# ### http://www.clamav.net/ and CPAN  (memory-hungry! clamd is preferred)
+# ['Mail::ClamAV', \&ask_clamav, "*", [0], [1], qr/^INFECTED: (.+)/],
+
+ ### example: fully-fledged checker for JPEG marker segments of invalid length
+ ['check-jpeg',
+   sub { use JpegTester (); Amavis::AV::ask_av(\&JpegTester::test_jpeg, @_) },
+   ["{}/*"], undef, [1], qr/^(bad jpeg: .*)$/ ],
+ # NOTE: place file JpegTester.pm somewhere where Perl can find it,
+ #       for example in /usr/local/lib/perl5/site_perl
+
+);
+
+
+@av_scanners_backup = (
+
+  ### http://www.clamav.net/   - backs up clamd or Mail::ClamAV
+  ['ClamAV-clamscan', 'clamscan',
+    "--stdout --disable-summary -r --tempdir=$TEMPBASE {}",
+    [0], qr/:.*\sFOUND$/, qr/^.*?: (?!Infected Archive)(.*) FOUND$/ ],
+
+);
+
+# You can modify this file to re-enable SPAM checking through spamassassin
+# and to re-enable antivirus checking.
+
+#
+# Default antivirus checking mode
+# Uncomment the two lines below to enable it back
+#
+
+@bypass_virus_checks_maps = (
+   \%bypass_virus_checks, \@bypass_virus_checks_acl, \$bypass_virus_checks_re);
+
+#
+# Default SPAM checking mode
+# Uncomment the two lines below to enable it back
+#
+
+@bypass_spam_checks_maps = (
+   \%bypass_spam_checks, \@bypass_spam_checks_acl, \$bypass_spam_checks_re);
+
+1;  # insure a defined return

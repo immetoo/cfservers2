@@ -1,0 +1,45 @@
+#
+# Installs dovecot and configs it
+#
+
+packages:
+	install::
+		dovecot-common			action=install
+		dovecot-imapd			action=install
+		
+control:
+	any::	
+		dovecot_conf		= ( /etc/dovecot/dovecot.conf )
+		dovecot_conf_smtp0  = ( /etc/dovecot/dovecot.conf-mrxsmtp0 )
+		dovecot_ldap_conf	= ( /etc/dovecot/dovecot-ldap.conf )
+		dovecot_boxes_conf  = ( /etc/dovecot/dovecot-ldap-boxes.conf )
+		quota_warnings		= ( /etc/dovecot/quota-warnings.sh )
+	
+copy:
+	mrxmail2::
+		${cfe_files}${dovecot_conf}
+			dest=${dovecot_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=dovecot group=vmail mode=640
+		${cfe_files}${dovecot_ldap_conf}
+			dest=${dovecot_ldap_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=dovecot group=vmail mode=640
+		${cfe_files}${dovecot_boxes_conf}
+			dest=${dovecot_boxes_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=dovecot group=vmail mode=640
+		${cfe_files}${quota-warning}
+			dest=${quota-warnings}
+			server=${cfe_host}
+			type=checksum
+			owner=dovecot group=vmail mode=640
+	mrxsmtp0::
+		${cfe_files}${dovecot_conf-mrxsmtp0}
+			dest=${dovecot_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=dovecot group=vmail mode=640

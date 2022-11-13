@@ -1,0 +1,17 @@
+#
+# Added apache2 ldap support
+#
+# note: also import ldap.cf for the ssl cert !!
+
+copy:
+	any::
+		${cfe_files}/etc/apache2/conf.d/mod_ldap.conf
+			dest=/etc/apache2/conf.d/mod_ldap.conf
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=644 owner=root group=root
+			define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/mods-enabled/ldap.load ->! ../mods-available/ldap.load define=APACHE2_RESTART

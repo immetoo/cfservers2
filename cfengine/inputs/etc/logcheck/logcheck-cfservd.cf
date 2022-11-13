@@ -1,0 +1,19 @@
+#
+# Manages logcheck
+#
+
+control:
+	any::
+		logcheck_ignore_cfservd		= ( /etc/logcheck/ignore.d.server/logcheck-cfservd )
+
+copy:
+	any::
+		${cfe_files}${logcheck_ignore_cfservd}
+			dest=${logcheck_ignore_cfservd}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+			
+files:
+	any::
+		${logcheck_ignore_cfservd}	mode=640 owner=root group=logcheck action=fixall

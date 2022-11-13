@@ -1,0 +1,3 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ dhcpd: bind update on [.0-9]+ got ack from dhcp-failover: xid mismatch.$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ dhcpd: balancing pool [0-9a-f]{7} [:[:alnum:]]+  total [:[:alnum:]]+  free [:[:alnum:]]+  backup [:[:alnum:]]+  lts [:[:alnum:]-]+  [:[:alnum:]-]+ \(\+\/\-\)[0-9]+$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ dhcpd: balanced pool [0-9a-f]{7} [:[:alnum:]]+  total [:[:alnum:]]+  free [:[:alnum:]]+  backup [:[:alnum:]]+  lts [:[:alnum:]-]+  [:[:alnum:]-]+ [0-9]+$

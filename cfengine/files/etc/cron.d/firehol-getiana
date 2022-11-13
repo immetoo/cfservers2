@@ -1,0 +1,5 @@
+
+# runs the get getiana update script for RESERVED_IPS
+ 3 3 3 * *   root    /etc/firehol/getiana.sh &2 >> /dev/null
+ 
+# EOF

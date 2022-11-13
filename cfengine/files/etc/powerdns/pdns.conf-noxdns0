@@ -1,0 +1,48 @@
+#
+# This file is managed by cfengine
+#
+# view original sample from pdns package
+# this is a simple config for a LAN
+
+# server
+chroot=/var/spool/powerdns
+config-dir=/etc/powerdns
+socket-dir=/var/run
+module-dir=/usr/lib/powerdns
+setgid=pdns
+setuid=pdns
+
+
+local-address=172.16.24.178
+local-port=53
+daemon=yes
+loglevel=3
+master=yes
+
+version-string=M4N DNS SERVER
+disable-axfr=yes
+guardian=yes
+
+# caching
+allow-recursion=127.0.0.1/32,172.16.16.0/20
+recursor=127.0.0.1
+lazy-recursion=yes
+#allow-recursion-override=yes
+negquery-cache-ttl=200
+cache-ttl=60
+
+# backend
+launch=ldap
+distributor-threads=4
+ldap-host=ldap://172.16.24.197,ldap://172.16.21.138
+ldap-starttls=no
+ldap-basedn=ou=dns,dc=m4n,dc=nl
+ldap-binddn=uid=powerdns,ou=services,dc=m4n,dc=nl
+ldap-secret=superD
+ldap-method=tree
+
+#webservertje
+webserver=yes
+webserver-address=0.0.0.0
+webserver-port=8081
+

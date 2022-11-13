@@ -1,0 +1,1 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ pdns\[[0-9]+\]:mohrfw0 dhcrelay: ignoring BOOTREQUEST with giaddr (.*)$

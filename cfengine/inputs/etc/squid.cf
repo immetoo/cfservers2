@@ -1,0 +1,42 @@
+#
+# dhcpd
+#
+
+control:
+	any::
+		squid_config	= ( /etc/squid/squid.conf )
+
+packages:
+	any::
+		squid	action=install
+		
+copy:
+	NET_POP_MAIN::
+		${cfe_files}${squid_config}-pop-main
+			dest=${squid_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=SQUID_RESTART
+	NET_POP_CYSO::
+		${cfe_files}${squid_config}-pop-cyso
+			dest=${squid_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=SQUID_RESTART
+	NET_POP_BIT::
+		${cfe_files}${squid_config}-pop-bit
+			dest=${squid_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=SQUID_RESTART
+
+files:
+	any::
+		${squid_config}	owner=root group=root mode=400	action=fixall define=SQUID_RESTART
+
+shellcommands:
+	SQUID_RESTART::
+		"/etc/init.d/squid restart"

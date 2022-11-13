@@ -1,0 +1,1 @@
+ALTER TABLE click_new ADD CONSTRAINT click_merchant_id_fkey FOREIGN KEY (merchant_id) REFERENCES m4nuser (id) ON UPDATE CASCADE ON DELETE CASCADE;

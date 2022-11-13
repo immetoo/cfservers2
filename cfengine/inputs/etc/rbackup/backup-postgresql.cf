@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_postgresql	= ( /etc/rbackup/conf.d/backup-postgresql )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_postgresql}
+			dest=${rbackup_postgresql}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

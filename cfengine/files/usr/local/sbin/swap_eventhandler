@@ -1,0 +1,87 @@
+#!/bin/sh
+#
+# Event handler script for retrieving extra info from machine 
+# after system swap warning
+#
+# Note: This script will only send extra info if the service is
+#       retried 2 times (in a "soft" state) or if the service somehow
+#       manages to fall into a "hard" error state.
+#
+
+date=`date`
+
+# What state is the system_swap service in?
+case "$1" in
+OK)
+        # The service just came back up, so don't do anything...
+        ;;
+UNKNOWN)
+        # We don't know what might be causing an unknown error, so don't do anything...
+        ;;
+WARNING|CRITICAL)
+        # Aha!  The system swap file is in a warning/critical state - perhaps we should kill some process...
+	# Let's get some details first ;c)
+
+        # Is this a "soft" or a "hard" state?
+        case "$2" in
+
+        # We're in a "soft" state, meaning that Nagios is in the middle of retrying the
+        # check before it turns into a "hard" state and contacts get notified...
+        SOFT)
+
+                # What check attempt are we on?  We don't want to send all the info on the first
+                # check, because it may just be a fluke!
+                case "$3" in
+
+                # Wait until the check has been tried 2 times before retrieving info.
+                2)
+                        echo -n "Collecting info on SWAP usage (2nd soft critical state)..."
+                        # Call the proper tools to retrieve info
+						# show open files
+                        	/usr/bin/lsof > /tmp/lsof.list
+						# show list of processes
+                       		/bin/ps -ef > /tmp/ps.list
+                        	/usr/bin/top -b -n1 > /tmp/top.list
+						# give the machine some time
+                        #	/bin/sleep 10
+						# and mail 'em
+                        	/usr/bin/mail -s "`hostname -f` - list of open files" systeembeheer@m4n.nl < /tmp/lsof.list 
+                        	/usr/bin/mail -s "`hostname -f` - process list" systeembeheer@m4n.nl < /tmp/ps.list 
+                        	/usr/bin/mail -s "`hostname -f` - output top" systeembeheer@m4n.nl < /tmp/top.list 
+
+                        echo "$date - sending process info - SOFT"  >> /tmp/eventhandlers
+                        ;;
+                        esac
+                ;;
+
+        # The SWAP usage somehow managed to turn into a hard error without getting fixed.
+        # It could have been restarted by the code above, but we didn't implement code for it.
+        # Note: Contacts have already been notified of a problem with the service at this
+        # point (unless you disabled notifications for this service)
+        HARD)
+                case "$3" in
+
+                4)
+                        echo -n "Collecting info on SWAP usage (4th hard critical state)..."
+                        # Call the proper tools to retrieve info
+						# show open files
+                        	/usr/bin/lsof > /tmp/lsof.list
+						# show list of processes
+                       		/bin/ps -ef > /tmp/ps.list
+                        	/usr/bin/top -b -n1 > /tmp/top.list
+						# give the machine some time
+                        #	/bin/sleep 10
+						# and mail 'em
+                        	/usr/bin/mail -s "`hostname -f` - list of open files" systeembeheer@m4n.nl < /tmp/lsof.list 
+                        	/usr/bin/mail -s "`hostname -f` - process list" systeembeheer@m4n.nl < /tmp/ps.list 
+                        	/usr/bin/mail -s "`hostname -f` - output top" systeembeheer@m4n.nl < /tmp/top.list 
+
+                        echo "$date - sending process info - SOFT"  >> /tmp/eventhandlers
+                        ;;
+                        esac
+                ;;
+        esac
+        ;;
+esac
+echo "Done!"
+exit 0

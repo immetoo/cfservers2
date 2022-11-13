@@ -1,0 +1,22 @@
+#
+# manages the minimalist configuration
+
+control:
+	any::
+		minimalist_config	= ( /usr/local/minimalist/minimalist.conf )
+		minimalist_listadm  = ( /var/spool/minimalist/listadmins.lst )
+
+copy:
+	SRV_MAIL::
+		${cfe_files}${minimalist_config}
+			dest=${minimalist_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+		${cfe_files}/usr/local/minimalist/listadmins.lst
+			dest=${minimalist_listadm}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+ 

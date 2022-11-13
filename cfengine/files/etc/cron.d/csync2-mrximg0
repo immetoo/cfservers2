@@ -1,0 +1,3 @@
+*/2 * * * * root /usr/sbin/csync2 -cr -N mrximg0.vlan.mbuyu.com /var/www ; /usr/sbin/csync2 -x -N mrximg0.vlan.mbuyu.com
+15 */6 * * * root /usr/sbin/csync2 -T -N mrximg0.vlan.mbuyu.com 
+# EOF

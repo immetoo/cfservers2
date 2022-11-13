@@ -1,0 +1,35 @@
+#
+# Adds remote backup
+#
+
+
+control:
+	any::
+		rbackup_rotation		= ( /etc/rbackup/rbackup-rotation.sh )
+		rbackup_rotation_cron	= ( /etc/cron.d/rbackup-rotation )
+		
+copy:
+	any.!mexbak0::
+		${cfe_files}${rbackup_rotation}
+			dest=${rbackup_rotation}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=744
+	any.!mexbak0::
+		${cfe_files}${rbackup_rotation_cron}
+			dest=${rbackup_rotation_cron}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+	mexbak0::
+		${cfe_files}${rbackup_rotation}-mexbak0
+			dest=${rbackup_rotation}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=744
+		${cfe_files}${rbackup_rotation_cron}-mexbak0
+			dest=${rbackup_rotation_cron}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+			

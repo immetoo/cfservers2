@@ -1,0 +1,9 @@
+#
+# This file is managed by cfengine
+#
+MAILTO=application@m4n.nl
+
+# backup tomcat log files
+00 3    * * *   root    /m4n/bin/backup_tomcat.sh
+
+# EOF

@@ -1,0 +1,23 @@
+#
+# This file is managed by cfengine
+#
+# /etc/cfengine/cfservd.conf for the clients
+#
+# This make direct pushes of changes possible.
+#
+
+control:
+	any::
+		AllowConnectionsFrom = ( cfe.lan.mbuyu.nl )
+		TrustKeysFrom = ( cfe.lan.mbuyu.nl )
+		cfrunCommand = ( "/usr/sbin/cfagent" )
+		AllowUsers = ( root )
+		LogAllConnections = ( true )
+		IfElapsed = ( 1 )
+		ExpireAfter = ( 2 )
+		MaxConnections = ( 5 )
+		MultipleConnections = ( true )
+
+grant:
+	any::
+		/usr/sbin/cfagent  cfe.lan.mbuyu.nl

@@ -1,0 +1,23 @@
+
+control:
+	any::
+		ssl_key_mbuyu		= ( /etc/ssl/wildcard.mbuyu.nl.key )
+		ssl_crt_mbuyu		= ( /etc/ssl/wildcard.mbuyu.nl.crt )
+
+copy:
+	any::
+		${cfe_files}${ssl_key_mbuyu}
+			dest=${ssl_key_mbuyu}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+		${cfe_files}${ssl_crt_mbuyu}
+			dest=${ssl_crt_mbuyu}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+files:
+	any::
+		${ssl_key_mbuyu}		mode=644 owner=root group=root action=fixall
+		${ssl_crt_mbuyu}		mode=644 owner=root group=root action=fixall

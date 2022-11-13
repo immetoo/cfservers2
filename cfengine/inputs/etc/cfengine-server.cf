@@ -1,0 +1,27 @@
+#
+# Managed the cfengine master server config
+#
+
+control:
+	any::
+		cfe_push_sh			 = ( /usr/local/sbin/cfe_push.sh )
+		cfe_checkout_sh		 = ( /usr/local/sbin/cfe_checkout.sh )
+		cfe_checkout_cron	 = ( /etc/cron.d/cfe-checkout )
+		
+copy:
+	any::
+		${cfe_files}${cfe_push_sh}
+			dest=${cfe_push_sh}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root group=root
+		${cfe_files}${cfe_checkout_sh}
+			dest=${cfe_checkout_sh}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root group=root
+		${cfe_files}${cfe_checkout_cron}
+			dest=${cfe_checkout_cron}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=644 owner=root group=root

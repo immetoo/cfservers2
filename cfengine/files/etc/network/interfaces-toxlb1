@@ -1,0 +1,33 @@
+#
+# This file is managed by cfengine
+#
+#
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The only network interface - DMZ @ office
+auto eth0
+iface eth0 inet static
+	address 172.16.24.22
+	netmask 255.255.255.0
+	gateway 172.16.24.254
+	post-up	ifup eth0:1
+
+iface eth0:1 inet manual
+	down /usr/local/sbin/ucarp-stop.sh vip23
+	up ucarp -i eth0:1  \
+		-s 172.16.24.22   \
+		-a 172.16.24.23  \
+		-v 23 -p sdfs6a2ez \
+		-P -z -k 100 -r 10 --daemonize -x vip23 \
+		--upscript=/usr/local/sbin/ucarp-vip-up.sh \
+		--downscript=/usr/local/sbin/ucarp-vip-down.sh
+iface eth0:1:ucarp inet static
+	address		172.16.21.23
+	netmask		255.255.255.0
+
+	

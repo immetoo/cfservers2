@@ -1,0 +1,29 @@
+#
+# Install some default unix tools for debian
+#
+
+packages:
+	install.DEBIAN::
+		vim			action=install
+		less		action=install
+		file		action=install
+		host		action=install
+		mtr			action=install
+		iptraf		action=install
+		tcpdump		action=install
+		lynx		action=install
+		bzip2		action=install
+		unzip		action=install
+		htop		action=install
+		tcsh		action=install
+		pciutils	action=install
+		usbutils	action=install
+		sysstat 	action=install
+		molly-guard action=install
+		mc          action=install
+
+	install.DEBIAN_5.SRV_BACKPORTS::
+		debian-backports-keyring	action=install
+		
+	install.DEBIAN_5.SERVER_XEN::
+		udev		action=install

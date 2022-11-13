@@ -1,0 +1,15 @@
+
+// Do "apt-get update" automatically every n-days (0=disable) 
+APT::Periodic::Update-Package-Lists "1";
+
+// Do "apt-get upgrade --download-only" every n-days (0=disable)
+APT::Periodic::Download-Upgradeable-Packages "1";
+
+// Do "apt-get autoclean" every n-days (0=disable)
+APT::Periodic::AutocleanInterval "14";
+
+// Run the "unattended-upgrade" security upgrade script every n-days (0=disabled) 
+APT::Periodic::Unattended-Upgrade "1";
+
+// Set maximum allowed age of a cache package file. If a cache package file is older it is deleted (0=disable)
+APT::Archives::MaxAge "30";

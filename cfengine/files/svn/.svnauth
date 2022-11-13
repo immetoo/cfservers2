@@ -1,0 +1,79 @@
+#
+# This file is managed by cfengine
+#
+#
+# Manages the auth of different svn repositories 
+#
+
+[groups]
+owner = willem.cazander,arjan.tijms
+
+# Sysadm people;
+sysadm = willem.cazander,paul.wiebes,klaas.joosten,tijn.lambrechtsen
+sysadm_staffel = dineke.tuinhof,jasper.floor, dennis.brouwer, daniel.versteegh, jan.beernink, arjan.pronk, bauke.scholtz
+android = dirk.korf,rick.boerebach,petrus.blokker,rutger.van.norden,robin.eggenkamp
+usability = lennart.rijkenberg,yordy.leautaud,thai.hoa.truong,bas.van.oostveen
+m4n = build.bot, dineke.tuinhof ,jasper.floor, dennis.brouwer, daniel.versteegh, jan.beernink, klaas.joosten,robin.eggenkamp,arjan.pronk,arjan.tijms,edwin.metselaar,jaap.de.jong,hongqin.chen,michiel.bakker,natasja.runs,valeer.damen,frank.hollander,ruud.kok,clyde.verner,fleur.lamers,thomas.joosten,bas.van.oostveen,rutger.groot,marjolein.van.der.kolk,tim.markenstein, anton.korteweg, wouter.swenneker
+links2start = clyde.verner,sheeraz.zaidi
+
+# NOTE this is a first match rule based acl's
+
+[/]
+@owner = rw
+
+# m4n becomes only accessible for m4n'ers
+[m4n:/]
+@m4n = rw
+@sysadm = rw
+
+[m4n:/links2start]
+@links2start =rw
+@sysadm = rw
+
+# oss is open to everyone
+[oss:/]
+* = rw
+
+# sandbox has access per project
+[sandbox:/android]
+@android = rw
+@sysadm = rw
+
+[sandbox:/usability_testing_hva_2010]
+@usability = rw
+@sysadm = rw
+
+[sandbox:/]
+@sysadm = rw
+@sysadm_staffel = rw
+
+
+[links2start:/]
+@links2start = rw
+@sysadm = rw
+
+# only sysadm repro is closed
+[sysadm:/servers/trunk/cfengine/files/scripts]
+@sysadm_staffel = rw
+
+[sysadm:/servers/trunk/cfengine/files/m4n_2.9.1]
+@sysadm_staffel = rw
+
+[sysadm:/servers/trunk/cfengine/files/m4n_2.10.0]
+@sysadm_staffel = rw
+
+[sysadm:/servers/trunk/cfengine/files/m4n_2.10.1]
+@sysadm_staffel = rw
+
+[sysadm:/servers/trunk/cfengine/files/m4n_2.10.2]
+@sysadm_staffel = rw
+
+[sysadm:/servers/trunk/cfengine/files/m4n_2.10.3]
+@sysadm_staffel = rw
+
+[sysadm:/servers/trunk/cfengine/files/sql]
+@sysadm_staffel = rw
+
+[sysadm:/]
+@sysadm = rw
+@sysadm_staffel = r

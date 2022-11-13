@@ -1,0 +1,2 @@
+# rsync mrxbak0 to mexbak0
+12 9 * * *      root /usr/local/sbin/backup_cyso_2_bit.sh

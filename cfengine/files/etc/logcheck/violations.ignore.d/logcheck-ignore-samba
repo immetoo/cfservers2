@@ -1,0 +1,3 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]: (.*)srv_check_incoming_message: BAD SIG:(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]: (.*)safe_strcpy(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ nmbd\[[0-9]+\]:   Packet send failed to(.*)$

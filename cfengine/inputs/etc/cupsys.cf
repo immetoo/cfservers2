@@ -1,0 +1,29 @@
+#
+# manages cups for printing
+#
+
+control:
+	any::
+		cups_config		= ( /etc/cups/cupsd.conf )
+
+packages:
+	any::
+		cupsys					action=install
+		
+copy:
+	any::
+		${cfe_files}${cups_config}
+			dest=${cups_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=lp mode=640
+			define=CUPS_RESTART
+
+
+files:
+	any::
+		${cups_config}		owner=root group=lp mode=640	action=fixall define=CUPS_RESTART
+
+shellcommands:
+	CUPS_RESTART::
+		"/etc/init.d/cupsys restart"

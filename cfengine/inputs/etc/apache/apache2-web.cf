@@ -1,0 +1,77 @@
+#
+# Adds www.m4n.nl to apache
+#
+
+control:
+	any::
+		apache2_m4n_dev  = ( /etc/apache2/sites-available/dev.m4n.nl )
+		apache2_m4n_update = ( /etc/apache2/sites-available/update.m4n.nl )
+		apache2_m4n_beta = ( /etc/apache2/sites-available/beta.m4n.nl )
+		apache2_m4n_test = ( /etc/apache2/sites-available/test.m4n.nl )
+		apache2_m4n_www	= ( /etc/apache2/sites-available/www.m4n.nl )
+		apache2_mbuyu_images = ( /etc/apache2/sites-available/images.mbuyu.nl )
+
+copy:
+	any::
+		${cfe_files}${apache2_mbuyu_images}
+			dest=${apache2_mbuyu_images}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+	# live
+	any.!SRV_DEV.!SRV_UPDATE.!SRV_BETA.!SRV_TEST::
+		${cfe_files}${apache2_m4n_www}
+			dest=${apache2_m4n_www}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+	SRV_DEV::
+		${cfe_files}${apache2_m4n_dev}
+			dest=${apache2_m4n_dev}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+	SRV_UPDATE::
+		${cfe_files}${apache2_m4n_update}
+			dest=${apache2_m4n_update}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+	SRV_BETA::
+		${cfe_files}${apache2_m4n_beta}
+			dest=${apache2_m4n_beta}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+	SRV_TEST::
+		${cfe_files}${apache2_m4n_test}
+			dest=${apache2_m4n_test}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+	
+links:
+	any::
+		/etc/apache2/sites-enabled/images.mbuyu.nl ->! ${apache2_mbuyu_images} define=APACHE2_RESTART
+		/etc/apache2/mods-enabled/vhost_alias.load ->! ../mods-available/vhost_alias.load define=APACHE2_RESTART
+	any.!SRV_DEV.!SRV_UPDATE.!SRV_BETA.!SRV_TEST::
+		/etc/apache2/sites-enabled/www.m4n.nl ->! ${apache2_m4n_www} define=APACHE2_RESTART
+	SRV_DEV::
+		/etc/apache2/sites-enabled/dev.m4n.nl ->! ${apache2_m4n_dev} define=APACHE2_RESTART
+	SRV_UPDATE::
+		/etc/apache2/sites-enabled/update.m4n.nl ->! ${apache2_m4n_update} define=APACHE2_RESTART
+	SRV_BETA::
+		/etc/apache2/sites-enabled/beta.m4n.nl ->! ${apache2_m4n_beta} define=APACHE2_RESTART
+	SRV_TEST::
+		/etc/apache2/sites-enabled/test.m4n.nl ->! ${apache2_m4n_test} define=APACHE2_RESTART
+		
+directories:
+	any::
+		/var/www/images.mbuyu.nl  mode=775 owner=root group=jboss
+		

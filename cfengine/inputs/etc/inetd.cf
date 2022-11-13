@@ -1,0 +1,32 @@
+#
+# manages inetd.conf
+#
+
+control:
+	any::
+		inetd_config	= ( /etc/inetd.conf )
+		
+copy:
+	any::
+		${cfe_files}${inetd_config}
+			dest=${inetd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=RESTART_INETD
+						
+	mrximg1::
+		${cfe_files}${inetd_config}-mrximg1
+			dest=${inetd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=RESTART_INETD
+			
+files:
+	any::
+		${inetd_config}	owner=root group=root mode=600	action=fixall define=RESTART_INETD
+			
+shellcommands:
+	RESTART_INETD::
+		"/etc/init.d/openbsd-inetd restart"

@@ -1,0 +1,9 @@
+#
+# This file is managed by cfengine
+#
+
+# run every hour at x:22
+22 * 		* * *	root	/usr/local/sbin/webalizer_all.sh > /dev/null 2> /dev/null
+
+
+# EOF

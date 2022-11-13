@@ -1,0 +1,1 @@
+CREATE INDEX click_ip_address_idx ON click_new (ip_address);

@@ -1,0 +1,28 @@
+#
+# installs nagios drbd checks 
+#
+
+control:
+	any::
+		check_drbd		= ( /usr/local/sbin/check_drbd )
+		
+copy:
+
+	any::
+		${cfe_files}${nagios_confd}/drbd.cfg
+			dest=${nagios_confd}/drbd.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false									
+			define=NAGIOS_RESTART
+		${cfe_files}${check_drbd}
+			dest=${check_drbd}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+			backup=false									
+
+shellcommands:
+	NAGIOS_RESTART::
+		"/etc/init.d/nagios-nrpe-server restart"

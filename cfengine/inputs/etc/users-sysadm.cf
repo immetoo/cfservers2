@@ -1,0 +1,67 @@
+#
+# manages passwd and shadow for live servers
+#
+
+control:
+	any::
+		etc_passwd	 = ( /etc/passwd )
+		etc_shadow	 = ( /etc/shadow )
+		etc_group	 = ( /etc/group )
+
+
+files:
+	any::
+		${etc_passwd} mode=644 owner=root group=root action=fixall
+		${etc_shadow} mode=640 owner=root group=root action=fixall
+		${etc_group}  mode=644 owner=root group=root action=fixall
+			
+directories:
+	any::			
+		# sets all permissions alway right :)
+		/home/ldapbackup
+			owner=ldapbackup
+			group=ldapbackup
+
+editfiles:
+	install::
+		{ ${etc_passwd}
+			Backup "false"
+			BeginGroupIfNoLineContaining "ldapbackup"
+				Append "ldapbackup:x:1004:1004::/home/ldapbackup:/bin/bash"
+				DefineInGroup "USERS_LDAPBACKUP_ADDED"
+			EndGroup
+		}
+		{ ${etc_shadow}
+			Backup "false"
+			BeginGroupIfNoLineContaining "ldapbackup"
+				Append "ldapbackup:$1$xpvpZauj$wMPnrhkMb5MFQFhZpN39.1:13334:0:99999:7:::"
+			EndGroup
+
+			# force passwd
+			BeginGroupIfLineContaining "ldapbackup"
+				LocateLineMatching "ldapbackup.*"
+				ReplaceLineWith "ldapbackup:$1$xpvpZauj$wMPnrhkMb5MFQFhZpN39.1:13334:0:99999:7:::"
+			EndGroup
+			
+		}
+		{ ${etc_group}
+			Backup "false"
+			BeginGroupIfNoLineContaining "ldapbackup"	
+				Append "ldapbackup:x:1004:"
+			EndGroup			
+		}
+
+		
+# copy skel, but misses a few permissions
+copy:
+	USERS_LDAPBACKUP_ADDED::
+		/etc/skel
+			dest=/home/ldapbackup
+			server=${cfe_host}
+			mode=644 owner=ldapbackup group=ldapbackup
+			recurse=inf
+
+#
+#shellcommands:
+#	USER_DEL_WILLEMC::
+#		"/usr/sbin/deluser willemc --remove-home"

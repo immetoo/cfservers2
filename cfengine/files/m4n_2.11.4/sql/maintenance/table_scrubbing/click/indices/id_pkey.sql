@@ -1,0 +1,1 @@
+ALTER TABLE click_new ADD CONSTRAINT click_pkey PRIMARY KEY(id);

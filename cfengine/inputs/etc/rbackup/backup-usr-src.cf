@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_usr_src	= ( /etc/rbackup/conf.d/backup-usr-src )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_usr_src}
+			dest=${rbackup_usr_src}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

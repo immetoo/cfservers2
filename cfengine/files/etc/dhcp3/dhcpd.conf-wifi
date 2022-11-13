@@ -1,0 +1,38 @@
+#
+# This file is managed by cfengine
+#
+#
+# Global config
+#
+ddns-update-style none;
+default-lease-time 20000;
+max-lease-time 40000;
+authoritative;
+
+shared-network DMZ {
+        option domain-name-servers 172.16.24.249, 172.16.24.218;
+        # Openvpn sets its own wins server ip
+        # option netbios-name-servers 172.16.24.224;
+
+
+        # The wifi clients
+        subnet 172.16.25.0 netmask 255.255.255.0 {
+                option domain-name "office.mbuyu.nl";
+                option broadcast-address 172.16.25.255;
+                option routers 172.16.25.254;
+                pool {
+                        range 172.16.25.1 172.16.25.100;
+                }
+        }
+}
+
+host mohwap0 {
+        hardware ethernet 00:90:4c:60:04:00;
+        fixed-address 172.16.25.220;
+}
+
+host mohwap1 {
+        hardware ethernet 90:84:0d:ee:36:96;
+        fixed-address 172.16.25.221;
+}
+

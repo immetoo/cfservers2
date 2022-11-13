@@ -1,0 +1,32 @@
+#
+# manages csync2
+#
+
+control:
+	any::
+		csync2_config	= ( /etc/csync2.cfg )
+		csync2_psk		= ( /etc/csync2-images.psk )
+		csync2_cron		= ( /etc/cron.d/csync2 )
+
+packages:
+	SRV_IMG.NET_POP_CYSO::
+		openbsd_inetd	action=install
+		
+copy:
+	SRV_IMG.NET_POP_CYSO::
+		${cfe_files}${csync2_config}
+			dest=${csync2_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+		${cfe_files}${csync2_psk}
+			dest=${csync2_psk}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+	mrximg0::					
+		${cfe_files}${csync2_cron}-mrximg0
+			dest=${csync2_cron}
+			server=${cfe_host} backup=false
+			owner=root group=root mode=700
+			type=checksum		

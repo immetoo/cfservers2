@@ -1,0 +1,8 @@
+# M4N JBoss configuration
+
+# The address JBoss should bind on, possible values are: LOCALHOST, HOSTNAME, ALL
+BIND="HOSTNAME"
+
+M4N_STAGING="-Dm4n.staging=beta"
+MEMORY_PERCENTAGE_MIN=25
+MEMORY_PERCENTAGE_MAX=70

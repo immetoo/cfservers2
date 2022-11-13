@@ -1,0 +1,40 @@
+#
+# manages the apc configuration
+#
+
+control:
+	any::
+		apcupsd_config	= ( /etc/apcupsd/apcupsd.conf )
+		apcupsd_default	= ( /etc/default/apcupsd )
+
+packages:
+	install::
+		apcupsd		action=install
+
+
+copy:
+	any::
+		${cfe_files}${apcupsd_default}
+			dest=${apcupsd_default}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APCUPSD_RESTART
+	SRV_UPS::
+		${cfe_files}${apcupsd_config}-netslave
+			dest=${apcupsd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APCUPSD_RESTART
+	SRV_UPS_MASTER::
+		${cfe_files}${apcupsd_config}-usbmaster
+			dest=${apcupsd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APCUPSD_RESTART
+
+shellcommands:
+	APCUPSD_RESTART::
+		"/etc/init.d/apcupsd restart"

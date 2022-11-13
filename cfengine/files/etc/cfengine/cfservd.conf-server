@@ -1,0 +1,45 @@
+#
+# This file is managed by cfengine
+#
+# cfservd.conf - for the server
+#
+
+control:
+	any::
+		domain = ( mbuyu.com )
+        
+		# Uncomment this only during the key exchange window.
+		TrustKeysFrom = ( 172.16.16.0/20 85.158.204.160/27 )
+
+		# THIS IS ONLY FOR NAT HOSTS
+		SkipVerify = ( 80.101.123.149/32 82.93.9.158/32  87.215.139.10/32 )
+
+		# After key exchange permit this users
+		AllowUsers = ( root )
+
+		IfElapsed = ( 0 )
+		ExpireAfter = ( 15 )
+		MaxConnections = ( 150 )
+		MultipleConnections = ( true )
+		AllowMultipleConnectionsFrom = ( 80.101.123.149/32 82.93.9.158/32 85.158.204.160/27 172.16.16.0/20  87.215.139.10/32 )
+
+
+# Grant access to all hosts in mbuyu.com
+admit:
+	any::
+		#nieuw ipnummer xs4all office:
+		/etc/cfengine               80.101.123.149/32
+		/var/lib/cfengine2/files    80.101.123.149/32
+
+		#nieuwst ipnummer tele2 office:
+		/etc/cfengine               87.215.139.10/32
+		/var/lib/cfengine2/files    87.215.139.10/32
+
+		/etc/cfengine               85.158.204.160/27
+		/var/lib/cfengine2/files    85.158.204.160/27
+
+		/etc/cfengine               172.16.16.0/20
+		/var/lib/cfengine2/files    172.16.16.0/20
+
+		# Docs are only needed by mrxsec0
+		/var/lib/cfengine2/docs     172.16.21.129/32

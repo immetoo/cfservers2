@@ -1,0 +1,10 @@
+#
+# This file is managed by cfengine.
+#
+
+deb http://ftp.nl.debian.org/debian/ squeeze main contrib non-free
+deb http://security.debian.org/ squeeze/updates main contrib non-free
+
+deb http://ftp.nl.debian.org/debian-backports/ squeeze-backports main contrib non-free
+
+

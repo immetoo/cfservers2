@@ -1,0 +1,11 @@
+#
+# Addes vhost_alias.load
+#
+
+packages:
+	install::
+		libapache2-mod-auth-pgsql  action=install define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/mods-enabled/auth_pgsql.load ->! ../mods-available/auth_pgsql.load define=APACHE2_RESTART

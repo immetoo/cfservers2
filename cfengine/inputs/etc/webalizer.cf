@@ -1,0 +1,33 @@
+#
+# webalizer mainly for masshosting
+#
+
+control:
+	any::
+		webalizer_template	 = ( /etc/webalizer/webalizer.conf.template )
+		webalizer_script	 = ( /usr/local/sbin/webalizer_all.sh )
+		webalizer_cron		 = ( /etc/cron.d/webalizer_all )
+
+packages:
+	install::
+		webalizer		action=install
+
+copy:
+	any::			
+		${cfe_files}${webalizer_template}
+			dest=${webalizer_template}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+			
+		${cfe_files}${webalizer_script}
+			dest=${webalizer_script}
+			server=${cfe_host}
+			type=checksum
+			mode=744 owner=root group=root
+
+		${cfe_files}${webalizer_cron}
+			dest=${webalizer_cron}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=644 owner=root group=root

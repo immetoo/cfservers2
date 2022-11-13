@@ -1,0 +1,147 @@
+#! /usr/bin/perl -w
+
+# Copyright (c) 2002 Oregon State University - Network Engineering
+# All rights reserved.
+#
+# $Id: check_postfix_mailq,v 1.2 2004/11/18 21:01:58 kveton Exp $
+# $Source: /data/cvsroot/eng/nagios/check_postfix_mailq,v $
+
+# This is a Nagios monitoring plugin that will check the status of 
+# the Postfix mailq on the local machine. It is best used with
+# something like NRPE for remote access.
+
+BEGIN {
+	if ($0 =~ m/^(.*?)[\/\\]([^\/\\]+)$/) {
+		$PROGNAME = $2;
+	}
+}
+
+require 5.004;
+use POSIX;
+use strict;
+use Getopt::Long;
+use vars qw($opt_V $opt_h $opt_v $verbose $PROGNAME $opt_w $opt_c $opt_t $status $state $msg $msg_q);
+use lib "/usr/lib/nagios/plugins" ;
+use utils qw(%ERRORS &print_revision &usage &support);
+
+use Data::Dumper;
+
+# function prototypes
+sub print_help ();
+sub print_usage ($);
+sub help ();
+sub version ();
+sub get_version ();
+
+# paranoia central
+delete @ENV{'PATH', 'IFS', 'CDPATH', 'ENV', 'BASH_ENV'};
+$PROGNAME = "check_mailq";
+
+Getopt::Long::Configure('bundling', 'no_ignore_case');
+GetOptions
+("V|version" => \&version,
+"h|help" => \&help,
+"w|warning=s" => \$opt_w,
+"c|critical=s" => \$opt_c);
+
+# set the defaults for warn
+($opt_w) || ($opt_w = shift) || ($opt_w = 2000);
+my $warning = $1 if ($opt_w =~ /([0-9]+)/);
+
+# set the defaults for critical
+($opt_c) || ($opt_c = shift) || ($opt_c = 5000);
+my $critical = $1 if ($opt_c =~ /([0-9]+)/);
+
+# for the final processing of the output
+my $state = 'UNKNOWN';
+my $answer = 'Could not initialize tests.';
+
+# Just in case of problems, let's not hang NetSaint
+$SIG{'ALRM'} = sub {
+	print ("ERROR: No response from postfix mailq (alarm)\n");
+	exit $ERRORS{"UNKNOWN"};
+};
+alarm(30);
+
+# let's get to it
+my $result = `/usr/sbin/postqueue -p`;
+
+# 20110218-TL 	Changed this back to postqueue again
+#				since that test actually checks whether 
+#				postfix main.cf is working!!!
+#
+# Do it more lightweight
+# my $result = `ls -1 /var/spool/postfix/deferred/?/* 2>/dev/null | wc -l`;
+
+if ( $result =~ /-- (\d+) Kbytes in (\d+) Request[s]*\./ ) {
+#if ( $result =~ /^(\d+)$/ ) {
+	if ( $2 > $critical ) {
+		$state = 'CRITICAL';
+	}
+	elsif ( $2 > $warning ) {
+		$state = 'WARNING';
+	}
+	else {
+		$state = 'OK';
+	}
+
+	$answer = "Postfix mailq has $2 messages queued.";
+}
+elsif ( $result =~ /Mail queue is empty/ ) {
+	$state = 'OK';
+	$answer = 'Mail queue is empty';
+}
+else {
+	$state = 'CRITICAL';
+	$answer = "Could not connect to local mailq. Postfix may be down.";
+}
+
+if ( $state eq 'CRITICAL' or $state eq 'WARNING' or $state eq 'UNKNOWN' ) {
+	print "$state: $answer\n";
+}
+else {
+	print "OK: $answer\n";
+}
+
+exit $ERRORS{$state};
+
+#
+############################################################3
+
+############################################################3
+# Standard Netsaint Support Functions
+sub print_usage ($) {
+	my ($error) = @_;
+	print "Usage: $PROGNAME [--help|h] [-w <warn>] [-c <crit>]\n";
+
+	if ( $error ) {
+		print "$error\n";
+		exit $ERRORS{'UNKNOWN'};
+	}
+}
+
+sub get_version () {
+	return '$ Revision: 1.0.0 $';
+}
+
+sub print_help () {
+	my $version = get_version();
+	print "\nCopyright (c) 2002 Oregon State University -- $PROGNAME, $version\n";
+	print_usage('');
+	my $usage = qq{
+		-w Warning service page threshold.
+		-c Critical service page threshold.
+		-h This message.
+	};
+	print $usage;
+}
+
+sub version () {
+	print_revision($PROGNAME, get_version() );
+	exit $ERRORS{'OK'};
+}
+
+sub help () {
+	print_help();
+	exit $ERRORS{'OK'};
+}

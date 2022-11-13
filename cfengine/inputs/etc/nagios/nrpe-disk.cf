@@ -1,0 +1,69 @@
+#
+# installs the nagios disk checks
+#
+
+copy:
+	MM_BOOT::
+		${cfe_files}${nagios_confd}/disk-boot.cfg
+			dest=${nagios_confd}/disk-boot.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	MM_DATA::
+		${cfe_files}${nagios_confd}/disk-data.cfg
+			dest=${nagios_confd}/disk-data.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	MM_HOME::
+		${cfe_files}${nagios_confd}/disk-home.cfg
+			dest=${nagios_confd}/disk-home.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	MM_VAR::
+		${cfe_files}${nagios_confd}/disk-var.cfg
+			dest=${nagios_confd}/disk-var.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	MM_VAR_LOG::
+		${cfe_files}${nagios_confd}/disk-var-log.cfg
+			dest=${nagios_confd}/disk-var-log.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	MM_VAR_LIB_PG::
+		${cfe_files}${nagios_confd}/disk-var-lib-pg.cfg
+			dest=${nagios_confd}/disk-var-lib-pg.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	MM_BACKUP::
+		${cfe_files}${nagios_confd}/disk-backup.cfg
+			dest=${nagios_confd}/disk-backup.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	MM_VAR_BACKUPS::
+		${cfe_files}${nagios_confd}/disk-var-backups.cfg
+			dest=${nagios_confd}/disk-var-backups.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART

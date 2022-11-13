@@ -1,0 +1,1 @@
+CREATE INDEX click_last_modified_idx ON click_new (last_modified);

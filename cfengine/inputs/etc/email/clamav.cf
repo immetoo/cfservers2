@@ -1,0 +1,39 @@
+#
+# installs clamav and configs it.
+#
+
+packages:
+	install::
+		clamav					action=install
+		clamav-base				action=install
+		clamav-daemon			action=install
+		clamav-freshclam		action=install
+		# and some uncompessions tools
+		unzip					action=install
+		arj						action=install
+		# unzoo					action=install
+		unrar					action=install
+		lha						action=install
+		
+control:
+	any::
+		clamav_conf		= ( /etc/clamav/clamd.conf )
+		clamav_fresh	= ( /etc/clamav/freshclam.conf )
+		
+copy:
+	any::
+		${cfe_files}${clamav_conf}
+			dest=${clamav_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=clamav group=adm mode=640
+		${cfe_files}${clamav_fresh}
+			dest=${clamav_fresh}
+			server=${cfe_host}
+			type=checksum
+			owner=clamav group=adm mode=640
+
+files:
+	any::
+		${clamav_conf}	owner=clamav group=adm mode=640	action=fixall
+		${clamav_fresh}	owner=clamav group=adm mode=640	action=fixall

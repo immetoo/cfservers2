@@ -1,0 +1,21 @@
+#
+# Installes tomcat init.d script
+#
+
+control:
+	any::
+		tomcat_init	 = ( /etc/init.d/tomcat )
+
+copy:
+	any::
+		${cfe_files}${tomcat_init}
+			dest=${tomcat_init}
+			server=${cfe_host}
+			type=checksum
+			mode=700 owner=root group=root
+			define=TOMCAT_UPDATE_RCD
+	
+shellcommands:
+	TOMCAT_UPDATE_RCD::
+		"/usr/sbin/update-rc.d tomcat defaults"
+		

@@ -1,0 +1,5 @@
+#
+# This file is managed by cfengine
+#
+BACKUP="/var/log/*.gz /var/log/*/*.gz";
+EXCLUDE="/var/log/ntpstats";

@@ -1,0 +1,29 @@
+#
+# Copies /usr/local/sbin/default_alternative.sh
+#        and makes entry in cron
+#
+
+control:
+	any::
+		default_alternative_script	= ( /usr/local/sbin/default_alternative.sh )
+		default_alternative_cron	= ( /etc/cron.d/set_default_alternative )
+
+copy:
+	any::
+		${cfe_files}${default_alternative_script}
+			dest=${default_alternative_script}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=755
+		${cfe_files}${default_alternative_cron}
+			dest=${default_alternative_cron}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=755
+
+files:
+	any::
+		${default_alternative_script}	owner=root group=root mode=755	action=fixall
+		${default_alternative_cron}	owner=root group=root mode=644	action=fixall

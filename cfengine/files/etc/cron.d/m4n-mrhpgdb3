@@ -1,0 +1,9 @@
+#
+# This file is managed by cfengine
+#
+MAILTO=application@m4n.nl
+
+# dump and restore production databases on a separate standby server 
+0 2,8,14,20 * * * root time /m4n/bin/backup_databases.sh
+
+# EOF

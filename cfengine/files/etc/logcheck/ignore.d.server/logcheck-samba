@@ -1,0 +1,11 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]:   getpeername failed. Error was Transport endpoint is not connected$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]:   Connection denied from (.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]:   Denied connection from (.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]:   Error writing (.*)Broken pipe.$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]:   Error writing (.*)\(Connection reset by peer\)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]:   write_data: write failure in writing to client (.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]:   read_data: read failure for 4 bytes to client (.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]: (.*)srv_check_incoming_message(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]: \[[:/,0-9[:space:]]+\] lib(.*)\([0-9]+\)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ smbd\[[0-9]+\]: (.*)call_nt_transact_ioctl(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ nmbd\[[0-9]+\]:(.*)libsmb/nmblib.c:send_udp(.*)$

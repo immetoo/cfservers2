@@ -1,0 +1,13 @@
+#
+# Deleting non LDAP users
+#
+
+shellcommands:
+	any::
+		"/usr/sbin/deluser daniel"
+		"/usr/sbin/deluser willemc"
+		"/usr/sbin/deluser klaas"
+		"/usr/sbin/deluser dennis"
+		"/usr/sbin/deluser tijn"
+
+

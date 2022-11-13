@@ -1,0 +1,29 @@
+#
+# sets timezone to Eu/Amdam
+#
+
+
+control:
+	any::
+		timezone_config		= ( /etc/timezone )
+		timezone_data		= ( /usr/share/zoneinfo/Europe/Amsterdam )
+		timezone_data_etc	= ( /etc/localtime )
+
+copy:
+	any::
+		${cfe_files}${timezone_config}
+			dest=${timezone_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+	
+		# NOTE LOCAL COPY
+		${timezone_data}
+			dest=${timezone_data_etc}
+			type=checksum
+			owner=root group=root mode=644
+
+files:
+	any::
+		${timezone_config}			owner=root group=root mode=644	action=fixall
+		${timezone_data_etc}		owner=root group=root mode=644	action=fixall

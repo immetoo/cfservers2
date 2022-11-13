@@ -1,0 +1,133 @@
+#
+# manages the sudo users
+#
+
+control:
+	any::
+		sudoers_file	= ( /etc/sudoers )
+
+packages:
+	install::
+		sudo		action=install
+
+editfiles:
+	any::
+		{ ${sudoers_file}
+		
+			AutoCreate
+			Backup "false"
+			EmptyEntireFilePlease
+			IfElapsed 200
+			
+			AppendIfNoSuchLine "#"
+			AppendIfNoSuchLine "# This file is managed by cfengine"
+			AppendIfNoSuchLine "#"
+			AppendIfNoSuchLine "Defaults        always_set_home"
+			
+			AppendIfNoSuchLine "# SysAdm users"
+			AppendIfNoSuchLine "ldapbackup ALL=(ALL) ALL"
+
+			AppendIfNoSuchLine "# Ldap SysAdm users"
+			BeginGroupIfNotDefined "SRV_NOLDAP"
+				AppendIfNoSuchLine "%admins ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "klaas.joosten ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "willem.cazander ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "paul.wiebes ALL=(ALL) ALL"		
+				#AppendIfNoSuchLine "bas.van.oostveen ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "cysonet ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "tijn.lambrechtsen ALL=(ALL) ALL"
+			EndGroup
+
+			AppendIfNoSuchLine "# ldap users"
+			BeginGroupIfDefined "USERS_GROUP_M4N"
+				AppendIfNoSuchLine "%sysdev ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "dineke.tuinhof ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "arjan.tijms ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "klaas.joosten ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "dennis.brouwer ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "jasper.floor ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "bas.van.oostveen ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "robin.eggenkamp ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "arjan.pronk ALL=(ALL) ALL"
+				#AppendIfNoSuchLine "jan.beernink ALL=(ALL) ALL" 
+			EndGroup
+			
+			AppendIfNoSuchLine "# dev_group"
+			BeginGroupIfDefined "USERS_GROUP_DEV"
+				AppendIfNoSuchLine "dineke.tuinhof ALL=(ALL) ALL"
+				AppendIfNoSuchLine "arjan.tijms ALL=(ALL) ALL"
+				AppendIfNoSuchLine "klaas.joosten ALL=(ALL) ALL"
+				AppendIfNoSuchLine "dennis.brouwer ALL=(ALL) ALL"
+				AppendIfNoSuchLine "jasper.floor ALL=(ALL) ALL"
+				AppendIfNoSuchLine "bas.van.oostveen ALL=(ALL) ALL"
+				AppendIfNoSuchLine "robin.eggenkamp ALL=(ALL) ALL"
+				AppendIfNoSuchLine "arjan.pronk ALL=(ALL) ALL"
+				AppendIfNoSuchLine "jan.beernink ALL=(ALL) ALL"
+				AppendIfNoSuchLine "aditya.palagummi ALL=(ALL) ALL"	
+				AppendIfNoSuchLine "ramakrishna.bobbala ALL=(ALL) ALL"	
+			EndGroup
+			
+					
+			AppendIfNoSuchLine "# nagios check"
+			BeginGroupIfDefined "HW_3WARE"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_3ware-raid.pl"
+			EndGroup
+			BeginGroupIfDefined "HW_LSI"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_lsi"
+			EndGroup
+			BeginGroupIfDefined "HW_LSI_SAS"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_lsi-sas"
+			EndGroup
+			BeginGroupIfDefined "HW_ARECA.HW_AMD64"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_areca"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_areca_battery"
+			EndGroup
+			BeginGroupIfDefined "SRV_IB"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_drbd"
+			EndGroup
+			BeginGroupIfDefined "SRV_XEN"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/sbin/xm list"
+			EndGroup
+			BeginGroupIfDefined "SRV_MAIL"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_bl_async.pl"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_amavis.pl"
+			EndGroup
+			BeginGroupIfDefined "SRV_PRINT"
+				AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_cups_printer"
+			EndGroup			
+			BeginGroupIfDefined "SRV_SMB|SRV_IMG|SRV_WWW|mrxwww2"
+	 			AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_proftp_user"
+	 			AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_sftp"
+	 			AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/restart_proftpd"
+	 			AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_nmbd"	
+			EndGroup
+			BeginGroupIfDefined "SRV_LIVE"
+	 			AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/swap_eventhandler"	
+			EndGroup
+			BeginGroupIfDefined "SRV_LB"
+	 			AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_mdstat"	
+			EndGroup
+			BeginGroupIfDefined "SRV_LB|SRV_NRX|moxproxy0|moxproxy1"
+	 			AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_ucarp"	
+			EndGroup	
+			BeginGroupIfDefined "SRV_PROXY"
+	 			AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/check_squid"
+	 			AppendIfNoSuchLine "nagios ALL=NOPASSWD:/usr/local/sbin/squid_eventhandler"		
+			EndGroup			
+			BeginGroupIfDefined "mohxen5|mrhpgdb5"
+	 			AppendIfNoSuchLine "dennis.brouwer ALL=(ALL) ALL"
+			EndGroup
+			BeginGroupIfDefined "toxcode0|mrxcode1|SRV_WL"
+	 			AppendIfNoSuchLine "robin.eggenkamp ALL=(ALL) ALL"
+			EndGroup
+			BeginGroupIfDefined "SRV_DEV|SRV_TEST|SRV_BETA|SRV_BETA|SRV_UPDATE"
+			  AppendIfNoSuchLine "build.bot ALL=NOPASSWD: ALL"
+			EndGroup
+			BeginGroupIfDefined "mohxen6"
+				AppendIfNoSuchLine "snapshots ALL=NOPASSWD:/sbin/lvcreate"
+				AppendIfNoSuchLine "snapshots ALL=NOPASSWD:/sbin/mkfs"
+				AppendIfNoSuchLine "snapshots ALL=NOPASSWD:/bin/mount"
+				AppendIfNoSuchLine "snapshots ALL=NOPASSWD:/bin/umount"
+				AppendIfNoSuchLine "snapshots ALL=NOPASSWD:/usr/bin/rsync"
+			EndGroup
+		}

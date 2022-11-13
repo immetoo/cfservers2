@@ -1,0 +1,21 @@
+#!/bin/bash
+# CF managed script to scan and active all lv's
+
+trap "{ echo 'lvm-extra failed to run properly!'; exit 255; }" ERR
+
+pvscan > /dev/null
+lvchange -ay `vgs --noheadings  | awk '{ print $1 }'`
+
+exit 0
+
+#
+#LINE1="";
+#LINE2="";
+#for LINE in `lvs`; do
+#	if [[ $LINE =~ '-wi---' ]]; then
+#		lvchange -ay $LINE1/$LINE2;
+#	fi;
+#	LINE2=$LINE1;
+#	LINE1=$LINE;
+#done;
+#

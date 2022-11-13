@@ -1,0 +1,7 @@
+#
+#This file is managed by cfengine
+#
+.*run_sonar.sh.*
+.*hg convert.*
+^.*bitten-start-slave-openjdk.sh.*$
+^.*bitten-start-slave-sunjdk.sh.*$

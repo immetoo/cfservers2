@@ -1,0 +1,110 @@
+#
+# installs the nagios raid checks
+#
+
+copy:
+	HW_3WARE::
+		${cfe_files}${nagios_confd}/3ware.cfg
+			dest=${nagios_confd}/3ware.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_3ware-raid.pl
+			dest=/usr/local/sbin/check_3ware-raid.pl
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+		${cfe_files}/usr/local/sbin/tw_cli
+			dest=/usr/local/sbin/tw_cli
+			server=${cfe_host}
+			type=checksum
+			mode=700 owner=root	group=root
+			
+	HW_LSI::
+		${cfe_files}${nagios_confd}/lsi.cfg
+			dest=${nagios_confd}/lsi.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_lsi
+			dest=/usr/local/sbin/check_lsi
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+		${cfe_files}/usr/local/sbin/megarc.bin
+			dest=/usr/local/sbin/megarc.bin
+			server=${cfe_host}
+			type=checksum
+			mode=700 owner=root	group=root
+			
+	HW_LSI_SAS::
+		${cfe_files}${nagios_confd}/lsi-sas.cfg
+			dest=${nagios_confd}/lsi-sas.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_lsi-sas
+			dest=/usr/local/sbin/check_lsi-sas
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+	HW_LSI_SAS.!HW_AMD64::
+		${cfe_files}/usr/local/sbin/MegaCli
+			dest=/usr/local/sbin/MegaCli
+			server=${cfe_host}
+			type=checksum
+			mode=700 owner=root	group=root
+	HW_LSI_SAS.HW_AMD64::
+		${cfe_files}/usr/local/sbin/MegaCli64
+			dest=/usr/local/sbin/MegaCli64
+			server=${cfe_host}
+			type=checksum
+			mode=700 owner=root	group=root
+	
+	HW_ARECA.HW_AMD64::
+		${cfe_files}/usr/local/sbin/check_areca
+			dest=/usr/local/sbin/check_areca
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+		${cfe_files}/usr/local/sbin/check_areca_battery
+			dest=/usr/local/sbin/check_areca_battery
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root			
+		${cfe_files}/usr/local/sbin/cli64
+			dest=/usr/local/sbin/cli64
+			server=${cfe_host}
+			type=checksum
+			mode=700 owner=root	group=root
+	
+	HW_ARECA.HW_AMD64::
+		${cfe_files}${nagios_confd}/areca.cfg
+			dest=${nagios_confd}/areca.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+
+	HW_SOFT::
+		${cfe_files}${nagios_confd}/mdstat.cfg
+			dest=${nagios_confd}/mdstat.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART	
+		${cfe_files}/usr/local/sbin/check_mdstat
+			dest=/usr/local/sbin/check_mdstat
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+			
+			

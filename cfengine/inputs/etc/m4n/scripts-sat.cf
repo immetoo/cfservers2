@@ -1,0 +1,49 @@
+#
+# Add sat cron scripts and m4n-settings
+#
+
+control:
+	any::
+		m4n_settings_sat = ( /etc/m4n-settings.xml )
+		m4n_cron_sat	 = ( /etc/cron.d/m4n-sat )
+
+copy:
+	SRV_LIVE::
+		${cfe_files}${m4n_cron_sat}
+			dest=${m4n_cron_sat}
+			server=${cfe_host} backup=false
+			mode=644 owner=root group=root
+			type=checksum
+		${cfe_files}${m4n_settings_sat}-sat
+			dest=${m4n_settings_sat}
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			type=checksum
+	
+	SRV_DEV::
+		${cfe_files}${m4n_settings_sat}-sat-dev
+			dest=${m4n_settings_sat}
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			type=checksum
+	
+	SRV_UPDATE::
+		${cfe_files}${m4n_settings_sat}-sat-update
+			dest=${m4n_settings_sat}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+	
+	SRV_BETA::
+		${cfe_files}${m4n_settings_sat}-sat-beta
+			dest=${m4n_settings_sat}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			
+	SRV_TEST::
+		${cfe_files}${m4n_settings_sat}-sat-test
+			dest=${m4n_settings_sat}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum

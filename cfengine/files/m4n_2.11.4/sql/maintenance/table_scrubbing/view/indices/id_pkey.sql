@@ -1,0 +1,1 @@
+ALTER TABLE view_new ADD CONSTRAINT view_pkey PRIMARY KEY(id);

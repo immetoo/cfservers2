@@ -1,0 +1,191 @@
+#
+# This file is managed by cfengine
+#
+
+#
+# Global config
+#
+ddns-update-style none;
+default-lease-time 20000;
+max-lease-time 40000;
+authoritative;
+
+shared-network DMZ {
+        option domain-name-servers 172.16.24.249, 172.16.24.218;
+        # Openvpn sets its own wins server ip
+		# option netbios-name-servers 172.16.24.224;
+
+		# very small "fake" range for dmz
+        subnet 172.16.24.0 netmask 255.255.255.0 {
+                option broadcast-address 172.16.24.255;
+                option routers 172.16.24.254;
+                pool {
+                        range 172.16.24.10 172.16.24.20;
+                }
+        }
+
+		# The wifi clients
+        subnet 172.16.25.0 netmask 255.255.255.0 {
+                option domain-name "office.mbuyu.nl";
+                option broadcast-address 172.16.25.255;
+                option routers 172.16.25.254;
+                pool {
+                        range 172.16.25.1 172.16.25.100;
+                }
+        }
+}
+
+shared-network OLAN {
+        option netbios-name-servers 172.16.26.245;
+        option domain-name "office.mbuyu.nl";
+        option domain-name-servers 172.16.24.249, 172.16.24.218;
+        option routers 172.16.26.254;
+        option broadcast-address 172.16.26.255;
+        deny duplicates;
+
+        subnet 172.16.26.0 netmask 255.255.255.0 {
+                pool {
+                        range 172.16.26.150 172.16.26.199;
+                }
+        }
+}
+#
+#
+# Print server
+# mohprn0.lan.office.mbuyu.com
+# moeten op 221 en 222
+#
+
+host mohprn0 {
+        hardware ethernet 00:40:01:27:7b:0e;
+        fixed-address 172.16.26.221;
+}
+
+host mohprn1 {
+        hardware ethernet 00:18:FE:A3:A7:E9;
+        fixed-address 172.16.26.222;
+}
+
+host mohprn2 {
+        hardware ethernet 00:18:71:60:ea:4c;
+        fixed-address 172.16.26.223;
+}
+
+host mohprn3 {
+		hardware ethernet 00:80:77:c7:03:df;
+		fixed-address 172.16.26.224;
+}
+
+
+# Server hardware
+# Heeft al 196 in pool, need ip >200
+
+host teletron {
+        hardware ethernet 00:15:f2:55:ed:44;
+        fixed-address 172.16.26.205;
+}
+
+host square {
+        hardware ethernet 00:0c:6e:04:3a:89;
+        fixed-address 172.16.26.201;
+}
+
+host mohwks1 {
+		hardware ethernet  00:1D:09:07:60:6E;
+		fixed-address 172.16.26.11;
+}
+
+host mohwks2 {
+		hardware ethernet  00:1A:A0:E9:D4:7E;
+		fixed-address 172.16.26.12;
+}
+
+host mohwks3 {
+		hardware ethernet  00:1A:A0:EB:19:67;
+		fixed-address 172.16.26.13;
+}
+
+host mohwks4  {
+		hardware ethernet 00:1A:A0:EB:43:C8;
+		fixed-address 172.16.26.14;
+}
+
+host mohwks5 {
+		hardware ethernet 00:1E:C9:44:66:5C;
+		fixed-address 172.16.26.15;
+}
+
+host mohwks6 {
+		hardware ethernet 00:00:B4:AA:FA:BC; 
+		fixed-address 172.16.26.16;
+}
+
+host mohwks7 { 
+		hardware ethernet 00:1D:09:23:D0:E5;
+		fixed-address 172.16.26.17;
+}
+
+host mohwks8 {
+		hardware ethernet 00:1D:09:23:58:70;
+		fixed-address 172.16.26.18;
+}
+
+host mohwks9 {
+		hardware ethernet 00:1D:09:21:A1:31;
+		fixed-address 172.16.26.19;
+}
+
+host mohwks10 {
+		hardware ethernet 00:1E:C9:48:5B:54;
+		fixed-address 172.16.26.20;
+}
+
+host mohwks11 {
+		hardware ethernet 00:23:AE:81:B8:67;
+		fixed-address 172.16.26.21;
+}
+
+host mohwks12 {
+		hardware ethernet 00:24:E8:48:C2:13;
+		fixed-address 172.16.26.22;
+}
+
+host mohwks13 {
+		hardware ethernet A4:BA:DB:02:A2:06;
+		fixed-address 172.16.26.23;
+}
+
+host mol-robin {
+		hardware ethernet 00:23:32:B4:C2:E2;
+		fixed-address 172.16.26.24;
+}
+
+host noxolz0 {
+		hardware ethernet 00:16:3e:78:98:83;
+		fixed-address 172.16.26.25;
+	
+
+host mol-marjolein {
+		hardware ethernet 00:18:F3:00:DA:D9;
+		fixed-address 172.16.26.126;
+}
+
+host mol-jaap {
+		hardware ethernet 00:16:D3:47:5B:80;
+		fixed-address 172.16.26.128;
+}
+
+host mol-liesbeth {
+		hardware ethernet 00:22:41:33:DE:59;
+		fixed-address 172.16.26.145;
+}
+
+host mol-wouterg {
+	    hardware ethernet 00:25:64:5B:1C:57;
+	    fixed-address 172.16.26.148;
+}
+
+host mol-farida {
+		hardware ethernet 78:2B:C8:C6:1E:07;
+		fixed-address 172.16.26.149;
+}

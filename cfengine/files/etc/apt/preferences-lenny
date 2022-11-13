@@ -1,0 +1,5 @@
+Explanation: This file is managed by cfengine
+Explanation: pin default on lenny
+Package: *
+Pin: release a=lenny
+Pin-Priority: 1234

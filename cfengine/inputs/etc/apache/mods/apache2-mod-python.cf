@@ -1,0 +1,12 @@
+#
+# Addes mod python
+#
+
+packages:
+	install::
+		libapache2-mod-python  action=install define=APACHE2_RESTART
+
+
+links:
+	any::
+		/etc/apache2/mods-enabled/mod_python.load ->! ../mods-available/mod_python.load define=APACHE2_RESTART

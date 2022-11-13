@@ -1,0 +1,23 @@
+#
+# Setups ulogd
+#
+
+packages:
+	any::
+		ulogd				action=install
+
+control:
+	any::
+		ulogd_config = ( /etc/ulogd.conf )
+
+copy:
+	any::
+		${cfe_files}${ulogd_config}
+			dest=${ulogd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+files:
+	any::
+		${ulogd_config}		mode=644 owner=root group=root action=fixall

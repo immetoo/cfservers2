@@ -1,0 +1,9 @@
+#!/bin/bash
+#
+# This file is managed by cfengine
+#
+
+# THE DB to update
+DB_HOST="db0.live.mbuyu.nl";
+DB_NAME="m4n";
+DB_USER="mbuyu";

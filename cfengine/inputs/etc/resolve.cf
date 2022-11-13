@@ -1,0 +1,34 @@
+#
+# manages /etc/resolv.conf
+#
+
+control:
+	any::
+		resolv_config	= ( /etc/resolv.conf )
+
+copy:
+	NET_POP_CYSO::
+		${cfe_files}${resolv_config}-pop-cyso
+			dest=${resolv_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+	
+	NET_POP_MAIN::
+		${cfe_files}${resolv_config}-pop-main
+			dest=${resolv_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			
+	NET_POP_BIT::
+		${cfe_files}${resolv_config}-pop-bit
+			dest=${resolv_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+	
+
+files:
+	any::
+		${resolv_config}	owner=root group=root mode=644	action=fixall

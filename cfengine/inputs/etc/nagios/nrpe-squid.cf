@@ -1,0 +1,38 @@
+#
+# installs nagios squid checks
+#
+
+control:
+	any::
+		check_squid		= ( /usr/local/sbin/check_squid )
+		nagios_confd2	= ( /etc/nagios/conf.d )
+packages:
+	install.DEBIAN::
+			libwww-perl		action=install
+
+copy:
+
+	SRV_PROXY::
+		${cfe_files}${nagios_confd2}/squid.cfg
+			dest=${nagios_confd2}/squid.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}${check_squid}
+			dest=${check_squid}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+			backup=false	
+		${cfe_files}/usr/local/sbin/squid_eventhandler
+			dest=/usr/local/sbin/squid_eventhandler
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+		
+
+shellcommands:
+	NAGIOS_RESTART::
+		"/etc/init.d/nagios-nrpe-server restart"

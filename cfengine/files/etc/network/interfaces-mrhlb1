@@ -1,0 +1,62 @@
+#
+# This file is managed by cfengine
+#
+#
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+# The primary network interface - IPMI 
+# *** CANNOT BE USED HERE!!! ***
+#allow-hotplug eth0
+# now available at 172.16.21.249 - mrhlb1.hmc.dmz.cyso.mbuyu.com
+
+
+# The secondary network interface - DMZ @ cyso
+#allow-hotplug eth1
+auto eth1
+iface eth1 inet static
+	address 172.16.21.251
+	netmask 255.255.255.0
+	post-up route add -net 172.16.16.0 netmask 255.255.240.0 gw 172.16.21.139 eth1
+	post-up route add -net 172.16.23.0 netmask 255.255.255.0 gw 172.16.21.143 eth1
+
+
+#The third network interface - external (internet)
+auto eth2
+iface eth2 inet static
+        address   85.158.204.189
+        netmask   255.255.255.224
+        gateway   85.158.204.161
+	post-up	  ifup eth2:1
+	post-up   ifup eth2:2
+
+iface eth2:1 inet manual
+	up ucarp -i eth2:1 -s 85.158.204.189 -v 184 -p password -a 85.158.204.184 \
+	     --upscript=/etc/haproxy/haproxy-vip-up.sh --downscript=/etc/haproxy/haproxy-vip-down.sh -P \
+	     -z -k 100 --daemonize -x vip184
+	down kill `ps -ef |egrep "ucarp(.*)184"|grep -v grep | awk '{print $2}'`
+iface eth2:1:ucarp inet static
+	address		85.158.204.184
+	netmask		255.255.255.224
+
+iface eth2:2 inet manual
+	up ucarp -i eth2:2 -s 85.158.204.189 -v 185 -p password -a 85.158.204.185 \
+	     --upscript=/etc/haproxy/haproxy-vip-up.sh --downscript=/etc/haproxy/haproxy-vip-down.sh -P \
+             -z -k 10 --daemonize -x vip185
+	down kill `ps -ef |egrep "ucarp(.*)185"|grep -v grep | awk '{print $2}'`
+iface eth2:2:ucarp inet static
+        address         85.158.204.185
+        netmask         255.255.255.224
+
+
+# The fourth network interface - crossover (not needed with ucarp!)
+# used for heartbeat keepalived
+#allow-hotplug eth3
+#auto eth3
+#iface eth3 inet static
+#        address 10.78.23.50
+#        netmask 255.255.255.248

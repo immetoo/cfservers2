@@ -1,0 +1,38 @@
+#
+# installs the nagios proc total checks
+#
+
+copy:		
+	# diffent copies for total proc check
+	!SRV_WEB.!SRV_LB.!SRV_WWW.!SRV_PGDB.!SRV_XEN.!SRV_MAIL.!SRV_SMB.!SRV_SON.!SRV_CODE.!SRV_NS.!SRV_BUILD::
+		${cfe_files}${nagios_confd}/proc-total.cfg
+			dest=${nagios_confd}/proc-total.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	SRV_WEB|SRV_LB|SRV_WWW|SRV_SMB|SRV_SON|SRV_CODE|SRV_BUILD::
+		${cfe_files}${nagios_confd}/proc-total.cfg-150
+			dest=${nagios_confd}/proc-total.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART	
+	SRV_XEN::
+		${cfe_files}${nagios_confd}/proc-total.cfg-250
+			dest=${nagios_confd}/proc-total.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	SRV_PGDB|SRV_MAIL|SRV_NS::
+		${cfe_files}${nagios_confd}/proc-total.cfg-500
+			dest=${nagios_confd}/proc-total.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART

@@ -1,0 +1,6 @@
+#
+# This file is managed by cfengine
+#
+
+command[system_postfix_mailq]=/usr/local/sbin/check_postfix_mailq -w 1000 -c 2500
+command[system_postfix_procs]=/usr/lib/nagios/plugins/check_procs -w 100 -c 200 -u postfix

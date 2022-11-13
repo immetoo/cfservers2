@@ -1,0 +1,12 @@
+# 
+# This file is managed by cfengine
+#
+
+loop
+mlx4_core
+mlx4_ib
+ib_umad
+ib_ipoib
+ib_sa
+ib_mad
+ib_core

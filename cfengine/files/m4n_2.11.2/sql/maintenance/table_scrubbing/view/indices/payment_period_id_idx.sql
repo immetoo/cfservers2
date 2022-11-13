@@ -1,0 +1,1 @@
+CREATE INDEX view_payment_period_id_idx ON view_new (payment_period_id);

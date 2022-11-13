@@ -1,0 +1,19 @@
+
+control:
+	any::
+		rbackup_var_www	= ( /etc/rbackup/conf.d/backup-var-www )
+		rbackup_data_www = ( /etc/rbackup/conf.d/backup-data-www )
+		
+copy:
+	any.!SRV_WWW::
+		${cfe_files}${rbackup_var_www}
+			dest=${rbackup_var_www}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+	SRV_WWW::
+		${cfe_files}${rbackup_data_www}
+			dest=${rbackup_data_www}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

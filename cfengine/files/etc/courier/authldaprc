@@ -1,0 +1,31 @@
+#
+# This file is managed by cfengine
+#
+
+# Ldap parameters
+LDAP_URI                ldaps://ldap3.lan.mbuyu.nl
+LDAP_PROTOCOL_VERSION   3
+LDAP_BASEDN             dc=m4n,dc=nl
+LDAP_BINDDN             uid=postfix,ou=services,dc=m4n,dc=nl
+LDAP_BINDPW             superP
+LDAP_TIMEOUT            5
+LDAP_AUTHBIND           1
+
+# Override user id's
+LDAP_GLOB_UID           vmail
+LDAP_GLOB_GID           vmail
+
+# Query parameters
+LDAP_FILTER             (&(objectclass=mailAccount)(mailActive=TRUE))
+LDAP_MAIL               uid
+
+# Result parameters
+#
+# chdir(LDAP_MAILROOT/homedir) followed by chdir(maildir)
+# LDAP_MAILDIR can be overriden with MAILDIRPATH in imapd
+#
+LDAP_MAILROOT           /var/vmail
+LDAP_HOMEDIR            homeDirectory
+LDAP_FULLNAME           cn
+LDAP_CRYPTPW            userPassword
+

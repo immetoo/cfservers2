@@ -1,0 +1,40 @@
+#!/bin/bash
+
+FILE="/tmp/m4n_stats.txt";
+DATA=( $(cat "$FILE"|grep -v "#") );
+
+REQ_TYPE=$2;
+REQ_OID=$3;
+REQ_BASE=$1;
+REQ_STEP=`echo $REQ_OID|awk -F. '{print $NF}'`;
+
+function printSNMP() {
+        echo "$REQ_BASE.$REQ_STEP";
+        echo "integer";
+
+        data="${DATA[$REQ_STEP]}";
+        if [ "" == "$data" ];then
+                data="0";
+        fi
+        echo "$data";
+}
+
+if [[ "-g" == "$REQ_TYPE" ]]; then
+        if [[ $REQ_BASE == $REQ_OID ]];then
+                exit;
+        fi;
+        if [[ "$REQ_STEP" -gt 8 ]]; then
+                exit;
+        fi;
+        printSNMP;
+fi;
+if [[ "-n" == "$REQ_TYPE" ]]; then
+        if [[ "$REQ_BASE" == "$REQ_OID" ]];then
+                REQ_STEP=-1;
+        fi;
+        if [[ "$REQ_STEP" -gt 7 ]]; then
+                exit;
+        fi;
+        let REQ_STEP="$((REQ_STEP+1))";
+        printSNMP;
+fi;

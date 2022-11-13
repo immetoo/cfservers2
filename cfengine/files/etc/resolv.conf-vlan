@@ -1,0 +1,11 @@
+#
+# CFEngine manages this file
+#
+search vlan.mbuyu.com dmz.cyso.mbuyu.com
+nameserver 85.158.200.97
+nameserver 85.158.200.76
+#needed when sats are taken off internet for maintenance,
+#and default route went lost.
+nameserver 172.16.24.218
+nameserver 172.16.24.249
+nameserver 217.170.3.9

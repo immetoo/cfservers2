@@ -1,0 +1,159 @@
+#
+# /etc/dhcpd.conf for primary DHCP server
+#
+# This file is managed by cfengine
+#
+#needed for OPSI server:
+next-server 172.16.26.76;
+filename "linux/pxelinux.0";
+
+authoritative;
+ddns-update-style none;
+default-lease-time 20000;
+max-lease-time 40000;
+
+
+failover peer "dhcp-failover" {
+		primary;
+		address 172.16.24.177;
+		port 647;
+		peer address 172.16.24.174;
+		peer port 647;
+		max-response-delay 30;
+		max-unacked-updates 10;
+  load balance max seconds 3;
+  mclt 1800;
+  split 128;
+}
+		
+
+shared-network DMZ {
+        option domain-name-servers 172.16.24.249, 172.16.24.218;
+        # Openvpn sets its own wins server ip
+		# option netbios-name-servers 172.16.24.224;
+
+		# very small "fake" range for dmz
+        subnet 172.16.24.0 netmask 255.255.255.0 {
+                option broadcast-address 172.16.24.255;
+                option routers 172.16.24.254;
+                pool {
+                		failover peer "dhcp-failover";
+                        range 172.16.24.10 172.16.24.20;
+                }
+        }
+
+#		# The wifi clients
+#        subnet 172.16.25.0 netmask 255.255.255.0 {
+#                option domain-name "office.mbuyu.nl";
+#                option broadcast-address 172.16.25.255;
+#                option routers 172.16.25.254;
+#                pool {
+#                		failover peer "dhcp-failover";		
+#                        range 172.16.25.1 172.16.25.100;
+#                }
+#        }
+}
+
+shared-network OLAN {
+        option netbios-name-servers 172.16.26.245;
+        option domain-name "office.mbuyu.nl";
+        option domain-name-servers 172.16.24.249, 172.16.24.218;
+        option routers 172.16.26.254;
+        option broadcast-address 172.16.26.255;
+
+        subnet 172.16.26.0 netmask 255.255.255.0 {
+                pool {
+                		failover peer "dhcp-failover";
+                        range 172.16.26.92 172.16.26.229;
+                }
+        }
+}
+
+#
+# Print server
+# mohprn0.lan.office.mbuyu.com
+# moeten op 221 en 222
+#
+
+host moxcups0 {
+        hardware ethernet 00:16:3E:01:3E:A4;
+        fixed-address 172.16.26.230;
+}
+
+
+
+host mohwks1 {
+		hardware ethernet  00:1D:09:07:60:6E;
+		fixed-address 172.16.26.11;
+}
+
+host mohwks2 {
+		hardware ethernet  00:1A:A0:E9:D4:7E;
+		fixed-address 172.16.26.12;
+}
+
+host mohwks3 {
+		hardware ethernet  00:1A:A0:EB:19:67;
+		fixed-address 172.16.26.13;
+}
+
+host mohwks4  {
+		hardware ethernet 00:1A:A0:EB:43:C8;
+		fixed-address 172.16.26.14;
+}
+
+host mohwks5 {
+		hardware ethernet 00:1E:C9:44:66:5C;
+		fixed-address 172.16.26.15;
+}
+
+host mohwks6 {
+		hardware ethernet 00:00:B4:AA:FA:BC; 
+		fixed-address 172.16.26.16;
+}
+
+host mohwks7 { 
+		hardware ethernet 00:1D:09:23:D0:E5;
+		fixed-address 172.16.26.17;
+}
+
+host mohwks8 {
+		hardware ethernet 00:1D:09:23:58:70;
+		fixed-address 172.16.26.18;
+}
+
+host mohwks9 {
+		hardware ethernet 00:1D:09:21:A1:31;
+		fixed-address 172.16.26.19;
+}
+
+host mohwks10 {
+		hardware ethernet 00:1E:C9:48:5B:54;
+		fixed-address 172.16.26.20;
+}
+
+host mohwks11 {
+		hardware ethernet 00:23:AE:81:B8:67;
+		fixed-address 172.16.26.21;
+}
+
+host mohwks12 {
+		hardware ethernet 00:24:E8:48:C2:13;
+		fixed-address 172.16.26.22;
+}
+
+host mohwks13 {
+		hardware ethernet A4:BA:DB:02:A2:06;
+		fixed-address 172.16.26.23;
+}
+
+host mol-robin {
+		hardware ethernet 00:23:32:B4:C2:E2;
+		fixed-address 172.16.26.24;
+}
+
+# On Screen Display mohosd0.office.mbuyu.com (Linutop)
+host mohosd0 {
+		hardware ethernet 00:17:31:ad:6a:23;
+		fixed-address 172.16.26.25;
+}

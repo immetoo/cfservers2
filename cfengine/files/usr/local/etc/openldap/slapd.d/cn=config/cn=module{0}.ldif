@@ -1,0 +1,14 @@
+dn: cn=module{0}
+objectClass: olcModuleList
+cn: module{0}
+olcModulePath: /usr/lib/ldap
+olcModuleLoad: {0}back_bdb
+olcModuleLoad: {1}syncprov
+structuralObjectClass: olcModuleList
+entryUUID: 7ea749f2-72d4-102e-8ea1-2353b6bdb77e
+creatorsName: cn=config
+createTimestamp: 20091201144938Z
+entryCSN: 20091201144938.721370Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20091201144938Z
+

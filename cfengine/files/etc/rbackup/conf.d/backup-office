@@ -1,0 +1,7 @@
+#
+# This file is managed by cfengine
+#
+BACKUP="/data/administration /data/finance /data/hrm /data/public /data/sysadm /data/samba";
+
+# Exclude avi/pron/etc.
+EXCLUDE_FILE="/etc/rbackup/conf.d/exclude-office";

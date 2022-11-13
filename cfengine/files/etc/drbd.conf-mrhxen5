@@ -1,0 +1,73 @@
+global {
+	usage-count yes;
+}
+
+common {
+	protocol C;
+	
+	startup {
+  		become-primary-on mrhxen5;
+  		wfc-timeout 60;
+  		degr-wfc-timeout 60;
+	}
+
+	net {
+		allow-two-primaries;
+	}
+
+	syncer {
+		rate 500M;
+	}
+}
+
+resource sda4 {
+	device    /dev/drbd0;
+	disk      /dev/sda4;
+	meta-disk internal;
+	
+	on mrhxen5 {
+		address   172.16.28.5:7789;
+	}
+	on mrhxen6 {
+		address   172.16.28.6:7789;
+	}
+}
+
+resource sdb4 {
+	device    /dev/drbd1;
+	disk      /dev/sdb4;
+	meta-disk internal;
+
+	on mrhxen5 {
+		address   172.16.28.5:7790;
+	}
+	on mrhxen6 {
+		address   172.16.28.6:7790;
+	}
+}
+
+resource sdc {
+	device    /dev/drbd2;
+	disk      /dev/sdc;
+  	meta-disk internal;
+  	
+	on mrhxen5 {
+		address   172.16.28.5:7791;
+	}
+	on mrhxen6 {
+		address   172.16.28.6:7791;
+	}
+}
+
+resource sdd {
+	device    /dev/drbd3;
+	disk      /dev/sdd;
+	meta-disk internal;
+	
+	on mrhxen5 {
+		address   172.16.28.5:7792;
+	}
+	on mrhxen6 {
+		address   172.16.28.6:7792;
+	}
+}

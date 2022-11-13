@@ -1,0 +1,81 @@
+#
+# Default template for all masshosting vhosts
+#
+
+LogFile /var/www/###VIRTUALHOSTNAME###/logs/access-###VIRTUALHOSTNAME###.log
+OutputDir /var/www/###VIRTUALHOSTNAME###/webalizer/
+ReportTitle Website Statistics for:
+HostName ###VIRTUALHOSTNAME###
+
+PageType        htm*
+PageType        cgi
+PageType        php5
+PageType        php4
+PageType        php3
+PageType        php
+
+HTMLBody <BODY BGCOLOR="#F9F7ED" TEXT="#000000" LINK="#0000FF" VLINK="#FF0000">
+
+Quiet           yes
+
+GraphLines      6
+
+# table sizes
+TopSites        60
+TopKSites       20
+TopURLs         60
+TopKURLs        20
+TopReferrers    60
+TopAgents       30
+TopCountries    30
+TopEntry        10
+TopExit         20
+TopSearch       60
+TopUsers        40
+
+# hide images
+HideURL         *.gif
+HideURL         *.GIF
+HideURL         *.jpg
+HideURL         *.JPG
+HideURL         *.png
+HideURL         *.PNG
+HideURL         *.ra
+
+IgnoreSite      localhost
+IgnoreReferrer  localhost
+
+# make useragents more simple
+MangleAgents    3
+
+SearchEngine    yahoo.com       p=
+SearchEngine    altavista.com   q=
+SearchEngine    google.com      q=
+SearchEngine    eureka.com      q=
+SearchEngine    lycos.com       query=
+SearchEngine    hotbot.com      MT=
+SearchEngine    msn.com         MT=
+SearchEngine    infoseek.com    qt=
+SearchEngine    webcrawler      searchText=
+SearchEngine    excite          search=
+SearchEngine    netscape.com    search=
+SearchEngine    mamma.com       query=
+SearchEngine    alltheweb.com   query=
+SearchEngine    northernlight.com  qr=
+SearchEngine    sensis.com.au   find=
+SearchEngine    google.nl       q=
+SearchEngine    google.fr       q=
+SearchEngine    google.ch       q=
+SearchEngine    google.ca       q=
+SearchEngine    google.be       q=
+
+ColorHit        CC0000
+ColorFile       008C00
+ColorSite       6BBA70
+ColorKbyte      73880A
+ColorPage       356AA0
+ColorVisit      C79810
+
+TrueTypeFont
+
+# end

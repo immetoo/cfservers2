@@ -1,0 +1,19 @@
+#
+# Manages logcheck
+#
+
+control:
+	any::
+		logcheck_ignore_pdns		= ( /etc/logcheck/ignore.d.server/logcheck-pdns )
+
+copy:
+	any::
+		${cfe_files}${logcheck_ignore_pdns}
+			dest=${logcheck_ignore_pdns}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+			
+files:
+	any::
+		${logcheck_ignore_pdns}			mode=640 owner=root group=logcheck	action=fixall

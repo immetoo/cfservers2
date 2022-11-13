@@ -1,0 +1,59 @@
+#
+# This file is managed by cfengine.
+#
+# docs:
+# 	- http://tomcat.apache.org/connectors-doc/config/apache.html
+#
+
+# Worker list of workers to start
+JkWorkerProperty worker.list=ajp_status,ajp_root,ajp_dfurl,ajp_dfui,ajp_solr,ajp_forum,ajp_dbadmin
+
+# JK Status worker
+JkWorkerProperty worker.status_ajp13.type=status
+
+#
+# Node List
+#
+JkWorkerProperty worker.toxjboss0.type=ajp13
+JkWorkerProperty worker.toxjboss0.host=toxjboss0.dmz.main.mbuyu.com
+JkWorkerProperty worker.toxjboss0.port=8009
+JkWorkerProperty worker.toxjboss0.lbfactor=1
+
+JkWorkerProperty worker.toxjboss1.type=ajp13
+JkWorkerProperty worker.toxjboss1.host=toxjboss1.dmz.main.mbuyu.com
+JkWorkerProperty worker.toxjboss1.port=8009
+JkWorkerProperty worker.toxjboss1.lbfactor=1
+
+#
+# AJP for mounts lb'ed over nodes if possible for application
+#
+JkWorkerProperty worker.ajp_root.type=lb
+JkWorkerProperty worker.ajp_root.balanced_workers=toxjboss0
+JkWorkerProperty worker.ajp_root.sticky_session=1
+JkWorkerProperty worker.ajp_root.local_worker_only=1
+
+JkWorkerProperty worker.ajp_dfurl.type=lb
+JkWorkerProperty worker.ajp_dfurl.balanced_workers=toxjboss0,toxjboss1
+JkWorkerProperty worker.ajp_dfurl.sticky_session=1
+JkWorkerProperty worker.ajp_dfurl.local_worker_only=1
+
+JkWorkerProperty worker.ajp_dfui.type=lb
+JkWorkerProperty worker.ajp_dfui.balanced_workers=toxjboss0
+JkWorkerProperty worker.ajp_dfui.sticky_session=1
+JkWorkerProperty worker.ajp_dfui.local_worker_only=1
+
+JkWorkerProperty worker.ajp_solr.type=lb
+JkWorkerProperty worker.ajp_solr.balanced_workers=toxjboss1
+JkWorkerProperty worker.ajp_solr.sticky_session=1
+JkWorkerProperty worker.ajp_solr.local_worker_only=1
+
+JkWorkerProperty worker.ajp_forum.type=lb
+JkWorkerProperty worker.ajp_forum.balanced_workers=toxjboss0
+JkWorkerProperty worker.ajp_forum.sticky_session=1
+JkWorkerProperty worker.ajp_forum.local_worker_only=1
+
+JkWorkerProperty worker.ajp_dbadmin.type=lb
+JkWorkerProperty worker.ajp_dbadmin.balanced_workers=toxjboss0
+JkWorkerProperty worker.ajp_dbadmin.sticky_session=1
+JkWorkerProperty worker.ajp_dbadmin.local_worker_only=1
+

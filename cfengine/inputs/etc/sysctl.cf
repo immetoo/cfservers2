@@ -1,0 +1,61 @@
+#
+# manages sysctl.conf
+#
+
+control:
+	any::
+		sysctl_memory_conf = ( /etc/sysctl.d/memory.conf )
+		sysctl_network_conf = ( /etc/sysctl.d/network.conf )
+		sysctl_vmswappiness_conf = ( /etc/sysctl.d/vmswappiness.conf )
+		sysctl_bridge_conf = ( /etc/sysctl.d/bridge-nf.conf )
+		sysctl_xen_dom0_conf = ( /etc/sysctl.d/xen-dom0.conf )
+		
+copy:
+	any::
+		${cfe_files}${sysctl_network_conf}
+			dest=${sysctl_network_conf}
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			type=checksum
+			define=TEL_SYSCTL
+		${cfe_files}${sysctl_vmswappiness_conf}
+			dest=${sysctl_vmswappiness_conf}
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			type=checksum
+			define=TEL_SYSCTL
+
+	SERVER_XEN_DOM0::
+		${cfe_files}${sysctl_bridge_conf}
+			dest=${sysctl_bridge_conf}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=TEL_SYSCTL
+		${cfe_files}${sysctl_xen_dom0_conf}
+			dest=${sysctl_xen_dom0_conf}
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			type=checksum
+			define=TEL_SYSCTL
+
+
+	!SRV_PGDB::
+		${cfe_files}${sysctl_memory_conf}
+			dest=${sysctl_memory_conf}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=TEL_SYSCTL
+	SRV_PGDB::
+		${cfe_files}${sysctl_memory_conf}-8GB
+			dest=${sysctl_memory_conf}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=TEL_SYSCTL
+
+
+shellcommands:
+	TEL_SYSCTL::
+		"/etc/init.d/procps restart"

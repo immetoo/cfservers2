@@ -1,0 +1,50 @@
+#
+# Adds masshosting to apache2
+#
+
+control:
+	any::
+		apache2_vhost_ldap_log  = ( /usr/local/sbin/apache2splitlogfile )
+		apache2_cluster0 = ( /etc/apache2/sites-available/webcluster0.mbuyu.nl )
+		apache2_cluster1 = ( /etc/apache2/sites-available/webcluster1.mbuyu.nl )
+		apache2_cluster2 = ( /etc/apache2/sites-available/webcluster2.mbuyu.nl )
+		apache2_cluster3 = ( /etc/apache2/sites-available/webcluster3.mbuyu.nl )
+		apache2_cluster_logrotate = ( /etc/logrotate.d/apache2-clusters )
+
+copy:
+	any::			
+		${cfe_files}${apache2_vhost_ldap_log}
+			dest=${apache2_vhost_ldap_log}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=744
+			define=APACHE2_RESTART
+		${cfe_files}${apache2_cluster0}
+			dest=${apache2_cluster0}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+		${cfe_files}${apache2_cluster1}
+			dest=${apache2_cluster1}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+		${cfe_files}${apache2_cluster2}
+			dest=${apache2_cluster2}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+		${cfe_files}${apache2_cluster_logrotate}
+			dest=${apache2_cluster_logrotate}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+links:
+	any::
+		/etc/apache2/sites-enabled/webcluster0.mbuyu.nl ->! ${apache2_cluster0} define=APACHE2_RESTART
+		/etc/apache2/sites-enabled/webcluster1.mbuyu.nl ->! ${apache2_cluster1} define=APACHE2_RESTART
+		/etc/apache2/sites-enabled/webcluster2.mbuyu.nl ->! ${apache2_cluster2} define=APACHE2_RESTART

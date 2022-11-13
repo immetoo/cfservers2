@@ -1,0 +1,68 @@
+#
+# This file is managed by cfengine.
+#
+
+listen = *
+protocols = imap imaps managesieve
+disable_plaintext_auth = yes
+ssl_cert_file = /etc/ssl/wildcard.mbuyu.nl.crt
+ssl_key_file = /etc/ssl/wildcard.mbuyu.nl.key
+mail_location = maildir:/home/%u/Maildir
+mail_debug=no
+#mail_privileged_group = vmail
+mail_uid = vmail
+mail_gid = vmail
+mail_max_userip_connections = 10
+
+protocol lda {
+        postmaster_address = postmaster@m4n.nl
+	mail_plugins = sieve quota
+}
+
+protocol imap {
+	mail_plugins = quota imap_quota
+	imap_client_workarounds = delay-newmail outlook-idle netscape-eoh tb-extra-mailbox-sep
+}
+
+protocol managesieve {
+	login_executable = /usr/lib/dovecot/managesieve-login
+	mail_executable = /usr/lib/dovecot/managesieve
+	#setting fails on mrxmail2:
+	managesieve_logout_format = bytes ( in=%i : out=%o ) 
+}
+
+auth_verbose = yes
+auth_debug = no
+auth_debug_passwords = no
+auth_executable = /usr/lib/dovecot/dovecot-auth
+auth default {
+	auth_mechanisms = plain login
+	passdb pam {
+		args = 
+	}
+	socket listen {
+		master {
+			path = /var/run/dovecot/auth-master
+			mode = 0666
+			user = vmail
+			group = vmail
+		}
+		client {
+			path = /var/spool/postfix/private/auth
+			mode = 0660
+			user = postfix
+			group = postfix
+		}
+	}
+}
+
+plugin {
+	quota = maildir:User quota
+	quota_rule = *:storage=10G
+	quota_rule2 = Trash:storage=10M
+	quota_warning = storage=80%% /etc/dovecot/quota-warning.sh 80
+	quota_warning2 = storage=90%% /etc/dovecot/quota-warning.sh 90
+	quota_warning3 = storage=95%% /etc/dovecot/quota-warning.sh 95
+	sieve = ~/.dovecot.sieve
+	sieve_dir= ~/sieve
+}

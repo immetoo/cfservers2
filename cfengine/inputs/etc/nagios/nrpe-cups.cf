@@ -1,0 +1,29 @@
+#
+# installs nagios cups checks (printers)
+#
+
+control:
+	any::
+		check_cups_printer		= ( /usr/local/sbin/check_cups_printer )
+
+
+copy:
+
+	any::
+		${cfe_files}${check_cups_printer}
+			dest=${check_cups_printer}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+			backup=false									
+		${cfe_files}${nagios_confd}/cups.cfg
+			dest=${nagios_confd}/cups.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART					
+
+shellcommands:
+	NAGIOS_RESTART::
+		"/etc/init.d/nagios-nrpe-server restart"

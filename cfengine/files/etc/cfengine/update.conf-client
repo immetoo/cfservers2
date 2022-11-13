@@ -1,0 +1,33 @@
+#
+# This file is managed by cfengine
+#
+# /etc/cfengine/update.conf - for the clients
+#
+
+control:
+	any::
+		actionsequence  	= ( copy )
+		cfe_host     		= ( cfe.lan.mbuyu.nl )
+		cfe_inputs   		= ( /var/lib/cfengine2/inputs/ )
+		SplayTime       	= ( 10 )
+		cfinputs_version 	= ( 1.0.0 )
+
+# Copy the lastest input files for cfengine.
+copy:
+	any::
+		${cfe_inputs}
+			dest=${cfe_inputs}
+			server=$(cfe_host)
+			recurse=inf
+			mode=600
+			backup=false
+			type=checksum
+			ignore=.svn
+			ignore=.hg
+			ignore=cfrun.hosts
+			ignore=cfrun.hosts.cfsaved
+			ignore=cfservd.conf
+			ignore=cfservd.conf.cfsaved
+			ignore=update.conf
+			ignore=update.conf.cfsaved
+

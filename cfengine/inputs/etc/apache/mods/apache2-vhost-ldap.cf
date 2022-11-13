@@ -1,0 +1,11 @@
+#
+# Adds vhost-ldap to apache2
+#
+
+packages:
+	install::
+		libapache2-mod-vhost-ldap  action=install define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/mods-enabled/vhost_ldap.load ->! ../mods-available/vhost_ldap.load define=APACHE2_RESTART

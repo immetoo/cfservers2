@@ -1,0 +1,78 @@
+#
+# Checks that mbuyu user exists etc
+#
+# Pinning has to be arranged prior to installing postgresql-9.0
+# see files/etc/apt/apt.conf.d/preferences.postgresql-9.0
+#
+control:
+	any::
+		postgresql_start		= ( /etc/postgresql/9.0/main/start.conf )
+		postgresql_ident		= ( /etc/postgresql/9.0/main/pg_ident.conf )
+		postgresql_env			= ( /etc/postgresql/9.0/main/environment )
+		postgresql_ctl			= ( /etc/postgresql/9.0/main/pg_ctl.conf )
+		postgresql_conf			= ( /etc/postgresql/9.0/main/postgresql.conf )
+		postgresql_hba			= ( /etc/postgresql/9.0/main/pg_hba.conf )
+
+packages:
+	install.DEBIAN_6::
+		postgresql-9.0				action=install
+		postgresql-contrib-9.0		action=install
+
+copy:
+	any::
+		${cfe_files}${postgresql_start}
+			dest=${postgresql_start}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root		group=root
+			define=POSTGRESQL90_RESTART
+		${cfe_files}${postgresql_ident}
+			dest=${postgresql_ident}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL90_RESTART
+		${cfe_files}${postgresql_ctl}
+			dest=${postgresql_ctl}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL90_RESTART
+		${cfe_files}${postgresql_env}
+			dest=${postgresql_env}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL90_RESTART		
+	mrhpgdb5::
+		${cfe_files}${postgresql_conf}-mrhpgdb5
+			dest=${postgresql_conf}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL90_RESTART
+		${cfe_files}${postgresql_hba}-mrhpgdb5
+			dest=${postgresql_hba}
+			server=${cfe_host}
+			type=checksum
+			mode=640 owner=postgres group=postgres
+			define=POSTGRESQL90_RESTART
+			
+files:
+	any::
+		${postgresql_start}			mode=644 owner=root		group=root		action=fixall define=POSTGRESQL90_RESTART
+		${postgresql_ident}			mode=644 owner=postgres group=postgres	action=fixall define=POSTGRESQL90_RESTART
+		${postgresql_ctl}			mode=644 owner=postgres group=postgres	action=fixall define=POSTGRESQL90_RESTART
+		${postgresql_env}			mode=644 owner=postgres	group=postgres	action=fixall define=POSTGRESQL90_RESTART
+		${postgresql_conf}			mode=644 owner=postgres	group=postgres	action=fixall define=POSTGRESQL90_RESTART
+		${postgresql_hba}			mode=640 owner=postgres	group=postgres	action=fixall define=POSTGRESQL90_RESTART
+
+links:
+	any::
+		/etc/postgresql/9.0/main/log		-> /var/log/postgresql/postgresql-9.0-main.log	define=POSTGRESQL90_RESTART
+		/etc/postgresql/9.0/main/pgdata		-> /var/lib/postgresql/9.0/main					define=POSTGRESQL90_RESTART
+
+
+shellcommands:
+	POSTGRESQL90_RESTART.!SRV_PGDB_NORESTART::
+		"/etc/init.d/postgresql-9.0 restart"			

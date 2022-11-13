@@ -1,0 +1,13 @@
+
+control:
+	any::
+		rbackup_home	= ( /etc/rbackup/conf.d/backup-home )
+
+		
+copy:
+	any::
+		${cfe_files}${rbackup_home}
+			dest=${rbackup_home}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

@@ -1,0 +1,711 @@
+#
+# This file is managed by cfengine
+#
+#
+
+uid = nobody
+gid = nogroup
+use chroot = true
+max connections = 80
+max verbosity = 1
+syslog facility = daemon
+log file = /var/log/rsyncd.log
+pid file = /var/run/rsyncd.pid
+list = false
+
+# M4N satellites
+[mrhsat0]
+        path = /backup/rsync/mrhsat0
+        read only = false
+        auth users = mrhsat0
+        secrets file = /etc/rsyncd.secrets
+
+[mrhsat1]
+        path = /backup/rsync/mrhsat1
+        read only = false
+        auth users = mrhsat1
+        secrets file = /etc/rsyncd.secrets
+        
+[mrhsat2]
+        path = /backup/rsync/mrhsat2
+        read only = false
+        auth users = mrhsat2
+        secrets file = /etc/rsyncd.secrets
+
+[mrxsat3]
+        path = /backup/rsync/mrxsat3
+        read only = false
+        auth users = mrhsat3
+        secrets file = /etc/rsyncd.secrets
+        
+[mrxsat0]
+		path = /backup/rsync/mrxsat0
+		read only = false
+		auth users = mrxsat0
+		secrets file = /etc/rsyncd.secrets
+
+[mrxsat1]
+		path=/backup/rsync/mrxsat1
+		read only = false
+		auth users = mrxsat1
+		secrets file = /etc/rsyncd.secrets
+
+# M4N Webservers
+[mrxweb0]
+        path = /backup/rsync/mrxweb0
+        read only = false
+        auth users = mrxweb0
+        secrets file = /etc/rsyncd.secrets
+
+[mrxweb1]
+        path = /backup/rsync/mrxweb1
+        read only = false
+        auth users = mrxweb1
+        secrets file = /etc/rsyncd.secrets
+        
+# M4N DB Servers       
+[mrhpgdb3]
+        path = /backup/rsync/mrhpgdb3
+        read only = false
+        auth users = mrhpgdb3
+        secrets file = /etc/rsyncd.secrets
+
+[mrhpgdb4]
+		path= /backup/rsync/mrhpgdb4
+		read only = false
+		auth users = mrhpgdb4	
+		secrets file = /etc/rsyncd.secrets
+
+[mrxpgdb0]
+        path = /backup/rsync/mrxpgdb0
+        read only = false
+        auth users = mrxpgdb0
+        secrets file = /etc/rsyncd.secrets
+
+[mrxmysql0]
+        path = /backup/rsync/mrxmysql0
+        read only = false
+        auth users = mrxmysql0
+        secrets file = /etc/rsyncd.secrets
+        
+# M4N Datafeed Servers
+[mrxdf0]
+        path = /backup/rsync/mrxdf0
+        read only = false
+        auth users = mrxdf0
+        secrets file = /etc/rsyncd.secrets        
+[mrxdf1]
+        path = /backup/rsync/mrxdf1
+        read only = false
+        auth users = mrxdf1
+        secrets file = /etc/rsyncd.secrets   
+
+[mrxbuild0]
+        path = /backup/rsync/mrxbuild0
+        read only = false
+        auth users = mrxbuild0
+        secrets file = /etc/rsyncd.secrets 
+           
+# XEN Host Servers
+
+[mehxen0]
+        path = /backup/rsync/mehxen0
+        read only = false
+        auth users = mehxen0
+        secrets file = /etc/rsyncd.secrets
+      
+[mrhxen1]
+        path = /backup/rsync/mrhxen1
+        read only = false
+        auth users = mrhxen1
+        secrets file = /etc/rsyncd.secrets
+
+[mrhxen2]
+        path = /backup/rsync/mrhxen2
+        read only = false
+        auth users = mrhxen2
+        secrets file = /etc/rsyncd.secrets
+        
+[mrhxen3]
+        path = /backup/rsync/mrhxen3
+        read only = false
+        auth users = mrhxen3
+        secrets file = /etc/rsyncd.secrets
+
+[mrhxen4]
+        path = /backup/rsync/mrhxen4
+        read only = false
+        auth users = mrhxen4
+        secrets file = /etc/rsyncd.secrets
+[mrhxen5]
+        path = /backup/rsync/mrhxen5
+        read only = false
+        auth users = mrhxen5
+        secrets file = /etc/rsyncd.secrets
+[mrhxen6]
+        path = /backup/rsync/mrhxen6
+        read only = false
+        auth users = mrhxen6
+        secrets file = /etc/rsyncd.secrets
+[mrhxen7]
+        path = /backup/rsync/mrhxen7
+        read only = false
+        auth users = mrhxen7
+        secrets file = /etc/rsyncd.secrets
+[mrhxen8]
+        path = /backup/rsync/mrhxen8
+        read only = false
+        auth users = mrhxen8
+        secrets file = /etc/rsyncd.secrets
+[mrhxen13]
+        path = /backup/rsync/mrhxen13
+        read only = false
+        auth users = mrhxen13
+        secrets file = /etc/rsyncd.secrets
+[mrhxen14]
+        path = /backup/rsync/mrhxen14
+        read only = false
+        auth users = mrhxen14
+        secrets file = /etc/rsyncd.secrets       
+        
+# ETC/Network servers
+
+[mrhlb0]
+        path = /backup/rsync/mrhlb0
+        read only = false
+        auth users = mrhlb0
+        secrets file = /etc/rsyncd.secrets
+
+[mrhlb1]
+        path = /backup/rsync/mrhlb1
+        read only = false
+        auth users = mrhlb1
+        secrets file = /etc/rsyncd.secrets        
+
+[mrxbak0]
+        path = /backup/rsync/mrxbak0
+        read only = false
+        auth users = mrxbak0
+        secrets file = /etc/rsyncd.secrets
+
+[mexauth0]
+        path = /backup/rsync/mexauth0
+        read only = false
+        auth users = mexauth0
+        secrets file = /etc/rsyncd.secrets
+                
+[mexbak0]
+        path = /backup/rsync/mexbak0
+        read only = false
+        auth users = mexbak0
+        secrets file = /etc/rsyncd.secrets
+              
+[mexdns0]
+        path = /backup/rsync/mexdns0
+        read only = false
+        auth users = mexdns0
+        secrets file = /etc/rsyncd.secrets
+                      
+[mexproxy0]
+        path = /backup/rsync/mexproxy0
+        read only = false
+        auth users = mexproxy0
+        secrets file = /etc/rsyncd.secrets
+        
+[mexvpn0]
+        path = /backup/rsync/mexvpn0
+        read only = false
+        auth users = mexvpn0
+        secrets file = /etc/rsyncd.secrets     
+        
+[mrxmail2]
+        path = /backup/rsync/mrxmail2
+        read only = false
+        auth users = mrxmail2
+        secrets file = /etc/rsyncd.secrets
+        
+[mrxsmtp0]
+        path = /backup/rsync/mrxsmtp0
+        read only = false
+        auth users = mrxsmtp0
+        secrets file = /etc/rsyncd.secrets
+
+[mrxwww1]
+        path = /backup/rsync/mrxwww1
+        read only = false
+        auth users = mrxwww1
+        secrets file = /etc/rsyncd.secrets
+
+[mrxwww2]
+        path = /backup/rsync/mrxwww2
+        read only = false
+        auth users = mrxwww2
+        secrets file = /etc/rsyncd.secrets
+
+[mrxsec0]
+        path = /backup/rsync/mrxsec0
+        read only = false
+        auth users = mrxsec0
+        secrets file = /etc/rsyncd.secrets
+                
+[mrxsvn1]
+		path = /backup/rsync/mrxsvn1
+		read only = false
+		auth users = mrxsvn1
+		secrets file = /etc/rsyncd.secrets
+
+[mrxcode0]
+		path = /backup/rsync/mrxcode0
+		read only = false
+		auth users = mrxcode0
+		secrets file = /etc/rsyncd.secrets
+
+[mrxcode1]
+	   path = /backup/rsync/mrxcode1
+	   read only = false
+	   auth users = mrxcode1
+	   secrets file = /etc/rsyncd.secrets
+
+[mrxjboss0]
+	   path = /backup/rsync/mrxjboss0
+	   read only = false
+	   auth users = mrxjboss0
+	   secrets file = /etc/rsyncd.secrets
+
+[mrxcfe0]
+        path = /backup/rsync/mrxcfe0
+        read only = false
+        auth users = mrxcfe0
+        secrets file = /etc/rsyncd.secrets
+            
+[mrxnet1]
+        path = /backup/rsync/mrxnet1
+        read only = false
+        auth users = mrxnet1
+        secrets file = /etc/rsyncd.secrets
+        
+[mrxnet2]
+        path = /backup/rsync/mrxnet2
+        read only = false
+        auth users = mrxnet2
+        secrets file = /etc/rsyncd.secrets        
+
+[mrxnoc0]
+        path = /backup/rsync/mrxnoc0
+        read only = false
+        auth users = mrxnoc0
+        secrets file = /etc/rsyncd.secrets  
+               
+[mrxauth0]
+        path = /backup/rsync/mrxauth0
+        read only = false
+        auth users = mrxauth0
+        secrets file = /etc/rsyncd.secrets
+
+[mrxauth2]
+        path = /backup/rsync/mrxauth2
+        read only = false
+        auth users = mrxauth2
+        secrets file = /etc/rsyncd.secrets   
+
+[mrxvpn0]
+        path = /backup/rsync/mrxvpn0
+        read only = false
+        auth users = mrxvpn0
+        secrets file = /etc/rsyncd.secrets
+
+[mrxvpn1]
+        path = /backup/rsync/mrxvpn1
+        read only = false
+        auth users = mrxvpn1
+        secrets file = /etc/rsyncd.secrets
+        
+[mrxvpn2]
+        path = /backup/rsync/mrxvpn2
+        read only = false
+        auth users = mrxvpn2
+        secrets file = /etc/rsyncd.secrets
+        
+[mrximg0]
+        path = /backup/rsync/mrximg0
+        read only = false
+        auth users = mrximg0
+        secrets file = /etc/rsyncd.secrets
+
+[mrximg1]
+        path = /backup/rsync/mrximg1
+        read only = false
+        auth users = mrximg1
+        secrets file = /etc/rsyncd.secrets     
+
+[mrxjump0]
+        path = /backup/rsync/mrxjump0
+        read only = false
+        auth users = mrxjump0
+        secrets file = /etc/rsyncd.secrets    
+
+[mrxgate0]
+        path = /backup/rsync/mrxgate0
+        read only = false
+        auth users = mrxgate0
+        secrets file = /etc/rsyncd.secrets
+        
+[mrxlun0]
+		path= /backup/rsync/mrxlun0
+		read only = false
+		auth users = mrxlun0
+		secrets file = /etc/rsyncd.secrets
+		
+[mrxapi0]
+		path= /backup/rsync/mrxapi0
+		read only = false
+		auth users = mrxapi0
+		secrets file = /etc/rsyncd.secrets	
+
+[mrxns0]
+		path= /backup/rsync/mrxns0
+		read only = false
+		auth users = mrxns0
+		secrets file = /etc/rsyncd.secrets	
+		
+[mrxwks1]
+		path= /backup/rsync/mrxwks1
+		read only = false
+		auth users = mrxwks1
+		secrets file = /etc/rsyncd.secrets	
+
+[nrxsmz0]
+		path= /backup/rsync/nrxsmz0
+		read only = false
+		auth users = nrxsmz0
+		secrets file = /etc/rsyncd.secrets	
+
+[nrxsmz1]
+		path= /backup/rsync/nrxsmz1
+		read only = false
+		auth users = nrxsmz1
+		secrets file = /etc/rsyncd.secrets	
+                
+# Office machines
+[mohxen0]
+        path = /backup/rsync/mohxen0
+        read only = false
+        auth users = mohxen0
+        secrets file = /etc/rsyncd.secrets
+        
+[mohxen1]
+        path = /backup/rsync/mohxen1
+        read only = false
+        auth users = mohxen1
+        secrets file = /etc/rsyncd.secrets
+
+[mohxen2]
+		path = /backup/rsync/mohxen2
+		read only = false
+		auth users = mohxen2
+		secrets file = /etc/rsyncd.secrets
+
+[mohxen3]
+		path = /backup/rsync/mohxen3
+		read only = false
+		auth users = mohxen3
+		secrets file = /etc/rsyncd.secrets
+		
+[mohxen4]
+		path = /backup/rsync/mohxen4
+		read only = false
+		auth users = mohxen4
+		secrets file = /etc/rsyncd.secrets		
+
+[mohxen5]
+		path = /backup/rsync/mohxen5
+		read only = false
+		auth users = mohxen5
+		secrets file = /etc/rsyncd.secrets
+
+[mohxen6]
+		path = /backup/rsync/mohxen6
+		read only = false
+		auth users = mohxen6
+		secrets file = /etc/rsyncd.secrets			
+
+[moxcups0]
+		path = /backup/rsync/moxcups0
+		read only = false
+		auth users = moxcups0
+		secrets file = /etc/rsyncd.secrets			
+			
+[moxsmb0]
+        path = /backup/rsync/moxsmb0
+        read only = false
+        auth users = moxsmb0
+        secrets file = /etc/rsyncd.secrets
+
+[moxsmb1]
+        path = /backup/rsync/moxsmb1
+        read only = false
+        auth users = moxsmb1
+        secrets file = /etc/rsyncd.secrets 
+        
+[moxnet0]
+        path = /backup/rsync/moxnet0
+        read only = false
+        auth users = moxnet0
+        secrets file = /etc/rsyncd.secrets
+
+[moxnet1]
+        path = /backup/rsync/moxnet1
+        read only = false
+        auth users = moxnet1
+        secrets file = /etc/rsyncd.secrets
+         
+[moxnet2]
+        path = /backup/rsync/moxnet2
+        read only = false
+        auth users = moxnet2
+        secrets file = /etc/rsyncd.secrets
+        
+[moxnet3]
+        path = /backup/rsync/moxnet3
+        read only = false
+        auth users = moxnet3
+        secrets file = /etc/rsyncd.secrets  
+
+[moxnexus0]
+        path = /backup/rsync/moxnexus0
+        read only = false
+        auth users = moxnexus0
+        secrets file = /etc/rsyncd.secrets
+      
+[moxproxy0]
+        path = /backup/rsync/moxproxy0
+        read only = false
+        auth users = moxproxy0
+        secrets file = /etc/rsyncd.secrets
+        
+[moxproxy1]
+        path = /backup/rsync/moxproxy1
+        read only = false
+        auth users = moxproxy1
+        secrets file = /etc/rsyncd.secrets  
+                        
+[moxsrv0]
+        path = /backup/rsync/moxsrv0
+        read only = false
+        auth users = moxsrv0
+        secrets file = /etc/rsyncd.secrets
+
+[moxwos0]
+        path = /backup/rsync/moxwos0
+        read only = false
+        auth users = moxwos0
+        secrets file = /etc/rsyncd.secrets
+
+[moxwww0]
+        path = /backup/rsync/moxwww0
+        read only = false
+        auth users = moxwww0
+        secrets file = /etc/rsyncd.secrets
+ 
+ [moxwos1]
+        path = /backup/rsync/moxwos1
+        read only = false
+        auth users = moxwos1
+        secrets file = /etc/rsyncd.secrets
+                               
+[moxvpn0]
+        path = /backup/rsync/moxvpn0
+        read only = false
+        auth users = moxvpn0
+        secrets file = /etc/rsyncd.secrets
+
+[moxvpn1]
+        path = /backup/rsync/moxvpn1
+        read only = false
+        auth users = moxvpn1
+        secrets file = /etc/rsyncd.secrets
+      
+[moxauth0]
+        path = /backup/rsync/moxauth0
+        read only = false
+        auth users = moxauth0
+        secrets file = /etc/rsyncd.secrets
+
+[moxauth1]
+        path = /backup/rsync/moxauth1
+        read only = false
+        auth users = moxauth1
+        secrets file = /etc/rsyncd.secrets
+                            
+[moxgate0]
+        path = /backup/rsync/moxgate0
+        read only = false
+        auth users = moxgate0
+        secrets file = /etc/rsyncd.secrets
+
+[moxgate1]
+        path = /backup/rsync/moxgate1
+        read only = false
+        auth users = moxgate1
+        secrets file = /etc/rsyncd.secrets
+                
+[mohrfw0]
+        path = /backup/rsync/mohrfw0
+        read only = false
+        auth users = mohrfw0
+        secrets file = /etc/rsyncd.secrets
+        
+[mohrfw1]
+        path = /backup/rsync/mohrfw1
+        read only = false
+        auth users = mohrfw1
+        secrets file = /etc/rsyncd.secrets
+
+[moxsts0]
+        path = /backup/rsync/moxsts0
+        read only = false
+        auth users = moxsts0
+        secrets file = /etc/rsyncd.secrets
+ 
+ [moxhudson0]
+        path = /backup/rsync/moxhudson0
+        read only = false
+        auth users = moxhudson0
+        secrets file = /etc/rsyncd.secrets       
+[moxsts1]
+        path = /backup/rsync/moxsts1
+        read only = false
+        auth users = moxsts1
+        secrets file = /etc/rsyncd.secrets        
+        
+[mohwts0]
+ 		path=/backup/rsync/moxwts0
+ 		read only=false	
+ 		auth users = moxwts0
+ 		secrets file = /etc/rsyncd.secrets
+ 		
+[noxdhcp0]
+ 		path=/backup/rsync/noxdhcp0
+ 		read only=false	
+ 		auth users = noxdhcp0
+ 		secrets file = /etc/rsyncd.secrets
+ 		
+[noxdhcp1]
+ 		path=/backup/rsync/noxdhcp1
+ 		read only=false	
+ 		auth users = noxdhcp1
+ 		secrets file = /etc/rsyncd.secrets
+
+[noxdns0]
+ 		path=/backup/rsync/noxdns0
+ 		read only=false	
+ 		auth users = noxdns0
+ 		secrets file = /etc/rsyncd.secrets	
+ 		 		
+[noxint0]
+ 		path=/backup/rsync/noxint0
+ 		read only=false	
+ 		auth users = noxint0
+ 		secrets file = /etc/rsyncd.secrets
+
+[noxnpz0]
+ 		path=/backup/rsync/noxnpz0
+ 		read only=false	
+ 		auth users = noxnpz0
+ 		secrets file = /etc/rsyncd.secrets 		
+
+[noxolz0]
+ 		path=/backup/rsync/noxolz0
+ 		read only=false	
+ 		auth users = noxolz0
+ 		secrets file = /etc/rsyncd.secrets
+ 		 		
+[noxsmz0]
+ 		path=/backup/rsync/noxsmz0
+ 		read only=false	
+ 		auth users = noxsmz0
+ 		secrets file = /etc/rsyncd.secrets
+
+[noxsmz1]
+ 		path=/backup/rsync/noxsmz1
+ 		read only=false	
+ 		auth users = noxsmz1
+ 		secrets file = /etc/rsyncd.secrets
+ 		 		 		
+[noxwiz0]
+ 		path=/backup/rsync/noxwiz0
+ 		read only=false	
+ 		auth users = noxwiz0
+ 		secrets file = /etc/rsyncd.secrets		
+ 		 		
+# Development machines
+
+[sdxapp0]
+ 		path=/backup/rsync/sdxapp0
+ 		read only=false	
+ 		auth users = sdxapp0
+ 		secrets file = /etc/rsyncd.secrets	
+
+[toxajp0]
+ 		path=/backup/rsync/toxajp0
+ 		read only=false	
+ 		auth users = toxajp0
+ 		secrets file = /etc/rsyncd.secrets	
+
+[toxajp1]
+ 		path=/backup/rsync/toxajp1
+ 		read only=false	
+ 		auth users = toxajp1
+ 		secrets file = /etc/rsyncd.secrets
+ 		
+[toxdns0]
+ 		path=/backup/rsync/toxdns0
+ 		read only=false	
+ 		auth users = toxdns0
+ 		secrets file = /etc/rsyncd.secrets	
+ 			
+[toxdf0]
+ 		path=/backup/rsync/toxdf0
+ 		read only=false	
+ 		auth users = toxdf0
+ 		secrets file = /etc/rsyncd.secrets	
+
+[toxjboss0]
+ 		path=/backup/rsync/toxjboss0
+ 		read only=false	
+ 		auth users = toxjboss0
+ 		secrets file = /etc/rsyncd.secrets
+
+[toxjboss1]
+ 		path=/backup/rsync/toxjboss1
+ 		read only=false	
+ 		auth users = toxjboss1
+ 		secrets file = /etc/rsyncd.secrets 		
+ 		
+[toxlb0]
+ 		path=/backup/rsync/toxlb0
+ 		read only=false	
+ 		auth users = toxlb0
+ 		secrets file = /etc/rsyncd.secrets	
+ 
+[toxlb1]
+ 		path=/backup/rsync/toxlb1
+ 		read only=false	
+ 		auth users = toxlb1
+ 		secrets file = /etc/rsyncd.secrets
+ 		
+[toxwww0]
+ 		path=/backup/rsync/toxwww0
+ 		read only=false	
+ 		auth users = toxwww0
+ 		secrets file = /etc/rsyncd.secrets	 		
+
+# LOG VIEWS
+# no chroot because of only symlinks
+[m4nlogs]
+        path = /backup/views/m4nlogs
+        read only = true
+        use chroot = false
+        auth users = m4nlogs
+        secrets file = /etc/rsyncd.secrets
+

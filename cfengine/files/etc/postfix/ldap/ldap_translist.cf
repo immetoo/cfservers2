@@ -1,0 +1,15 @@
+#
+# We are the mailinglists for transport to minima:
+#
+bind_dn= uid=postfix,ou=services,dc=m4n,dc=nl
+bind_pw= superP
+server_host=ldaps://ldap3.lan.mbuyu.nl ldaps://ldap1.lan.mbuyu.nl
+server_port=636
+bind= yes
+timeout= 20
+search_base= ou=lists,ou=mail,dc=m4n,dc=nl
+query_filter= (&(objectclass=mailAlias)(mail=%s)(mailActive=TRUE))
+result_attribute= maildrop
+result_format  = minima:
+scope=one
+version=3

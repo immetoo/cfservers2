@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_opt	= ( /etc/rbackup/conf.d/backup-opt )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_opt}
+			dest=${rbackup_opt}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

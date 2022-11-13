@@ -1,0 +1,5 @@
+#
+# This file is managed by cfengine
+#
+
+command[system_procs_total]=/usr/lib/nagios/plugins/check_procs -w 250 -c 500

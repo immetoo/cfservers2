@@ -1,0 +1,8 @@
+#
+# This file is managed by cfengine
+#
+
+# Set to 8GB for postgresql
+kernel.shmmax=8854339584
+kernel.shmall=8854339584
+

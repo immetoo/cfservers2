@@ -1,0 +1,32 @@
+#
+# installs spamassassin and configs it.
+#
+
+packages:
+	install::
+		spamassassin			action=install
+		razor					action=install
+
+		
+control:
+	any::
+		spamassassin_conf		= ( /etc/spamassassin/local.cf )
+		spamassassin_pre		= ( /etc/spamassassin/init.pre )
+		
+copy:
+	any::
+		${cfe_files}${spamassassin_conf}
+			dest=${spamassassin_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=adm mode=644
+		${cfe_files}${spamassassin_pre}
+			dest=${spamassassin_pre}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=adm mode=644
+
+files:
+	any::
+		${spamassassin_conf}	owner=root group=adm mode=644	action=fixall
+		${spamassassin_pre}		owner=root group=adm mode=644	action=fixall

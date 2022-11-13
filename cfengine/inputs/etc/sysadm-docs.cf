@@ -1,0 +1,26 @@
+#
+# manages automatic building of the sysadm docs
+#
+
+packages:
+	install::
+		xsltproc		action=install
+		docbook-xsl		action=install
+		dia				action=install
+
+copy:
+	any::
+		/var/lib/cfengine2/docs
+			dest=/var/lib/cfengine2/docs
+			server=${cfe_host}
+			type=checksum
+			recurse=inf
+			backup=false
+			define=SYSADM_DOC_BUILD
+			owner=root group=root mode=644
+			ignore=.hg
+
+shellcommands:
+	SYSADM_DOC_BUILD::
+		"/bin/bash /var/lib/cfengine2/docs/build/build.sh /var/lib/cfengine2/docs /var/www/prov.mbuyu.nl/uu/docs"
+

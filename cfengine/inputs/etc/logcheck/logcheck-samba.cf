@@ -1,0 +1,24 @@
+#
+# Manages logcheck
+#
+
+control:
+	any::
+		logcheck_ignore_samba		= ( /etc/logcheck/ignore.d.server/logcheck-samba )
+		logcheck_viol_ignore_samba	= ( /etc/logcheck/violations.ignore.d/logcheck-ignore-samba )
+
+copy:
+	any::
+		${cfe_files}${logcheck_ignore_samba}
+			dest=${logcheck_ignore_samba}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+		${cfe_files}${logcheck_viol_ignore_samba}
+			dest=${logcheck_viol_ignore_samba}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck	
+files:
+	any::
+		${logcheck_ignore_samba}			mode=640 owner=root group=logcheck	action=fixall

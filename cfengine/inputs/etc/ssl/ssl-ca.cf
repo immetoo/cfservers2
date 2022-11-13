@@ -1,0 +1,23 @@
+
+control:
+	any::
+		ssl_ca		= ( /etc/ssl/cyso-ssl.ca )
+		mercurial_fingerprint_mbuyu = ( /etc/mercurial/hgrc.d/mbuyu.rc )
+
+copy:
+	any::
+		${cfe_files}${ssl_ca}
+			dest=${ssl_ca}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+		${cfe_files}${mercurial_fingerprint_mbuyu}
+			dest=${mercurial_fingerprint_mbuyu}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+files:
+	any::
+		${ssl_ca}		mode=644 owner=root group=root action=fixall
+		${mercurial_fingerprint_mbuyu} mode=644 owner=root group=root action=fixall

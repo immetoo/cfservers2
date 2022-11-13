@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_trac	= ( /etc/rbackup/conf.d/backup-trac )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_trac}
+			dest=${rbackup_trac}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

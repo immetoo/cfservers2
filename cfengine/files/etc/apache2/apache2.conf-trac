@@ -1,0 +1,223 @@
+#
+# This file is managed by cfengine.
+#
+
+ServerRoot "/etc/apache2"
+LockFile /var/lock/apache2/accept.lock
+PidFile /var/run/apache2.pid
+Timeout 300
+
+# disabled keepalive
+KeepAlive Off
+MaxKeepAliveRequests 200
+# 1sec before timeout
+KeepAliveTimeout 1
+
+# Virtual hosting for all ip/ports
+NameVirtualHost 85.158.204.167:80
+NameVirtualHost 85.158.204.167:443
+
+# Use Host: http header for lookup
+UseCanonicalName Off
+
+# for access logs ?
+HostnameLookups Off
+
+# prefork MPM
+# StartServers ......... initial  number of server processes to start
+# MaxClients ........... maximum  number of server processes allowed to start
+# MinSpareThreads ...... minimum  number of worker threads which are kept spare
+# MaxSpareThreads ...... maximum  number of worker threads which are kept spare
+# ThreadsPerChild ...... constant number of worker threads in each server process
+# MaxRequestsPerChild .. maximum  number of requests a server process serves
+<IfModule worker.c>    
+    ServerLimit 16
+	StartServers 2
+	MaxClients 150
+	MinSpareThreads 25
+	MaxSpareThreads 75
+	ThreadsPerChild 25 
+</IfModule>
+
+User www-data
+Group www-data
+
+# The following directives define some format nicknames for use with
+# a CustomLog directive (see below).
+LogFormat "%h %l %u %t \"%r\" %>s %b \"%{Referer}i\" \"%{User-Agent}i\"" combined
+LogFormat "%h %l %u %t \"%r\" %>s %b" common
+LogFormat "%{Referer}i -> %U" referer
+LogFormat "%{User-agent}i" agent
+
+
+# Global error log.
+ErrorLog /var/log/apache2/error.log
+
+# Include module configuration:
+Include /etc/apache2/mods-enabled/*.load
+Include /etc/apache2/mods-enabled/*.conf
+
+# Include all the user configurations:
+Include /etc/apache2/httpd.conf
+
+# Include ports listing
+Include /etc/apache2/ports.conf
+
+# Include generic snippets of statements
+Include /etc/apache2/conf.d/[^.#]*
+
+# Security options changed to off state
+ServerSignature Off
+ServerTokens Prod
+
+# Set up the default error docs.
+<IfModule mod_negotiation.c>
+<IfModule mod_include.c>
+    Alias /error/ "/usr/share/apache2/error/"
+
+    <Directory "/usr/share/apache2/error">
+        AllowOverride None
+        Options IncludesNoExec
+        AddOutputFilter Includes html
+        AddHandler type-map var
+        Order allow,deny
+        Allow from all
+        LanguagePriority en es de fr
+        ForceLanguagePriority Prefer Fallback
+    </Directory>
+
+    ErrorDocument 400 /error/HTTP_BAD_REQUEST.html.var
+    ErrorDocument 401 /error/HTTP_UNAUTHORIZED.html.var
+    ErrorDocument 403 /error/HTTP_FORBIDDEN.html.var
+    ErrorDocument 404 /error/HTTP_NOT_FOUND.html.var
+    ErrorDocument 405 /error/HTTP_METHOD_NOT_ALLOWED.html.var
+    ErrorDocument 408 /error/HTTP_REQUEST_TIME_OUT.html.var
+    ErrorDocument 410 /error/HTTP_GONE.html.var
+    ErrorDocument 411 /error/HTTP_LENGTH_REQUIRED.html.var
+    ErrorDocument 412 /error/HTTP_PRECONDITION_FAILED.html.var
+    ErrorDocument 413 /error/HTTP_REQUEST_ENTITY_TOO_LARGE.html.var
+    ErrorDocument 414 /error/HTTP_REQUEST_URI_TOO_LARGE.html.var
+    ErrorDocument 415 /error/HTTP_SERVICE_UNAVAILABLE.html.var
+    ErrorDocument 500 /error/HTTP_INTERNAL_SERVER_ERROR.html.var
+    ErrorDocument 501 /error/HTTP_NOT_IMPLEMENTED.html.var
+    ErrorDocument 502 /error/HTTP_BAD_GATEWAY.html.var
+    ErrorDocument 503 /error/HTTP_SERVICE_UNAVAILABLE.html.var
+    ErrorDocument 506 /error/HTTP_VARIANT_ALSO_VARIES.html.var
+
+</IfModule>
+</IfModule>
+
+DirectoryIndex index.html index.cgi index.pl index.php index.xhtml
+
+# Fix .htaccess files
+AccessFileName .htaccess
+<Files ~ "^\.ht">
+    Order allow,deny
+    Deny from all
+</Files>
+
+# To use server-parsed HTML files
+<FilesMatch "\.shtml(\..+)?$">
+    SetOutputFilter INCLUDES
+</FilesMatch>
+
+# Localhost status
+ExtendedStatus On
+<Location /server-status>
+    SetHandler server-status
+    Order Deny,Allow
+    Deny from all
+    Allow from 127.0.0.1
+</Location>
+
+
+
+TypesConfig /etc/mime.types
+DefaultType text/plain
+
+IndexOptions FancyIndexing VersionSort
+
+ReadmeName README.html
+HeaderName HEADER.html
+
+IndexIgnore .??* *~ *# HEADER* RCS CVS *,t
+
+AddEncoding x-compress Z
+AddEncoding x-gzip gz tgz
+
+AddLanguage da .dk
+AddLanguage nl .nl
+AddLanguage en .en
+AddLanguage et .et
+AddLanguage fr .fr
+AddLanguage de .de
+AddLanguage el .el
+AddLanguage it .it
+AddLanguage ja .ja
+AddLanguage pl .po
+AddLanguage ko .ko
+AddLanguage pt .pt
+AddLanguage no .no
+AddLanguage pt-br .pt-br
+AddLanguage ltz .ltz
+AddLanguage ca .ca
+AddLanguage es .es
+AddLanguage sv .se
+AddLanguage cz .cz
+AddLanguage ru .ru
+AddLanguage tw .tw
+AddLanguage zh-tw .tw
+
+LanguagePriority en da nl et fr de el it ja ko no pl pt pt-br ltz ca es sv tw
+
+
+#AddDefaultCharset	ISO-8859-1
+
+AddCharset ISO-8859-1  .iso8859-1  .latin1
+AddCharset ISO-8859-2  .iso8859-2  .latin2 .cen
+AddCharset ISO-8859-3  .iso8859-3  .latin3
+AddCharset ISO-8859-4  .iso8859-4  .latin4
+AddCharset ISO-8859-5  .iso8859-5  .latin5 .cyr .iso-ru
+AddCharset ISO-8859-6  .iso8859-6  .latin6 .arb
+AddCharset ISO-8859-7  .iso8859-7  .latin7 .grk
+AddCharset ISO-8859-8  .iso8859-8  .latin8 .heb	
+AddCharset ISO-8859-9  .iso8859-9  .latin9 .trk
+AddCharset ISO-2022-JP .iso2022-jp .jis
+AddCharset ISO-2022-KR .iso2022-kr .kis
+AddCharset ISO-2022-CN .iso2022-cn .cis
+AddCharset Big5        .Big5       .big5
+# For russian, more than one charset is used (depends on client, mostly):
+AddCharset WINDOWS-1251 .cp-1251   .win-1251
+AddCharset CP866       .cp866
+AddCharset KOI8-r      .koi8-r .koi8-ru
+AddCharset KOI8-ru     .koi8-uk .ua
+AddCharset ISO-10646-UCS-2 .ucs2
+AddCharset ISO-10646-UCS-4 .ucs4
+AddCharset UTF-8       .utf8
+
+AddCharset GB2312      .gb2312 .gb 
+AddCharset utf-7       .utf7
+AddCharset utf-8       .utf8
+AddCharset big5	       .big5 .b5
+AddCharset EUC-TW      .euc-tw	
+AddCharset EUC-JP      .euc-jp
+AddCharset EUC-KR      .euc-kr
+AddCharset shift_jis   .sjis
+
+AddType application/x-tar .tgz
+
+# default browser fixes
+BrowserMatch "Mozilla/2" nokeepalive
+BrowserMatch "MSIE 4\.0b2;" nokeepalive downgrade-1.0 force-response-1.0
+BrowserMatch "RealPlayer 4\.0" force-response-1.0
+BrowserMatch "Java/1\.0" force-response-1.0
+BrowserMatch "JDK/1\.0" force-response-1.0
+
+# default webdav fixed
+BrowserMatch "Microsoft Data Access Internet Publishing Provider" redirect-carefully
+BrowserMatch "^WebDrive" redirect-carefully
+BrowserMatch "^gnome-vfs" redirect-carefully 
+BrowserMatch "^WebDAVFS/1.[012]" redirect-carefully
+
+# Include the virtual host configurations:
+Include /etc/apache2/sites-enabled/[^.#]*

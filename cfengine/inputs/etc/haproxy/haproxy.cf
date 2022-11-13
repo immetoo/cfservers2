@@ -1,0 +1,43 @@
+#
+# manages the haproxy daemon
+#
+
+packages:
+	any::
+		haproxy action=install
+
+control:
+	any::
+		haproxy_conf		= ( /etc/haproxy/haproxy.cfg )
+		haproxy_vip_23		= ( /etc/haproxy/vip23.cfg )
+		haproxy_vip_184		= ( /etc/haproxy/vip184.cfg )
+		haproxy_vip_185		= ( /etc/haproxy/vip185.cfg )
+
+copy:
+	mrhlb0|mrhlb1::
+		${cfe_files}${haproxy_vip_184}
+			dest=${haproxy_vip_184}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+		${cfe_files}${haproxy_vip_185}
+			dest=${haproxy_vip_185}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			
+	toxlb0|toxlb1::
+		${cfe_files}${haproxy_vip_23}
+			dest=${haproxy_vip_23}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+
+
+directories:
+	any::			
+		/usr/share/haproxy owner=root group=root mode=755
+
+shellcommands:
+	HAPROXY_SERVER_RESTART::
+		"/etc/init.d/network restart"

@@ -1,0 +1,1 @@
+CREATE INDEX view_created_idx ON view_new (created);

@@ -1,0 +1,19 @@
+#
+# Manages logcheck
+#
+
+control:
+	any::
+		logcheck_ignore_ntp		= ( /etc/logcheck/ignore.d.server/logcheck-ntp )
+
+copy:
+	any::
+		${cfe_files}${logcheck_ignore_ntp}
+			dest=${logcheck_ignore_ntp}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+			
+files:
+	any::
+		${logcheck_ignore_ntp}			mode=640 owner=root group=logcheck	action=fixall

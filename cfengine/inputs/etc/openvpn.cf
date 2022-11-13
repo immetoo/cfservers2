@@ -1,0 +1,107 @@
+#
+# manages the openvpn files
+#
+
+control:
+	any::
+		vpn_config_ldap				= ( /etc/openvpn/auth-ldap.cnf )
+		vpn_config_ldap_mrxvpn1		= ( /etc/openvpn/auth-ldap.cnf-mrxvpn1 )
+		vpn_config_dev				= ( /etc/openvpn/tun-dev.sh )
+		vpn0_config_server			= ( /etc/openvpn/vpn0.mbuyu.nl-server.conf )
+		vpn1_config_server 			= ( /etc/openvpn/vpn1.mbuyu.nl-server.conf )
+		vpnlive_config_server	 	= ( /etc/openvpn/vpnlive.mbuyu.nl-server.conf )
+		vpnlive_config_client		= ( /etc/openvpn/vpnlive.mbuyu.nl-client.conf )
+		vpnede_config_server		= ( /etc/openvpn/vpnede.mbuyu.nl-server.conf )
+		vpnede_config_client		= ( /etc/openvpn/vpnede.mbuyu.nl-client.conf )
+
+
+packages:
+	any::
+		openvpn					action=install
+	DEBIAN_4::
+		libobjc1				action=install
+		
+copy:		
+	any::
+		${cfe_files}${vpn_config_dev}
+			dest=${vpn_config_dev}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=700
+			define=VPN_RESTART
+		
+	moxvpn0::
+		${cfe_files}${vpn_config_ldap}
+			dest=${vpn_config_ldap}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=400
+			define=VPN_RESTART
+		${cfe_files}${vpn0_config_server}
+			dest=${vpn0_config_server}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=400
+			define=VPN_RESTART
+		${cfe_files}${vpnlive_config_client}
+			dest=${vpnlive_config_client}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=400
+			define=VPN_RESTART
+					
+	mrxvpn0::
+		${cfe_files}${vpnlive_config_server}
+			dest=${vpnlive_config_server}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=400
+			define=VPN_RESTART
+
+	mrxvpn1::
+		${cfe_files}${vpn_config_ldap_mrxvpn1}
+			dest=${vpn_config_ldap}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=400
+			define=VPN_RESTART
+		${cfe_files}${vpn1_config_server}
+			dest=${vpn1_config_server}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=400
+			define=VPN_RESTART
+
+	mrxvpn2::
+		${cfe_files}${vpn_config_ldap_mrxvpn1}
+			dest=${vpn_config_ldap}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=400
+			define=VPN_RESTART
+		${cfe_files}${vpnede_config_client}
+			dest=${vpnede_config_client}
+			type=checksum backup=false
+			owner=root group=root mode=400
+			define=VPN_RESTART
+	
+	mexvpn0::
+		${cfe_files}${vpnede_config_server}
+			dest=${vpnede_config_server}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=400
+			define=VPN_RESTART
+	
+directories:
+	any::
+		/etc/openvpn/ssl	mode=755 owner=root group=root
+
+files:
+	moxvpn0::
+		${vpn_config}				owner=root group=root mode=400	action=fixall define=VPN_RESTART
+		${vpnlive_config_client}  	owner=root group=root mode=400  action=fixall define=VPN_RESTART
+		
+shellcommands:
+	VPN_RESTART::
+		"/etc/init.d/openvpn restart"

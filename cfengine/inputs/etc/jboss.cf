@@ -1,0 +1,78 @@
+#
+# Install jboss rc.d script and create user.
+#
+
+control:
+	any::
+		jboss_init = ( /etc/init.d/jboss )
+		jboss_default = ( /etc/default/jboss )
+	
+copy:
+	any::
+		${cfe_files}${jboss_init}
+			dest=${jboss_init}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root group=root
+	any.!SRV_LIVE.!SRV_UPDATE.!SRV_BETA.!SRV_DEV.!SRV_TEST::
+		${cfe_files}${jboss_default}
+			dest=${jboss_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+    !SRV_SAT.(SRV_DEV|SRV_TEST)::
+		${cfe_files}${jboss_default}-dev
+			dest=${jboss_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+	!SRV_SAT.SRV_LIVE::
+		${cfe_files}${jboss_default}-live
+			dest=${jboss_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+	!SRV_SAT.SRV_UPDATE::
+		${cfe_files}${jboss_default}-update
+			dest=${jboss_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+	!SRV_SAT.SRV_BETA::
+		${cfe_files}${jboss_default}-beta
+			dest=${jboss_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+	SRV_SAT.(SRV_DEV|SRV_TEST)::
+		${cfe_files}${jboss_default}-dev-localhost
+			dest=${jboss_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+	SRV_SAT.SRV_LIVE::
+		${cfe_files}${jboss_default}-live-localhost
+			dest=${jboss_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+	SRV_SAT.SRV_UPDATE::
+		${cfe_files}${jboss_default}-update-localhost
+			dest=${jboss_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+	SRV_SAT.SRV_BETA::
+		${cfe_files}${jboss_default}-beta-localhost
+			dest=${jboss_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+
+shellcommands:
+	!JBOSS_LOCAL_USER::
+		"/usr/sbin/update-rc.d jboss defaults"
+		"/usr/sbin/useradd jboss -s /bin/sh"
+		"/usr/sbin/usermod -s /bin/sh jboss"
+	!JBOSS_LOCAL_USER.DEBIAN6::
+		"/sbin/insserv jboss"

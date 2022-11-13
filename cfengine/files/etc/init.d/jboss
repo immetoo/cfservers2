@@ -1,0 +1,264 @@
+#!/bin/bash
+
+### BEGIN INIT INFO
+# Provides:          jboss 6.0.0.Final
+# Required-Start:    $local_fs $network $all
+# Required-Stop:     $local_fs $network $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: start/stop/restart jboss server
+### END INIT INFO
+
+# Also see: http://git.debian.org/?p=pkg-jboss/jbossas5.git;a=blob;f=debian/jbossas5.init;h=e8f5af80fd7d45e014c179baf7fd81874d21acec;hb=HEAD
+
+. /lib/lsb/init-functions
+
+# paths
+NAME=jboss
+DESC="Jboss Application Server"
+[[ -z "$JAVA_HOME" ]] && JAVA_HOME=/opt/jdk
+[[ -z "$JBOSS_HOME" ]] && JBOSS_HOME=/opt/jboss
+JBOSS_SERVER=default
+PIDFILE=/var/run/jboss.pid
+DIETIME=15
+STARTTIME=10
+DAEMONUSER=jboss
+MEMORY_PERCENTAGE_MIN=25
+MEMORY_PERCENTAGE_MAX=65
+
+set -e
+
+if [[ ! -f /etc/default/jboss ]]; then
+    log_failure_msg "The configuration file /etc/default/jboss, required to run $NAME does not exist."
+    exit 1
+fi
+
+. /etc/default/jboss
+
+JBOSS_START=$JBOSS_HOME/bin/run.sh
+JBOSS_STOP=$JBOSS_HOME/bin/shutdown.sh
+
+if [[ ! -x $JBOSS_START ]]; then
+    log_failure_msg "The file $JBOSS_START, required to run $NAME does not exist."
+    exit 1
+fi
+
+if [[ ! -x $JBOSS_STOP ]]; then
+    log_failure_msg "The file $JBOSS_STOP, required to run $NAME does not exist."
+    exit 1
+fi
+
+if [[ -z $M4N_STAGING ]]; then
+    log_failure_msg "The parameter M4N_STAGING in file /etc/default/jboss, required to run $NAME does not exist."
+    exit 1
+fi
+
+if [[ -z $BIND ]]; then
+    log_failure_msg "The parameter BIND in file /etc/default/jboss, required to run $NAME does not exist."
+    exit 1
+fi
+
+if [[ "$BIND" != "LOCALHOST" && "$BIND" != "HOSTNAME" && "$BIND" != "ALL" ]]; then
+    log_failure_msg "The BIND parameter value $BIND in file /etc/default/jboss is not supported."
+    exit 1
+fi
+
+if getent passwd | grep -q "^$DAEMONUSER:"; then
+    DAEMONUID=`getent passwd | grep "^$DAEMONUSER:" | awk -F : '{print $3}'`
+    DAEMONGID=`getent passwd | grep "^$DAEMONUSER:" | awk -F : '{print $4}'`
+else
+    log_failure_msg "The user $DAEMONUSER, required to run $NAME does not exist."
+    exit 1
+fi
+
+# verification and sanitation of jboss installation
+[[ -d $JBOSS_HOME/docs ]] && rm -rf $JBOSS_HOME/docs
+[[ -d $JBOSS_HOME/server/default/deploy/admin-console.war ]] && rm -rf $JBOSS_HOME/server/default/deploy/admin-console.war
+[[ -d $JBOSS_HOME/server/default/deploy/jmx-console.war ]] && rm -rf $JBOSS_HOME/server/default/deploy/jmx-console.war
+[[ -d $JBOSS_HOME/server/default/dumps ]] || mkdir -p $JBOSS_HOME/server/default/dumps
+chown $DAEMONUSER $JBOSS_HOME/server/default/dumps
+
+export JAVA_HOME
+
+IS_JBOSS5=
+if $JBOSS_START -V | grep "JBoss" | grep -i "build" | grep -q -i "jboss_5"; then
+    IS_JBOSS5=yes
+fi
+
+# java options based on host memory footprint
+MEMORY=`free -m | grep Mem | awk '{ print $2 }'`
+MEMORY_MIN=$(($MEMORY * $MEMORY_PERCENTAGE_MIN / 100))
+MEMORY_MAX=$(($MEMORY * $MEMORY_PERCENTAGE_MAX / 100))
+JAVA_OPTS="-Xms${MEMORY_MIN}m -Xmx${MEMORY_MAX}m -XX:MaxPermSize=${MEMORY_MIN}m -XX:+UseCompressedOops -Dorg.jboss.resolver.warning=true -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 ${M4N_STAGING} ${JAVA_OPTS}"
+
+# BIND and STOP configuration for JBoss 6
+if [[ "$BIND" == "LOCALHOST" ]]; then
+    JBOSS_BIND_HOSTNAME="--host=localhost"
+    JBOSS_STOP_ARGS="--host=localhost"
+fi
+ 
+if [[ "$BIND" == "HOSTNAME" ]]; then
+        JBOSS_BIND_HOSTNAME="--host=`hostname -f`"
+        JBOSS_STOP_ARGS="--host=`hostname -f`"
+fi 
+ 
+if [[ "$BIND" == "ALL" ]]; then
+        JBOSS_BIND_HOSTNAME="-b 0.0.0.0"
+        JBOSS_STOP_ARGS=""
+fi
+
+# Override for JBoss 5
+if [[ -n "$IS_JBOSS5" ]]; then
+    # Appearently this works.. thought the jboss docs don't seem to indicate it...
+    JBOSS_BIND_HOSTNAME="-b 0.0.0.0"
+    JBOSS_STOP_ARGS=""
+fi
+
+JBOSS_OPTIONS="$JBOSS_BIND_HOSTNAME $JBOSS_OPTIONS"
+
+# perhaps better to move this to start() function?
+export JAVA_OPTS
+
+running() {
+    # The "head -1" is not very nice, but we have to in case multiple jvm's are running under jboss user
+    #PID=`ps aux | grep $DAEMONUID | grep jboss | grep program.name=run.sh | grep -v grep | awk {'print $2'} | head -1`
+    PID=`ps aux | grep jboss | grep program.name=run.sh | grep -v grep | awk {'print $2'} | head -1`
+    if [[ -f /proc/$PID/cmdline ]] ; then
+        if [[ -n $PID ]] ; then
+            return 0
+        fi
+    fi
+    return 1
+}
+
+start() {
+    log_progress_msg "(this will take at most $STARTTIME seconds) "
+    rm -rf $JBOSS_HOME/server/default/work/* $JBOSS_HOME/server/default/tmp/*
+    start-stop-daemon --start --chuid $DAEMONUSER --pidfile $PIDFILE --make-pidfile --background --exec $JBOSS_START -- $JBOSS_OPTIONS
+    for i in `seq $STARTTIME`; do
+        if ! running ; then
+            sleep 1
+            #log_progress_msg "."
+        fi
+    done
+    if running; then
+        log_success_msg "- succesfully started"
+        log_success_msg "It will take a while until jboss is completely bootted"
+    else
+        log_failure_msg "- starting failed"
+    fi
+}
+
+stop() {
+    log_progress_msg "(this will take at most $DIETIME seconds) "
+    $JBOSS_STOP -S $JBOSS_STOP_ARGS 2>&1
+    for i in `seq $DIETIME`; do
+        if running ; then
+            sleep 1
+            #log_progress_msg "."
+        fi
+    done
+    if running ; then
+        log_failure_msg "- stopping failed. Try $0 force-stop"
+    else
+        rm -f $PIDFILE
+        log_success_msg "- successfully stopped"
+    fi
+}
+
+force_stop_server() {
+    log_progress_msg "(this will take at most $DIETIME seconds) "
+    pkill -u $DAEMONUSER java
+    for i in `seq $DIETIME`; do
+        if running ; then
+            sleep 1
+            #log_progress_msg "."
+        fi
+    done
+    if running ; then
+        pkill -9 -u $DAEMONUSER
+        sleep 1 # give it a little bit of time to die
+    fi
+    if running ; then
+        log_failure_msg "force-stop failed"
+    else:
+        log_success_msg "force-stop succeeded"
+    fi
+}
+
+jstack() {
+    log_progress_msg "(Dumping stack for JBoss, 3 times - 5 second interval) "
+    TIMESTAMP=`date|awk 'OFS="_"{print $2,$3,$6,$4}'`
+    su - $DAEMONUSER -c "$JAVA_HOME/bin/jstack $JBOSS_PID > $JBOSS_HOME/server/default/dumps/stack_${JBOSS_PID}_${TIMESTAMP}" > /dev/null 2>&1
+    sleep 5
+    TIMESTAMP=`date|awk 'OFS="_"{print $2,$3,$6,$4}'`
+    su - $DAEMONUSER -c "$JAVA_HOME/bin/jstack $JBOSS_PID > $JBOSS_HOME/server/default/dumps/stack_${JBOSS_PID}_${TIMESTAMP}" > /dev/null 2>&1
+    sleep 5
+    TIMESTAMP=`date|awk 'OFS="_"{print $2,$3,$6,$4}'`
+    su - $DAEMONUSER -c "$JAVA_HOME/bin/jstack $JBOSS_PID > $JBOSS_HOME/server/default/dumps/stack_${JBOSS_PID}_${TIMESTAMP}" > /dev/null 2>&1
+    log_success_msg "- successfully dumped stack"
+}
+
+jmap() {
+    log_progress_msg "(Dumping heap for JBoss) "
+    TIMESTAMP=`date|awk 'OFS="_"{print $2,$3,$6,$4}'`
+    su - $DAEMONUSER -c "$JAVA_HOME/bin/jmap $JBOSS_PID > $JBOSS_HOME/server/default/dumps/map_${JBOSS_PID}_${TIMESTAMP}" > /dev/null 2>&1
+    log_success_msg "- successfully dumped heap"
+}
+
+case "$1" in
+    start)
+        log_begin_msg "Starting $DESC: $JBOSS_SERVER"
+        if running ; then
+            log_success_msg "- apparently already running"
+        else
+            start
+        fi
+        ;;
+    stop)
+        log_begin_msg "Stopping $DESC: $JBOSS_SERVER"
+        if running ; then
+            stop
+        else
+            log_success_msg "- apparently not running"
+        fi
+        ;;
+    restart)
+        stop
+        start
+        ;;
+    status)
+        log_begin_msg "Checking status of $DESC: $JBOSS_SERVER "
+        if running ; then
+            log_success_msg "- running"
+        else
+            log_warning_msg "- not running"
+        fi
+        ;;
+    reload)
+        log_warning_msg "Reloading $NAME daemon: not implemented, as the daemon \
+        cannot re-read the config file."
+        ;;
+    jstack)
+        log_begin_msg "JStack $DESC: $JBOSS_SERVER"
+        if running ; then
+            jstack
+        else
+            log_success_msg "- apparently not running"
+        fi
+        ;;
+    jmap)
+        log_begin_msg "JMap $DESC: $JBOSS_SERVER"
+        if running ; then
+            jmap
+        else
+            log_success_msg "- apparently not running"
+        fi
+        ;;
+    *)
+        echo "Usage: /etc/init.d/jboss {start|stop|restart|status|jstack|jmap}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

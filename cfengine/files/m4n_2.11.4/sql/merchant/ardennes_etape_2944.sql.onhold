@@ -1,0 +1,122 @@
+/* 
+### IN Progress: 
+### 10-november-2008 Dineke
+
+Ticket 2182: Staffel ardennes-etape (2944) for clicks as well
+
+General segment	2332				0,02 EUR CPC + 4% CPS			 0 t/m 10 reservaties
+Silver segment	2333				0,03 EUR CPC + 5% CPS			11 t/m 20 reservaties
+Gold segment	2334				0,04 EUR CPC + 7% CPS			Vanaf 21 reservaties
+Pay-per-sale only segment 2335		7% CPS
+
+We keuren een reservatie af binnen de 20 dagen.
+
+Afgesproken met Wouter: 
+- Er wordt gekeken naar alle leads en clicks op status 2 binnen 1 maand
+- Alle advertenties komen binnen op clickvergoeding 2ct, er zijn special deals aangemaakt voor:
+  - Silver: 463323
+  - Gold: 463326
+  - Sale only: 463315
+- De pay-per-sale-only geldt voor een aantal affiliates, de namen daarvan krijg ik van Wouter
+*/
+
+/* Pay-per-sale-only */
+UPDATE 
+    click
+SET 
+    advertisement_id = 463315
+WHERE 
+    advertisement_id IN (SELECT id FROM advertisement WHERE merchant_id = 2944 AND id != 463315 AND status = 0) AND 
+    status = 'ACCEPTED' AND 
+    payment_period_id IN (SELECT id FROM payment_period WHERE processed = false) AND
+	affiliate_id IN (); //currently none
+
+/* Gold segment 21 leads and up */
+UPDATE 
+    lead
+SET 
+    lead_program_id = 2334
+WHERE 
+    lead_program_id IN (2332, 2333) AND 
+    status = 2 AND 
+    payment_period_id IN (SELECT id FROM payment_period WHERE processed = false) AND
+	affiliate_id IN (SELECT 
+	                     affiliate_id 
+	                 FROM 
+	                     lead 
+	                 WHERE 
+	                     lead_program_id IN (2232, 2233, 2334) AND 
+						 status = 2 AND 
+						 payment_period_id IN (SELECT id FROM payment_period WHERE processed = false)
+					 GROUP BY 
+					     affiliate_id 
+					 HAVING 
+					     COUNT(id) > 20
+					 );
+	
+UPDATE 
+    click
+SET 
+    advertisement_id = 463326
+WHERE 
+    advertisement_id IN (SELECT id FROM advertisement WHERE merchant_id = 2944 AND id != 463326 AND status = 0) AND 
+    status = 2 AND 
+    payment_period_id IN (SELECT id FROM payment_period WHERE processed = false) AND 
+    affiliate_id IN (SELECT 
+                         affiliate_id 
+                     FROM 
+                         lead 
+                     WHERE 
+                         lead_program_id IN (2232, 2233, 2334) AND 
+						 status = 2 AND 
+						 payment_period_id IN (SELECT id FROM payment_period WHERE processed = false)
+				     GROUP BY 
+				         affiliate_id 
+				     HAVING 
+				         COUNT(id) > 20
+				     );
+
+/* Silver segment 11 t/m 20 leads */
+UPDATE 
+    lead
+SET 
+    lead_program_id = 2333
+WHERE 
+    lead_program_id IN (2332, 2334) AND 
+    status = 2 AND 
+    payment_period_id IN (SELECT id FROM payment_period WHERE processed = false) AND 
+    affiliate_id IN (SELECT 
+                         affiliate_id 
+                     FROM 
+                         lead 
+                     WHERE 
+                         lead_program_id IN (2232, 2233, 2334) AND 
+						 status = 2 AND 
+						 payment_period_id IN (SELECT id FROM payment_period WHERE processed = false)
+				     GROUP BY 
+				         affiliate_id 
+				     HAVING 
+				         COUNT(id) BETWEEN 10 AND 20
+				     );
+
+UPDATE 
+    click
+SET 
+    advertisement_id = 463323
+WHERE 
+    advertisement_id IN (SELECT id FROM advertisement WHERE merchant_id = 2944 AND id != 463323 AND status = 0) AND 
+    status = 2 AND 
+    payment_period_id IN (SELECT id FROM payment_period WHERE processed = false) AND 
+    affiliate_id IN (SELECT 
+                         affiliate_id 
+                     FROM 
+                         lead 
+                     WHERE 
+                         lead_program_id IN (2232, 2233, 2334) AND 
+					     status = 2 AND 
+					     payment_period_id IN (SELECT id FROM payment_period WHERE processed = false)
+					 GROUP BY 
+					     affiliate_id 
+					 HAVING 
+					     COUNT(id) BETWEEN 10 AND 20
+					 );

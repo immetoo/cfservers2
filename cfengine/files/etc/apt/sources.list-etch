@@ -1,0 +1,12 @@
+#
+# This file is managed by cfengine.
+#
+
+deb http://ftp.nl.debian.org/debian/ etch main non-free
+deb http://security.debian.org/ etch/updates main
+
+# etch-volatile packages for email enzo
+deb http://volatile.debian.org/debian-volatile etch/volatile main contrib non-free
+
+# backports for newer versions of pg and java
+deb http://www.backports.org/debian etch-backports main contrib non-free

@@ -1,0 +1,8 @@
+#
+# This file is managed by cfengine
+#
+
+# Since mexbak0 is a backup from mrxbak0
+#			 	we need less rotating here
+# 				saving resources :c)
+5 8 1 * *	root	nice -n 10 /etc/rbackup/rbackup-rotation.sh monthly

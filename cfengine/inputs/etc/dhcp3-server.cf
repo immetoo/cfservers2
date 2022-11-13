@@ -1,0 +1,51 @@
+#
+# dhcpd config
+#
+
+control:
+	any::
+		dhcpd_config	= ( /etc/dhcp3/dhcpd.conf )
+		
+packages:
+	any::
+		dhcp3-server	action=install
+		
+copy:
+	any.!noxdhcp0.!noxdhcp1.!noxwiz0::
+		${cfe_files}${dhcpd_config}-office
+			dest=${dhcpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=DHCPD_RESTART
+
+	noxdhcp0::
+		${cfe_files}${dhcpd_config}-office-primary
+			dest=${dhcpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=DHCPD_RESTART
+	
+	noxdhcp1::
+		${cfe_files}${dhcpd_config}-office-secondary
+			dest=${dhcpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=DHCPD_RESTART	
+	
+	noxwiz0::
+		${cfe_files}${dhcpd_config}-wifi
+			dest=${dhcpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=DHCPD_RESTART			
+files:
+	any::
+		${dhcpd_config}	owner=root group=root mode=400	action=fixall define=DHCPD_RESTART
+
+shellcommands:
+	DHCPD_RESTART::
+		"/etc/init.d/dhcp3-server restart"

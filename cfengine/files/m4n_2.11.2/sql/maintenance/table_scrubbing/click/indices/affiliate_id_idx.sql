@@ -1,0 +1,1 @@
+CREATE INDEX click_affiliate_id_idx ON click_new (affiliate_id);

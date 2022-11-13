@@ -1,0 +1,37 @@
+#
+# This file is managed by cfengine
+#
+#
+# Simple postfix config
+#
+# relays for some servers
+#
+smtpd_banner = $myhostname MBUYU ESMTP $mail_name (Debian/GNU)
+biff = no
+
+# appending .domain is the MUA's job.
+append_dot_mydomain = no
+
+#mydomain = mbuyu.com
+#myorigin = $myhostname
+
+# Uncomment the next line to generate "delayed mail" warnings
+delay_warning_time = 12h
+
+myhostname = mrxnet1.mbuyu.com
+myorigin = /etc/mailname
+mydestination = mrxnet1.mbuyu.com, localhost.local.domain, localhost
+
+# no local, so map local->sysadm via virtuel
+# virtual_alias_maps = hash:/etc/aliases
+# also set alias_maps so default nis entry is removed
+alias_maps = hash:/etc/aliases
+alias_database = hash:/etc/aliases
+relayhost = mrxmail2.vlan.mbuyu.com
+# localhost vlan m4n servers office-ip
+mynetworks = 127.0.0.0/8 172.16.16.0/20 85.158.204.160/27 95.97.69.224/29 87.215.139.8/29
+inet_interfaces = all
+# local_transport = error:local delivery is disabled
+
+# max 20mb mails !! :''(
+message_size_limit = 20971520

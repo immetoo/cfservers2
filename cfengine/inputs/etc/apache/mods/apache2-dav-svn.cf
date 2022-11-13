@@ -1,0 +1,13 @@
+#
+# add mods dav_svn
+#
+
+
+packages:
+	install::
+		libapache2-svn			action=install	define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/mods-enabled/dav_svn.load ->! ../mods-available/dav_svn.load define=APACHE2_RESTART
+		/etc/apache2/mods-enabled/dav_svn.conf ->! ../mods-available/dav_svn.conf define=APACHE2_RESTART

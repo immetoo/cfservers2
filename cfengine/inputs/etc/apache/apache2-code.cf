@@ -1,0 +1,39 @@
+#
+# Adds code.mbuyu.nl to apache2
+#
+
+control:
+	any::
+		code_www	= ( /etc/apache2/sites-available/code.mbuyu.nl )
+		code_hg		= ( /etc/apache2/sites-available/hg.mbuyu.nl )
+		code_trac	= ( /etc/apache2/sites-available/trac.mbuyu.nl )
+
+
+copy:
+	any::
+		${cfe_files}${code_www}
+			dest=${code_www}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+
+		${cfe_files}${code_hg}
+			dest=${code_hg}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+		
+		${cfe_files}${code_trac}
+			dest=${code_trac}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/sites-enabled/code.mbuyu.nl ->! ${code_www} define=APACHE2_RESTART
+		/etc/apache2/sites-enabled/hg.mbuyu.nl ->! ${code_hg} define=APACHE2_RESTART
+		/etc/apache2/sites-enabled/trac.mbuyu.nl ->! ${code_trac} define=APACHE2_RESTART

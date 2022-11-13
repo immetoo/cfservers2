@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<!--
+#
+# This file is managed by cfengine
+#
+-->
+<properties>
+	<!-- Work as satellite -->
+	<entry key="SATELITE">true</entry>
+	
+	<!-- mail to local postfix -->
+	<entry key="mailserver">localhost</entry>
+	
+	<!-- Do not send daily/etc emails  -->
+	<entry key="PROCESS_SCHEDULED_SYSTEM_MAILS">false</entry>
+	
+	<!-- Do not update banners -->
+	<entry key="PROCESS_FETCH_BANNERS">false</entry>
+	
+	<!-- Notification System lookup URL -->
+	<entry key="com.mbuyu.ns.serviceJNPURL">jnp://ns0.live.mbuyu.nl:1099</entry>
+</properties>

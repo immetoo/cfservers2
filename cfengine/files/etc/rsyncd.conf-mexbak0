@@ -1,0 +1,20 @@
+#
+# This file is managed by cfengine
+#
+#
+
+uid = nobody
+gid = nogroup
+use chroot = true
+max connections = 60
+max verbosity = 1
+syslog facility = daemon
+log file = /var/log/rsyncd.log
+pid file = /var/run/rsyncd.pid
+list = false
+
+[cyso2bit]
+        path = /backup/
+        read only = false
+        auth users = cyso2bit
+        secrets file = /etc/rsyncd.secrets

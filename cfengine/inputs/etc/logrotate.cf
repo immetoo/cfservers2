@@ -1,0 +1,64 @@
+# 
+# controls dateext feature in logrotate.conf
+# 
+
+control:
+	any::
+		logrotate_file = ( /etc/logrotate.conf )
+		logrotate_rsyslog = ( /etc/logrotate.d/rsyslog ) 
+		
+	SRV_PGDB::
+		logrotate_pgdb = ( /etc/logrotate.d/postgresql-common )
+		
+	SRV_WWW::
+		logrotate_proftpd = ( /etc/logrotate.d/proftpd ) 
+		
+	SRV_VPN::
+		logrotate_openvpn = ( /etc/logrotate.d/openvpn )
+
+
+# NOTE NOTE AGAIN:  copy into the .d directory with backup=false !!
+	
+copy:
+	any::
+		${cfe_files}${logrotate_file}
+			dest=${logrotate_file}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+	!SRV_MAIL::
+		${cfe_files}${logrotate_rsyslog}
+			dest=${logrotate_rsyslog}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+	
+	SRV_MAIL::
+		${cfe_files}${logrotate_rsyslog}-mail
+			dest=${logrotate_rsyslog}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+	
+			
+	SRV_PGDB::
+		${cfe_files}${logrotate_pgdb}
+			dest=${logrotate_pgdb}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+	
+	SRV_WWW::
+		${cfe_files}${logrotate_proftpd}
+			dest=${logrotate_proftpd}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+	
+	SRV_VPN::
+		${cfe_files}${logrotate_openvpn}
+			dest=${logrotate_openvpn}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+		

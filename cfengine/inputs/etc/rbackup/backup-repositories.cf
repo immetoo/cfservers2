@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_repositories	= ( /etc/rbackup/conf.d/backup-repositories )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_repositories}
+			dest=${rbackup_repositories}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

@@ -1,0 +1,13 @@
+#
+# This file is managed by cfengine
+#
+
+/var/log/openvpn.log {
+	weekly
+	rotate 1
+	copytruncate
+	delaycompress
+	compress
+	notifempty
+	missingok
+}

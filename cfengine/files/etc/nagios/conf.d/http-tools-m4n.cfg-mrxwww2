@@ -1,0 +1,5 @@
+#
+# This file is managed by cfengine
+#
+
+command[http_tools_m4n]=/usr/lib/nagios/plugins/check_http -H tools.m4n.nl -I 85.158.204.174 -u / -s Mbuyu -f follow -w 3 -c 10

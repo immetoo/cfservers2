@@ -1,0 +1,35 @@
+Explanation: This file is managed by cfengine
+Explanation: pin default on squeeze
+Package: *
+Pin: release a=squeeze
+Pin-Priority: 1234
+
+Package: libpq5
+Pin: release a=squeeze-backports
+Pin-Priority: 999
+
+Package: postgresql
+Pin: release a=squeeze-backports
+Pin-Priority: 999
+
+Package: postgresql-client-common
+Pin: release a=squeeze-backports
+Pin-Priority: 999
+
+Package: postgresql-common
+Pin: release a=squeeze-backports
+Pin-Priority: 999
+
+Package: postgresql-contrib
+Pin: release a=squeeze-backports
+Pin-Priority: 999
+
+#Get:1 http://ftp.nl.debian.org/debian-backports/ squeeze-backports/main libpq5 amd64 9.0.3-1~bpo60+1 [451 kB]
+#Get:2 http://ftp.nl.debian.org/debian-backports/ squeeze-backports/main postgresql-client-common all 114~bpo60+1 [55.8 kB]
+#Get:3 http://ftp.nl.debian.org/debian-backports/ squeeze-backports/main postgresql-client-9.0 amd64 9.0.3-1~bpo60+1 [1,666 kB]
+#Get:4 http://ftp.nl.debian.org/debian-backports/ squeeze-backports/main postgresql-common all 114~bpo60+1 [127 kB]
+#Get:5 http://ftp.nl.debian.org/debian-backports/ squeeze-backports/main postgresql-9.0 amd64 9.0.3-1~bpo60+1 [5,731 kB]
+#Get:6 http://ftp.nl.debian.org/debian-backports/ squeeze-backports/main postgresql all 9.0.3-1~bpo60+1 [308 kB]
+
+#Get:1 http://ftp.nl.debian.org/debian-backports/ squeeze-backports/main postgresql-contrib-9.0 amd64 9.0.3-1~bpo60+1 [748 kB]
+#Get:2 http://ftp.nl.debian.org/debian-backports/ squeeze-backports/main postgresql-contrib all 9.0.3-1~bpo60+1 [308 kB]

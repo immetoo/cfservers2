@@ -1,0 +1,29 @@
+#
+# Installs firehol and file with variables to include
+#
+
+packages:
+	install::
+		firehol				action=install define=FIREHOL_INSTALLED
+		module-init-tools	action=install
+
+control:
+	any::
+		global_firehol	= ( /etc/firehol/global-firehol.conf )  
+	 	
+copy:
+	any::	
+		${cfe_files}${global_firehol}
+			dest=${global_firehol}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			
+files:
+	any::
+		${global_firehol}	mode=600 owner=root group=root action=fixall	
+
+# Removes 90day warning
+shellcommands:
+	Monday.Hr00::
+		"/usr/bin/touch /etc/firehol/RESERVED_IPS"

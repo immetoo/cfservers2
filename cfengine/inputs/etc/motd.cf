@@ -1,0 +1,61 @@
+#
+# Sets the motd correctly
+#
+
+control:
+	any::
+		motd_file	= ( /etc/motd )
+
+copy:
+	any::
+		${cfe_files}${motd_file}
+			dest=${motd_file}-cfcopy
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+editfiles:
+	any::
+		{ ${motd_file}
+			
+			AutoCreate
+			Backup "false"
+
+			# CFEngine manages entire contents
+			EmptyEntireFilePlease
+
+			# only attempt an update several times per day
+			IfElapsed 300
+
+			# add the legal disclaimer
+			InsertFile "${motd_file}-cfcopy"
+
+			AppendIfNoSuchLine "***"
+
+			# warning to not hand edit anything while moving site to CFEngine
+			AppendIfNoSuchLine "***  Notice: CFEngine manages this system."
+			AppendIfNoSuchLine "***  Notice: kernel: ${arch}"
+
+			# special notifications based on class
+			BeginGroupIfNotDefined "SRV_DEV"
+				Append "***  Warning: ${fqhost} is a production system."
+			EndGroup
+			BeginGroupIfDefined "SRV_DEV"
+				Append "***  Notice: ${fqhost} is a development system."
+			EndGroup
+			
+			BeginGroupIfDefined "SERVER_XEN_DOM0"
+				Append "***  Notice: This is a xen-domU server."
+			EndGroup
+			BeginGroupIfDefined "SERVER_XEN_DOMU"
+				Append "***  Warning: This is a xen-dom0 server."
+			EndGroup
+			
+			BeginGroupIfDefined "DEBIAN"
+				Append "***"
+			EndGroup
+		}
+
+files:
+	any::
+		${motd_file}	mode=0600 owner=root group=root		action=fixall

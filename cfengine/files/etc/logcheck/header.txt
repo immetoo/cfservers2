@@ -1,0 +1,5 @@
+This email is sent by a cfengine managed logcheck environment.
+If you wish to no-longer receive it, please consult the sysadm.
+
+
+

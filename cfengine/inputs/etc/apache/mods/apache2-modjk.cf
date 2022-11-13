@@ -1,0 +1,65 @@
+#
+# Added mod-jk to apache2
+#
+
+control:
+	any::
+		modjk_config	= ( /etc/apache2/conf.d/mod_jk.conf )
+
+packages:
+	install::
+		libapache2-mod-jk  action=install define=APACHE2_RESTART
+		
+copy:
+	any.!SRV_WEB::
+		${cfe_files}${modjk_config}
+			dest=${modjk_config}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			backup=false
+			define=APACHE2_RESTART
+	SRV_WEB.!SRV_DEV.!SRV_UPDATE.!SRV_BETA.!SRV_TEST::
+		${cfe_files}${modjk_config}-web
+			dest=${modjk_config}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			backup=false
+			define=APACHE2_RESTART
+	SRV_WEB.SRV_DEV::
+		${cfe_files}${modjk_config}-web-dev
+			dest=${modjk_config}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			backup=false
+			define=APACHE2_RESTART
+	SRV_WEB.SRV_UPDATE::
+		${cfe_files}${modjk_config}-web-update
+			dest=${modjk_config}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			backup=false
+			define=APACHE2_RESTART
+	SRV_WEB.SRV_BETA::
+		${cfe_files}${modjk_config}-web-beta
+			dest=${modjk_config}
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			type=checksum
+			backup=false
+			define=APACHE2_RESTART
+	SRV_WEB.SRV_TEST::
+		${cfe_files}${modjk_config}-web-test
+			dest=${modjk_config}
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			type=checksum
+			backup=false
+			define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/mods-enabled/jk.load ->! ../mods-available/jk.load define=APACHE2_RESTART

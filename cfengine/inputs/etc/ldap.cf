@@ -1,0 +1,33 @@
+#
+# Addes ldap
+#
+packages:
+	install::
+		nss-updatedb	action=install
+		libnss-db		action=install
+		libpam-ccreds	action=install
+		anacron         action=install
+
+
+control:
+	any::
+		ldap_conf		 = ( /etc/ldap/ldap.conf )
+		upd_local_nss_db = ( /etc/cron.daily/upd-local-nss-db )
+
+copy:
+	any::
+		${cfe_files}${ldap_conf}
+			dest=${ldap_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+		${cfe_files}${upd_local_nss_db}
+			dest=${upd_local_nss_db}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=755			
+
+files:
+	any::
+		${ldap_conf}					owner=root group=root mode=644	action=fixall
+		${upd_local_nss_db}				owner=root group=root mode=644	action=fixall

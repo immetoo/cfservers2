@@ -1,0 +1,106 @@
+#
+# This file is managed by cfengine
+#
+# Global maildrop filter file
+#
+# The maildrop rc file that filters the mail:
+#
+# Efficient code for delivering mail to specialized folders depending on mailing list. In
+# this case, all mailing list folders are a sub-folder of a folder called "Mailing Lists".
+# Notice that "@" and "." symbols need to be prefaced with a "\" so that Maildrop
+# interprets it correctly. The "/" symbol denotes the beginning and end of the search pattern.
+# Here is the complete list of special characters requiring a "\" to be interpretted literally:
+#
+# |!$()[]\+*?.&;`'-~<>^{}"
+#
+# More idees: http://gentoo-wiki.com/Maildrop_configuration
+#
+
+
+#
+# Define variables
+#
+SHELL=/bin/bash
+DEFAULT = "$HOME/Maildir"
+MAILDIR = $DEFAULT
+DELIVERY = $DEFAULT     # where the mail will go at the end of the script
+#VERBOSE="5"
+
+#  Logfile destination
+logfile "$HOME/.maildrop.log"
+
+# Markers for the log file
+log ""
+log "--------------------------------------------------------"
+log " (**) from config file, (II) informational, (WW) warning"
+log "--------------------------------------------------------"
+
+######
+#
+# Spam/Virus checks for logs
+#
+
+if ( (/^X-Spam-Flag: YES/:h) || (/^X-Spam-Status: Yes/:h) )
+{
+        log "(II) >>> MESSAGE TAGGED AS *** SPAM ***"
+        
+        # Make spam come into .Spam if directory excists
+        `test -r $MAILDIR/.Spam`
+        if( $RETURNCODE == 0 )
+        {
+                DELIVERY = $MAILDIR/.Spam
+                to $DELIVERY
+        }
+}
+
+######################################################################
+#
+# Adding missing headers for PGP/MIME
+#
+
+BPM="-----BEGIN PGP MESSAGE-----"
+EPM="-----END PGP MESSAGE-----"
+BPS="-----BEGIN PGP SIGNATURE-----"
+EPS="-----END PGP SIGNATURE-----"
+
+if (!/^Content-Type: message/ && !/^Content-Type: multipart/ && !/^Content-Type: application\/pgp/)
+{
+        if (/^$BPM/:b && /^$EPM/:b)
+        {
+                xfilter "/usr/bin/reformail -A 'Content-Type: application/pgp; format=text; x-action=encrypt'"
+                log "(II) Changed content-type for PGP MESSAGE"
+        }
+        if (/^$BPS/:b && /^$EPS/:b)
+        {
+                xfilter "/usr/bin/reformail -A 'Content-Type: application/pgp; format=text; x-action=sign'"
+                log "(II) Changed content-type for PGP SIGNATURE"
+        }
+}
+
+
+#####################################################################
+#
+#  Correcting wrong signature dashes
+#
+
+if ( /^--$/:b)
+{
+        xfilter "/bin/sed -e 's/^--$/-- /'"
+        log "(II) Sig Dashes corrected"
+}
+
+# Include any rules set up for the user - this gives the
+#  administrator a way to override the domain's mailfilter file
+#
+#  this is also the "suggested" way to set individual values
+#   for maildrop such as quota. (why do you need quota on your own PC?)
+#
+
+`test -r $HOME/.mailfilter`
+if( $RETURNCODE == 0 )
+{
+        log "(II)  Including $HOME/.mailfilter"
+        exception {
+                include $HOME/.mailfilter
+        }
+}

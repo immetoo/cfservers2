@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<!--
+#
+# This file is managed by cfengine
+#
+-->
+<properties>
+	<!-- Work as satellite -->
+	<entry key="SATELITE">true</entry>
+	
+	<!-- The full path to the root of the m4n website. DEV: http://dev.m4n.nl  -->
+	<entry key="live_url">http://dev.m4n.nl</entry>
+	<entry key="live_url_no_protocol">dev.m4n.nl</entry>
+	
+	<!-- The server which handles the clicks. DEV: http://dev-clicks.m4n.nl
+		 This is used for the dynamic insertion of click urls in the advertisement templates when first serving it for a view.
+	 -->
+	<entry key="click_url">http://dev-clicks.m4n.nl/_c</entry>
+	
+	<!--  URL used by bannermanager. TODO: find out purpose of this. Probably not needed (?) -->	
+	<entry key="bannermanager_initial_url">http://dev.m4n.nl</entry>
+	
+	<!-- Mail to local postfix -->
+	<entry key="mailserver">localhost</entry>
+	
+	<!-- Do not send daily/etc emails  -->
+	<entry key="PROCESS_SCHEDULED_SYSTEM_MAILS">false</entry>
+	
+	<!-- Do not update banners -->
+	<entry key="PROCESS_FETCH_BANNERS">false</entry>
+	
+	<!-- Notification System lookup URL -->
+	<entry key="com.mbuyu.ns.serviceJNPURL">jnp://ns0.dev.mbuyu.nl:1099</entry>
+</properties>

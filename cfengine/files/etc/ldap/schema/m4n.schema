@@ -1,0 +1,54 @@
+#
+# m4n schema for users.
+#
+
+attributetype ( 1.3.6.1.4.1.12462.1.1.1
+	NAME 'm4nAccountActive'
+	DESC 'A boolean telling whether an account is active or not'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.12462.1.1.2
+	NAME 'm4nUserId'
+	DESC 'The m4n application user id.'
+	EQUALITY integerMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.27 SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.12462.1.1.3
+	NAME 'm4nHosts'
+	DESC 'm4nHosts to login'
+	EQUALITY caseIgnoreIA5Match
+	SUBSTR caseIgnoreIA5SubstringsMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.26{256} )
+
+
+attributetype ( 1.3.6.1.4.1.12462.1.1.4
+	NAME 'm4nDateInService'
+	DESC 'Employee date in service'
+	EQUALITY generalizedTimeMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 SINGLE-VALUE )
+
+attributetype ( 1.3.6.1.4.1.12462.1.1.5
+	NAME 'm4nDateOutService'
+	DESC 'Employee date out service'
+	EQUALITY generalizedTimeMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.24 SINGLE-VALUE )
+
+
+attributetype ( 1.3.6.1.4.1.12462.1.1.6
+	NAME 'm4nVPNActive'
+	DESC 'A boolean telling whether an account is allowed VPN access'
+	EQUALITY booleanMatch
+	SYNTAX 1.3.6.1.4.1.1466.115.121.1.7 SINGLE-VALUE )
+
+#
+# Objects: 1.3.6.1.4.1.12462.1.2
+#
+
+objectclass ( 1.3.6.1.4.1.12462.1.2.1
+	NAME 'm4nAccount'
+	SUP top AUXILIARY
+	DESC 'm4n employee account object'
+	MUST ( m4nAccountActive )
+	MAY ( m4nUserId $ m4nHosts $ m4nDateInService $ m4nDateOutService $ m4nVPNActive ) )
+	

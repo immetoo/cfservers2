@@ -1,0 +1,10 @@
+#
+# CF engine managed file
+#
+# Debian default to:
+# AddDefaultCharset UTF
+#
+# normaly we don't need a default.
+# see; http://httpd.apache.org/docs/2.0/mod/core.html#adddefaultcharset
+#
+AddDefaultCharset Off

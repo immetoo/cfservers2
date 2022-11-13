@@ -1,0 +1,70 @@
+#
+# powerdns
+#
+
+control:
+	any::
+		pdns_config		= ( /etc/powerdns/pdns.conf )
+		pdns_recursor	= ( /etc/powerdns/recursor.conf )
+
+packages:
+	SRV_DNS::
+		pdns-server				action=install
+		pdns-backend-ldap		action=install
+		pdns-recursor			action=install
+		
+copy:
+	SRV_DNS::
+		${cfe_files}${pdns_recursor}
+			dest=${pdns_recursor}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=PDNS_RECURSOR_RESTART
+
+	mexdns0::
+		${cfe_files}${pdns_config}-mexdns0
+			dest=${pdns_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=PDNS_RESTART	
+	noxdns0::
+		${cfe_files}${pdns_config}-noxdns0
+			dest=${pdns_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=PDNS_RESTART
+	noxdns1::
+		${cfe_files}${pdns_config}-noxdns1
+			dest=${pdns_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=PDNS_RESTART
+	moxnet2::
+		${cfe_files}${pdns_config}-moxnet2
+			dest=${pdns_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=PDNS_RESTART
+	moxnet3::
+		${cfe_files}${pdns_config}-moxnet3
+			dest=${pdns_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+			define=PDNS_RESTART		
+
+files:
+	SRV_DNS::
+		${pdns_config}		owner=root group=root mode=400	action=fixall
+		${pdns_recursor}	owner=root group=root mode=400	action=fixall
+
+shellcommands:
+	PDNS_RESTART::
+		"/etc/init.d/pdns restart"
+	PDNS_RECURSOR_RESTART::
+		"/etc/init.d/pdns-recursor restart"

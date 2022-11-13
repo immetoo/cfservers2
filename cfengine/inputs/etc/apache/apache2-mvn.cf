@@ -1,0 +1,21 @@
+#
+# Adds nexus.mbuyu.nl to apache2
+#
+
+control:
+	any::
+		code_mvn	= ( /etc/apache2/sites-available/mvn.mbuyu.nl )
+
+
+copy:
+	any::
+		${cfe_files}${code_mvn}
+			dest=${code_mvn}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART			
+
+links:
+	any::
+		/etc/apache2/sites-enabled/mvn.mbuyu.nl ->! ${code_mvn} define=APACHE2_RESTART

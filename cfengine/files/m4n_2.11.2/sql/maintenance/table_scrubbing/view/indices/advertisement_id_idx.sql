@@ -1,0 +1,1 @@
+CREATE INDEX view_advertisement_id_idx ON view_new (advertisement_id);

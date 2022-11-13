@@ -1,0 +1,94 @@
+#
+# proftp
+#
+
+control:
+	any::
+		proftpd_config	= ( /etc/proftpd/proftpd.conf )
+		proftpd_pam  	= ( /etc/pam.d/proftpd )
+
+packages:
+	any::
+		proftpd				action=install
+	SRV_WWW.DEBIAN_4::
+		proftpd-ldap		action=install
+	SRV_WWW.(DEBIAN_5|DEBIAN_6)::
+		proftpd-mod-ldap	action=install
+	SRV_IMG.(DEBIAN_5|DEBIAN_6)::
+		proftpd-mod-pgsql	action=install
+		
+copy:
+	any::		
+		${cfe_files}${proftpd_pam}
+			dest=${proftpd_pam}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=PROFTPD_RESTART
+	SRV_WWW::
+		${cfe_files}${proftpd_config}
+			dest=${proftpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=PROFTPD_RESTART
+	SRV_IMG.!SRV_DEV.!SRV_BETA.!SRV_UPDATE::
+		${cfe_files}${proftpd_config}-img
+			dest=${proftpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=PROFTPD_RESTART
+	SRV_DEV::
+		${cfe_files}${proftpd_config}-img-dev
+			dest=${proftpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=PROFTPD_RESTART
+	SRV_BETA::
+		${cfe_files}${proftpd_config}-img-beta
+			dest=${proftpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=PROFTPD_RESTART
+	SRV_UPDATE::
+		${cfe_files}${proftpd_config}-img-update
+			dest=${proftpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=PROFTPD_RESTART
+	SRV_SMB::
+		${cfe_files}${proftpd_config}-samba
+			dest=${proftpd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=PROFTPD_RESTART	
+
+directories:
+	SRV_WWW::
+		/etc/skel-www				mode=755 owner=root group=root
+		/etc/skel-www/htdocs		mode=755 owner=root group=root
+		/etc/skel-www/cgi-bin		mode=755 owner=root group=root
+		/etc/skel-www/logs			mode=755 owner=root group=root
+		/etc/skel-www/webalizer		mode=755 owner=root group=root
+	SRV_IMG::
+		/etc/skel-images			mode=755 owner=root group=root
+		/etc/skel-images/icons		mode=755 owner=root group=root
+		/etc/skel-images/profile	mode=755 owner=root group=root
+		/etc/skel-images/company	mode=755 owner=root group=root
+		/etc/skel-images/hosting	mode=755 owner=root group=root
+		/etc/skel-images/invoice	mode=755 owner=root group=root
+		/etc/skel-images/webalizer	mode=755 owner=root group=root
+		
+files:
+	any::
+		${proftpd_config}	owner=root group=root mode=600	action=fixall define=PROFTPD_RESTART
+		${proftpd_pam}   	owner=root group=root mode=600	action=fixall define=PROFTPD_RESTART
+
+shellcommands:
+	PROFTPD_RESTART::
+		"/etc/init.d/proftpd restart"

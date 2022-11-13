@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_logfiles	= ( /etc/rbackup/conf.d/backup-logfiles )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_logfiles}
+			dest=${rbackup_logfiles}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

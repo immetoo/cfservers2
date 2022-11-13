@@ -1,0 +1,139 @@
+#
+# Checks that mbuyu user exists etc
+#
+# Pinning has to be arranged prior to installing postgresql-8.4
+# see files/etc/apt/apt.conf.d/preferences.postgresql-8.4
+#
+control:
+	any::
+		postgresql_start		= ( /etc/postgresql/8.4/main/start.conf )
+		postgresql_ident		= ( /etc/postgresql/8.4/main/pg_ident.conf )
+		postgresql_env			= ( /etc/postgresql/8.4/main/environment )
+		postgresql_conf			= ( /etc/postgresql/8.4/main/postgresql.conf )
+		postgresql_hba			= ( /etc/postgresql/8.4/main/pg_hba.conf )
+
+packages:
+	install.DEBIAN_5::
+		postgresql-8.4				action=install
+		postgresql-common			action=install
+		postgresql-contrib-8.4		action=install
+		postgresql-client-common	action=install
+		postgresql-client-8.4		action=install
+		python-psycopg2				action=install
+
+copy:
+	any::
+		${cfe_files}${postgresql_start}
+			dest=${postgresql_start}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root		group=root
+			define=POSTGRESQL84_RESTART
+		${cfe_files}${postgresql_ident}
+			dest=${postgresql_ident}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+		${cfe_files}${postgresql_env}
+			dest=${postgresql_env}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+	!mrhpgdb3.!mrhpgdb4.!mrxsat0.!mrxsat1.!mrxsat2.!tohpgdb1.!SRV_SON::
+		${cfe_files}${postgresql_conf}
+			dest=${postgresql_conf}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+		${cfe_files}${postgresql_hba}
+			dest=${postgresql_hba}
+			server=${cfe_host}
+			type=checksum
+			mode=640 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART			
+	mrhpgdb3::
+		${cfe_files}${postgresql_conf}-mrhpgdb
+			dest=${postgresql_conf}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+		${cfe_files}${postgresql_hba}-mrhpgdb3
+			dest=${postgresql_hba}
+			server=${cfe_host}
+			type=checksum
+			mode=640 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+	mrhpgdb4::
+		${cfe_files}${postgresql_conf}-mrhpgdb
+			dest=${postgresql_conf}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+		${cfe_files}${postgresql_hba}-mrhpgdb4
+			dest=${postgresql_hba}
+			server=${cfe_host}
+			type=checksum
+			mode=640 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART	
+	# reconsider postgresql.conf-mrxsat file for the default postgresql.conf is good enough!	
+	mrxsat0|mrxsat1|mrxsat2::
+		${cfe_files}${postgresql_conf}-mrxsat
+			dest=${postgresql_conf}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+		${cfe_files}${postgresql_hba}
+			dest=${postgresql_hba}
+			server=${cfe_host}
+			type=checksum
+			mode=640 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+	tohpgdb1::
+		${cfe_files}${postgresql_conf}-tohpgdb1
+			dest=${postgresql_conf}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+		${cfe_files}${postgresql_hba}-tohpgdb1
+			dest=${postgresql_hba}
+			server=${cfe_host}
+			type=checksum
+			mode=640 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+	SRV_SON::
+		${cfe_files}${postgresql_conf}-sonar
+			dest=${postgresql_conf}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART
+		${cfe_files}${postgresql_hba}-sonar
+			dest=${postgresql_hba}
+			server=${cfe_host}
+			type=checksum
+			mode=640 owner=postgres group=postgres
+			define=POSTGRESQL84_RESTART			
+files:
+	any::
+		${postgresql_start}			mode=644 owner=root		group=root		action=fixall define=POSTGRESQL84_RESTART
+		${postgresql_ident}			mode=644 owner=postgres group=postgres	action=fixall define=POSTGRESQL84_RESTART
+		${postgresql_env}			mode=644 owner=postgres	group=postgres	action=fixall define=POSTGRESQL84_RESTART
+		${postgresql_conf}			mode=644 owner=postgres	group=postgres	action=fixall define=POSTGRESQL84_RESTART
+		${postgresql_hba}			mode=640 owner=postgres	group=postgres	action=fixall define=POSTGRESQL84_RESTART
+
+links:
+	any::
+		/etc/postgresql/8.4/main/log		-> /var/log/postgresql/postgresql-8.4-main.log	define=POSTGRESQL84_RESTART
+		/etc/postgresql/8.4/main/pgdata		-> /var/lib/postgresql/8.4/main					define=POSTGRESQL84_RESTART
+
+
+shellcommands:
+	POSTGRESQL84_RESTART.!SRV_PGDB_NORESTART::
+		"/etc/init.d/postgresql-8.4 restart"			

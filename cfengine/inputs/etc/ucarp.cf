@@ -1,0 +1,43 @@
+#
+# manages the ucarp daemon
+# 
+
+# config managed by interfaces.cf
+packages:
+	any::
+		ucarp	action=install
+		arping	action=install
+
+control:
+	any::
+		ucarp_stop = ( /usr/local/sbin/ucarp-stop.sh )
+		ucarp_vip_up = ( /usr/local/sbin/ucarp-vip-up.sh )
+		ucarp_vip_down = ( /usr/local/sbin/ucarp-vip-down.sh )
+
+copy:
+	any::
+		${cfe_files}${ucarp_stop}
+			dest=${ucarp_stop}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=755
+			define=NETWORK_RESTART
+		${cfe_files}${ucarp_vip_up}
+			dest=${ucarp_vip_up}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=755
+			define=NETWORK_RESTART
+		${cfe_files}${ucarp_vip_down}
+			dest=${ucarp_vip_down}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=755
+			define=NETWORK_RESTART
+
+files:
+	any::
+		${ucarp_stop}		mode=755 owner=root group=root action=fixall
+		${ucarp_vip_up}		mode=755 owner=root group=root action=fixall
+		${ucarp_vip_down}	mode=755 owner=root group=root action=fixall
+

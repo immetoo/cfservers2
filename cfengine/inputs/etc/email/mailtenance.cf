@@ -1,0 +1,20 @@
+
+control:	
+	SRV_MAIL::
+	   mailtenance_sh 	= ( /usr/local/sbin/mailtenance.sh )
+	   mailtenance_cron = ( /etc/cron.d/mailtenance )
+
+copy:
+	SRV_MAIL::
+		${cfe_files}${mailtenance}
+			dest=${mailtenance}
+			server=${cfe_host}
+			owner=root group=root mode=700
+			type=checksum
+
+	mrxmail2::
+		${cfe_files}${mailtenance_cron}
+			dest=${mailtenance_cron}
+			server=${cfe_host} backup=false
+			owner=root group=root mode=700
+			type=checksum

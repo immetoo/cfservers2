@@ -1,0 +1,58 @@
+#!/usr/bin/perl
+#
+# Perl script to have multiple log files.
+# maybe rewrite in bash:
+#
+# LOG_PATH=$1
+# while read name line; do
+#    echo $line >> $LOG_PATH/${name}_access_log;
+# done
+#
+
+use POSIX qw(strftime);
+
+$logs=shift;
+
+# main read loop.
+while (<STDIN>) {
+    #
+    # Get the first token from the log record; it's the
+    # identity of the virtual host to which the record
+    # applies.
+    #
+    ($vhost) = split /\s/;
+
+	# do nothing on apache dummy requests
+	# if ( $vhost == '-' ) { next; };
+
+	# makes from document root the hosted domain
+    if( $vhost =~ m/(?<=www\/)(.*)(?=\/htdocs)/ ) {
+    	$vhost = $1;
+    }
+
+    #
+    # Normalize the virtual host name to all lowercase.
+    # If it's blank, the request was handled by the default
+    # server, so supply a default name.  This shouldn't
+    # happen, but caution rocks.
+    #
+    $vhost = lc ($vhost) or "default";
+
+    $filename="${logs}/${vhost}/logs/access-${vhost}.log";
+    if (-l $filename) {
+        die "File $filename is a symlink, writing too dangerous, dying!\n";
+    }
+    open LOGFILE, ">>$filename" 
+    		or next;
+            #or die ("Can't open $filename");
+    #
+    # Strip off the first token (which may be null in the
+    # case of the default server), and write the edited
+    # record to the current log file.
+    #
+    s/^\S*\s+//;
+    print LOGFILE $_;
+    close(LOGFILE);
+}
+
+exit(0);

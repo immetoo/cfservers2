@@ -1,0 +1,3 @@
+# rbackup of accountview files on mohwts0 to moxsmb1
+
+12 5 * * * root /usr/local/sbin/av_backup.sh

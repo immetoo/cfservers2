@@ -1,0 +1,61 @@
+#
+# Managed the cfengine config
+#
+
+control:
+	any::
+		cfengine_default	 = ( /etc/default/cfengine2 )
+		cfengine_cfservd	 = ( /etc/cfengine/cfservd.conf )
+		cfengine_update		 = ( /etc/cfengine/update.conf )
+		cfengine_cfrun		 = ( /etc/cfengine/cfrun.hosts )
+
+# WE COPY BUT DON'T RESTART... we can't restart ourselves
+copy:
+	any::
+		${cfe_files}${cfengine_default}
+			dest=${cfengine_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+			define=CFE_RESTART
+		${cfe_files}${cfengine_update}-client
+			dest=${cfengine_update}
+			server=${cfe_host}
+			type=checksum
+			mode=600 owner=root group=root
+			define=CFE_RESTART
+	!SRV_CFE::
+		${cfe_files}${cfengine_cfservd}-client
+			dest=${cfengine_cfservd}
+			server=${cfe_host}
+			type=checksum
+			mode=600 owner=root group=root
+			define=CFE_RESTART
+	SRV_CFE::
+		${cfe_files}${cfengine_cfservd}-server
+			dest=${cfengine_cfservd}
+			server=${cfe_host}
+			type=checksum
+			mode=600 owner=root group=root
+			define=CFE_RESTART
+		${cfe_files}${cfengine_cfrun}
+			dest=${cfengine_cfrun}
+			server=${cfe_host}
+			type=checksum
+			mode=600 owner=root group=root
+			define=CFE_RESTART
+
+files:
+	any::
+		${cfengine_cfservd}		mode=600 owner=root group=root action=fixall
+		${cfengine_update}		mode=600 owner=root group=root action=fixall
+
+
+shellcommands:
+	CFE_RESTART::
+		"/etc/init.d/cfengine2 restart"
+
+# made sure there is an cfservd running
+processes:
+	any::
+		"cfservd" restart "/etc/init.d/cfengine2 restart"

@@ -1,0 +1,16 @@
+
+control:
+	any::
+		ssl_pem_mbuyu		= ( /etc/ssl/wildcard.mbuyu.nl.pem )
+
+copy:
+	any::
+		${cfe_files}${ssl_pem_mbuyu}
+			dest=${ssl_pem_mbuyu}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+files:
+	any::
+		${ssl_pem_mbuyu}		mode=644 owner=root group=root action=fixall

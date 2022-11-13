@@ -1,0 +1,4 @@
+#
+# This file is managed by cfengine
+#
+EXCLUDE="/home/vmail/home/*/Maildir/.Trash/";

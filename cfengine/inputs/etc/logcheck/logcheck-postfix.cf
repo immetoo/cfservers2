@@ -1,0 +1,25 @@
+#
+# Manages logcheck
+#
+
+control:
+	any::
+		logcheck_ignore_postfix		 = ( /etc/logcheck/ignore.d.server/logcheck-postfix )
+		logcheck_ignore_postfix_viol = ( /etc/logcheck/violations.ignore.d/logcheck-ignore-postfix )
+
+copy:
+	any::
+		${cfe_files}${logcheck_ignore_postfix}
+			dest=${logcheck_ignore_postfix}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+		${cfe_files}${logcheck_ignore_postfix_viol}
+			dest=${logcheck_ignore_postfix_viol}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+			
+files:
+	any::
+		${logcheck_ignore_postfix}			mode=640 owner=root group=logcheck	action=fixall

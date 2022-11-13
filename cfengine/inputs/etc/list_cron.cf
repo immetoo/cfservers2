@@ -1,0 +1,29 @@
+#
+# Copies /usr/local/sbin/list_cron.sh
+#        and makes entry in cron
+#
+
+control:
+	any::
+		default_list_cron_script	= ( /usr/local/sbin/list_cron.sh )
+		default_list_cron_cron	= ( /etc/cron.d/list_cron_entries )
+
+copy:
+	any::
+		${cfe_files}${default_list_cron_script}
+			dest=${default_list_cron_script}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=755
+		${cfe_files}${default_list_cron_cron}
+			dest=${default_list_cron_cron}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=600
+
+files:
+	any::
+		${default_list_cron_script}	owner=root group=root mode=755	action=fixall
+		${default_list_cron_cron}	owner=root group=root mode=600	action=fixall

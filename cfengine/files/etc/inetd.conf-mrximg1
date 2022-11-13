@@ -1,0 +1,9 @@
+#
+# This file is managed by cfengine
+#
+# /etc/inetd.conf:  see inetd(8) for further informations.
+#
+# Internet server configuration database
+#
+#
+csync2          stream  tcp     nowait  root    /usr/sbin/csync2        csync2 -i -N mrximg1.vlan.mbuyu.com

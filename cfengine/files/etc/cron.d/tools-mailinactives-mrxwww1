@@ -1,0 +1,8 @@
+#
+# This file is managed by cfengine
+#
+
+# Processes list from CS and mails affiliates (in 1000 batches)
+0,30 * * * *    root    wget http://tools.m4n.nl/mailinactives/cronjob.php > /dev/null 2>&1
+
+# EOF

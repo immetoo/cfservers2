@@ -1,0 +1,18 @@
+#
+# This file is managed by cfengine
+#
+# NTPD server options
+NTPD_OPTS='-g'
+
+#
+# Because this is a bash script we set a proc value here...
+#
+if [ -d "/proc/sys/xen/" ]; then
+        cur=`cat /proc/sys/xen/independent_wallclock`;
+        if [ "$cur" = "0" ]; then
+                echo -e "Setting XEN independent_wallclock..";
+                echo 1 > /proc/sys/xen/independent_wallclock
+                echo "done";
+        fi;
+fi;
+

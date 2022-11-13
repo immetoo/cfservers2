@@ -1,0 +1,36 @@
+#!/usr/bin/perl
+
+my $mdstat = '/proc/mdstat';
+
+open STAT, $mdstat or die "Can't open $mdstat!\n";
+
+my $dev, $stat, $errmsg = undef;
+
+while (<STAT>){
+  chomp;
+  if (/^md\d+/){
+    $dev = $_;
+  }
+  elsif (/\s+\d+\sblocks\s(\[\d\/\d\])\s(\[..\])/){
+    $stat1 = $1;
+    $stat2 = $2;
+    if (($stat1 !~ /\[(\d)\/\1\]/) or ($stat2 !~ /\[UU]/)){
+      $dev =~ s/\s+$//;
+      $errmsg .= "device: $dev has errors: $stat1 $stat2\n";
+    }
+  }
+}
+
+# -- display a mesage and return exit code
+if ($errmsg){
+
+  print "WARNING: RAID Error - $errmsg";
+  exit 1
+
+}
+else {
+
+  print "OK - RAID is functioning properly\n";
+  exit 0
+
+}

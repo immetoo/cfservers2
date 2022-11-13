@@ -1,0 +1,20 @@
+#!/bin/sh
+#
+# Checks to total udev managed devices
+#
+
+
+UDEV_DEVICE_COUNT=`udevinfo --export-db | grep "P:" | wc -l`;
+
+# Check valid count
+if [ "$UDEV_DEVICE_COUNT=" == "" ]; then
+        echo "No udev count output.";
+        exit 1; // WARNING
+fi;
+
+# print message
+echo "UDEVD OK - udevd device count: $UDEV_DEVICE_COUNT";
+
+# normal exit
+exit 0;
+

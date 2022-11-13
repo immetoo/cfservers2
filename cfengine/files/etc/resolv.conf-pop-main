@@ -1,0 +1,6 @@
+#
+# CFEngine manages this file
+#
+search dmz.office.mbuyu.com dmz.main.mbuyu.com
+nameserver 172.16.24.249
+nameserver 172.16.24.218

@@ -1,0 +1,7 @@
+#
+# This file is managed by cfengine
+#
+# Does maintenace on mail at this server
+5 5 * * * root /usr/local/sbin/mailtenance.sh &>/dev/null 
+
+# EOF

@@ -1,0 +1,41 @@
+#
+# This file is managed by cfengine.
+#
+# docs:
+# 	- http://tomcat.apache.org/connectors-doc/config/apache.html
+#
+
+
+# Minimal jk configuration
+JkWorkerProperty worker.list=ajp13,api_ajp13,status_ajp13,lb_df_ajp13
+
+# web server
+JkWorkerProperty worker.ajp13.type=ajp13
+JkWorkerProperty worker.ajp13.host=web0.live.mbuyu.nl
+JkWorkerProperty worker.ajp13.port=8009
+
+# api server
+JkWorkerProperty worker.api_ajp13.type=ajp13
+JkWorkerProperty worker.api_ajp13.host=api0.live.mbuyu.nl
+JkWorkerProperty worker.api_ajp13.port=8009
+
+# DF Node0
+JkWorkerProperty worker.mrxdf0.type=ajp13
+JkWorkerProperty worker.mrxdf0.host=mrxdf0.vlan.mbuyu.com
+JkWorkerProperty worker.mrxdf0.port=8009
+JkWorkerProperty worker.mrxdf0.lbfactor=1
+# DF Node1
+JkWorkerProperty worker.mrxdf1.type=ajp13
+JkWorkerProperty worker.mrxdf1.host=mrxdf1.vlan.mbuyu.com
+JkWorkerProperty worker.mrxdf1.port=8009
+JkWorkerProperty worker.mrxdf1.lbfactor=1
+
+# JK Status worker
+JkWorkerProperty worker.status_ajp13.type=status
+
+# Load-balancer
+JkWorkerProperty worker.lb_df_ajp13.type=lb
+JkWorkerProperty worker.lb_df_ajp13.balanced_workers=mrxdf0,mrxdf1
+JkWorkerProperty worker.lb_df_ajp13.sticky_session=1
+JkWorkerProperty worker.lb_df_ajp13.local_worker_only=1
+

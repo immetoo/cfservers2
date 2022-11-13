@@ -1,0 +1,70 @@
+#
+# Adds remote backup
+#
+
+packages:
+	install::
+		rsync	action=install
+
+
+control:
+	any::
+		rbackup_cron	= ( /etc/cron.d/rbackup )
+		rbackup_command	= ( /etc/rbackup/rbackup.sh )
+	
+copy:
+	!NET_POP_MAIN.!SRV_WWW.!SRV_MAIL.!SRV_PGDB::
+		${cfe_files}${rbackup_cron}
+			dest=${rbackup_cron}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=644
+	NET_POP_MAIN.!SRV_WWW.!SRV_MAIL::
+		${cfe_files}${rbackup_cron}-office
+			dest=${rbackup_cron}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=644
+	SRV_MAIL::
+		${cfe_files}${rbackup_cron}-mrxmail1
+			dest=${rbackup_cron}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=644
+	SRV_WWW::
+		${cfe_files}${rbackup_cron}-mrxwww1
+			dest=${rbackup_cron}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=644
+	SRV_PGDB::
+		${cfe_files}${rbackup_cron}-pgdb
+			dest=${rbackup_cron}
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			owner=root group=root mode=644
+			
+	!NET_POP_MAIN::	
+		${cfe_files}${rbackup_command}
+			dest=${rbackup_command}
+			server=${cfe_host}
+			backup=false
+			type=checksum
+			owner=root group=root mode=744
+	NET_POP_MAIN::	
+		${cfe_files}${rbackup_command}-office
+			dest=${rbackup_command}
+			server=${cfe_host}
+			backup=false
+			type=checksum
+			owner=root group=root mode=744
+
+
+shellcommands:
+	any::
+		"/usr/bin/touch /etc/rbackup/.check-backup"

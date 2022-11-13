@@ -1,0 +1,1 @@
+CREATE INDEX click_merchant_id_idx ON click_new (merchant_id);

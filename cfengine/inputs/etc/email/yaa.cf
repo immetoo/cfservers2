@@ -1,0 +1,25 @@
+#
+packages:
+	install::
+	libnet-ldap-perl			action=install
+	libio-socket-ssl-perl		action=install
+
+
+# manages the yaa configuration
+control:
+	any::
+		yaa_config	= ( /usr/local/yaa/conf/yaa.conf )
+
+copy:
+	SRV_MAIL::
+		${cfe_files}${yaa_config}
+			dest=${yaa_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			
+
+files:
+   SRV_MAIL::
+		${yaa_config}	mode=644 owner=root group=root	action=fixall
+ 

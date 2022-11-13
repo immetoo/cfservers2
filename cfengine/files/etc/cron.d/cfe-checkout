@@ -1,0 +1,7 @@
+# /etc/cron.d/cfe-checkout
+#
+# Note the gap between 0-20 then most server do cf update.
+
+0,20,30,40,50 * * * *       root    /usr/local/sbin/cfe_checkout.sh >> /dev/null
+
+# EOF

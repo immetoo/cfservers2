@@ -1,0 +1,19 @@
+#
+# make script /usr/local/bin/create_mailarchive.sh
+#
+
+control:
+	any::
+		create_mailarchive = ( /usr/local/bin/create_mailarchive.sh )
+
+copy:
+	SRV_MAIL::
+		${cfe_files}${create_mailarchive}
+			dest=${create_mailarchive}
+			server=${cfe_host}
+			type=checksum
+			owner=vmail group=vmail mode=744
+
+files:
+	SRVMAIL::
+		${create_mailarchive}	owner=vmail group=vmail mode=744	action=fixall

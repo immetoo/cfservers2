@@ -1,0 +1,61 @@
+#
+# This file is managed by cfengine	
+#
+#
+# /etc/proftpd/proftpd.conf -- This is a basic ProFTPD configuration file.
+# To really apply changes reload proftpd after modifications.
+# 
+
+# Includes DSO modules
+Include /etc/proftpd/modules.conf
+
+UseIPv6				off
+ServerName			"Debian"
+ServerType			standalone
+DeferWelcome			off
+MultilineRFC2228		on
+DefaultServer			on
+ShowSymlinks			on
+TimeoutNoTransfer		600
+TimeoutStalled			600
+TimeoutIdle			1200
+ListOptions                	"-l"
+DenyFilter			\*.*/
+Port				21
+PassivePorts			  5500	5510 
+MaxInstances			5
+# Set the user and group that the server normally runs at.
+User				proftpd
+Group				nogroup
+
+# Umask 022 is a good standard umask to prevent new files and dirs
+# (second parm) from being group and world writable.
+Umask				022  022
+AllowOverwrite			on
+TransferLog /var/log/proftpd/xferlog
+SystemLog   /var/log/proftpd/proftpd.log
+
+<IfModule mod_ctrls.c>
+ControlsEngine        on
+ControlsMaxClients    2
+ControlsLog           /var/log/proftpd/controls.log
+ControlsInterval      5
+ControlsSocket        /var/run/proftpd/proftpd.sock
+</IfModule>
+
+<IfModule mod_ctrls_admin.c>
+AdminControlsEngine on
+</IfModule>
+
+<Anonymous /data/public/office/scanner/>
+   User				ftp				
+   Group			nogroup
+   UserAlias			scan anonymous ftp
+   RequireValidShell		off
+   MaxClients			2	
+   <Directory *>
+     <Limit WRITE>
+       AllowAll
+     </Limit>
+   </Directory>
+</Anonymous>

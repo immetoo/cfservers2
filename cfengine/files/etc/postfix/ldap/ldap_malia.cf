@@ -1,0 +1,15 @@
+#
+# Postfix transport map
+#
+bind_dn= uid=postfix,ou=services,dc=m4n,dc=nl
+bind_pw= superP
+server_host=ldaps://ldap3.lan.mbuyu.nl ldaps://ldap1.lan.mbuyu.nl
+server_port=636
+bind= yes
+timeout= 20
+search_base= ou=transports,ou=mail,dc=m4n,dc=nl
+query_filter= (&(postfixTransport=malia:)(domainName=%d)(mailActive=TRUE))
+result_attribute=domainName
+result_format=*@m4n.nl
+scope=one
+version=3

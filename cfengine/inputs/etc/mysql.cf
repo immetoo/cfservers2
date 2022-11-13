@@ -1,0 +1,29 @@
+#
+# mysql
+#
+
+control:
+	any::
+		mysql_config		= ( /etc/mysql/my.cnf )
+
+
+packages:
+	install::
+		mysql-server			action=install
+		
+copy:
+	any::
+		${cfe_files}${mysql_config}
+			dest=${mysql_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=MYSQL_RESTART
+			
+files:
+	any::
+		${mysql_config}		owner=root group=root mode=644	action=fixall define=MYSQL_RESTART
+
+shellcommands:
+	MYSQL_RESTART::
+		"/etc/init.d/mysql restart"

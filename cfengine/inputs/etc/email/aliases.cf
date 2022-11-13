@@ -1,0 +1,29 @@
+#
+# manages the alias file
+#
+
+control:
+	any::
+		aliases_config	= ( /etc/aliases )
+		aliases_cron	= ( /etc/cron.daily/upd_aliases_db )
+
+copy:
+	any::
+		${cfe_files}${aliases_config}
+			dest=${aliases_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=TEL_NEWALIASES
+		${cfe_files}${aliases_cron}
+			dest=${aliases_cron}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=755
+
+files:
+	${aliases_config}	mode=644 owner=root group=root	action=fixall define=TEL_NEWALIASES
+
+shellcommands:
+	TEL_NEWALIASES::
+		"/usr/bin/newaliases"

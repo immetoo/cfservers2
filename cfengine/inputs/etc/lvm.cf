@@ -1,0 +1,14 @@
+#
+# Configures LVM for machines with DRBD
+
+control:
+	any::
+		lvm_file        = ( /etc/lvm/lvm.conf )
+
+copy:
+	any::
+		${cfe_files}${lvm_file}
+			dest=${lvm_file}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644

@@ -1,0 +1,88 @@
+#
+# Clean some stuff
+#
+#
+
+# CFengine has the lowest transhold at the moment.
+disks:
+	any::
+		/						freespace=12% inform=true
+	MM_BOOT::
+		/boot					freespace=12% inform=true
+	MM_HOME::
+		/home					freespace=12% inform=true
+	MM_VAR::
+		/var					freespace=12% inform=true
+	MM_VAR_LOG::
+		/var/log				freespace=12% inform=true
+	MM_VAR_LIB_PG::
+		/var/lib/postgresql		freespace=12% inform=true
+	MM_DATA::
+		/data					freespace=12% inform=true
+	MM_BACKUP::
+		/backup					freespace=12% inform=true
+
+tidy:
+	any::
+		# Cleanup cfe output so we don't choke on our own words!
+		/var/lib/cfengine2/outputs	pattern=* age=7
+		
+		# Some global tidy-ups
+		/tmp/                   pattern=* recurse=inf age=1
+		/var/tmp                pattern=* recurse=inf age=1
+		
+		#
+		# ALL tidies below are temp only
+		#
+		
+		#/etc/logrotate.d/			pattern=mail age=0
+		#/etc/logrotate.d/			pattern=postgresql age=0
+		#/etc/logrotate.d/			pattern=proftpd.cfsaved age=0
+		#/etc/logrotate.d/			pattern=rsyslog.cfsaved age=0
+		
+		# backup=false was not added		
+		#/etc/cron.daily			pattern=upd-local-nss-db.cfsaved age=0
+		#/etc/cron.d				pattern=set_default_alternative.cfsaved age=0
+		#/usr/local/sbin/			pattern=set_default_alternative.sh.cfsaved age=0
+		#/etc/cron.d/				pattern=firehol-getiana.cfsaved age=0
+		#/etc/sysctl.d/ 			pattern=bridge-nf.conf.cfsaved age=0
+		#/etc/network/if-pre-up.d/	pattern=vlan.cfsaved age=0
+		#/etc/apt/apt.conf.d/		pattern=50unattended-upgrades.cfsaved age=0
+		#/etc/apt/apt.conf.d/		pattern=proxy.cfsaved age=0
+		#/etc/apt/apt.conf.d/		pattern=99periodic.cfsaved age=0
+		
+		# rm old files and client conf
+		#/var/lib/cfengine2/files	pattern=* recurse=inf age=0
+		#/var/lib/cfengine2/inputs	pattern=cfservd.conf.clients age=0
+		#/var/lib/cfengine2/inputs	pattern=update.conf.clients age=0
+		#/etc/nagios/conf.d/ 		pattern=proc_pgdb.cfg age=0
+		#/usr/local/sbin/			pattern=check_drbd.pl age=0
+		#/etc/nagios/conf.d			pattern=check_drbd.cfg age=0
+		#/m4n/bin/            		pattern=description2_to_price.sh age=0
+		#/m4n/bin/            		pattern=reject_leads.sh age=0
+		#/etc/nagios/conf.d			pattern=areca-*.cfg age=0
+		#/etc/nagios/conf.d			pattern=disk_var_lib_pg.cfg age=0
+		#/etc/nagios/conf.d			pattern=proc_pgdb.cfg age=0
+		
+		# remove new script which has been renamed 
+		# /etc/init.d/                pattern=ioscheduler.sh age=0  
+		
+		
+disable:
+	any::
+		/etc/hosts.equiv
+		/etc/nologin
+		/usr/lib/sendmail.fc
+
+processes:
+	any::
+		"irc"                               signal=kill
+		"eggdrop"                           signal=kill
+		"netxray"                           signal=kill
+		"ypserv"                            signal=kill
+		"README"                            signal=kill
+		"mech"								signal=kill
+	!mrxsec0::
+		"ping"                              signal=kill
+		"ping6"                             signal=kill
+

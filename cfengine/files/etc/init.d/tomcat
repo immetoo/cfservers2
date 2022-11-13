@@ -1,0 +1,70 @@
+#!/bin/sh -e
+
+### BEGIN INIT INFO
+# Provides:          tomcat
+# Required-Start:    $local_fs $network $all
+# Required-Stop:     $local_fs $network $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start/stop tomcat server
+### END INIT INFO
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+NAME=catalina.sh
+DESC="Tomcat 6.0.20"
+CATALINA_HOME=/opt/tomcat
+DAEMON=$CATALINA_HOME/bin/$NAME
+TOMCAT_USER="root"
+JAVA_HOME="/opt/jdk"
+
+# experimental JVM Xm settings based on host memory footprint
+MEMORY=`free -m | grep Mem | awk '{ print $2 }'`
+MEMORY_MIN=$(($MEMORY * 25 / 100))
+MEMORY_MAX=$(($MEMORY * 70 / 100))
+JAVA_XM_SETTINGS="-Xms${MEMORY_MIN}m -Xmx${MEMORY_MAX}m"
+
+CATALINA_OPTS="";
+CATALINA_OPTS_START="-server -XX:MaxPermSize=128m -XX:-OmitStackTraceInFastThrow $JAVA_XM_SETTINGS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Djava.awt.headless=true -Dorg.apache.jasper.runtime.BodyContentImpl.LIMIT_BUFFER=true";
+CATALINA_OPTS_STOP="";
+
+test -f $DAEMON || exit 0
+
+export JAVA_HOME
+
+PIDFILE="/var/run/$NAME.pid"
+LOGDIR="$CATALINA_HOME/logs"
+WEBAPPDIR="$CATALINA_HOME/webapps"
+
+case "$1" in
+  start)
+  		# delete config dir in conf/Catalina
+  		rm -rf $CATALINA_HOME/conf/Catalina
+        echo -n "Starting $DESC using Java from $JAVA_HOME: "
+        CATALINA_OPTS=$CATALINA_OPTS_START;
+        export CATALINA_OPTS;
+        su -p -s /bin/sh $TOMCAT_USER -c "\"$DAEMON\" start" \
+            >>"$LOGDIR/catalina.out" 2>&1
+        echo "$NAME."
+        ;;
+
+  stop)
+        CATALINA_OPTS=$CATALINA_OPTS_STOP;
+        export CATALINA_OPTS;
+        echo -n "Stopping $DESC: "
+        su -p $TOMCAT_USER -c "\"$DAEMON\" stop" >/dev/null 2>&1 || true
+        echo "$NAME."
+        ;;
+
+  restart|force-reload)
+        $0 stop
+        sleep 1
+        $0 start
+        ;;
+
+  *)
+        echo "Usage: /etc/init.d/tomcat {start|stop|restart|force-reload}" >&2
+        exit 1
+        ;;
+esac
+
+exit 0

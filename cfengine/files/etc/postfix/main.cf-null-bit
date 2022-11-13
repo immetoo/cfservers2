@@ -1,0 +1,25 @@
+#
+# This file is managed by cfengine
+#
+#
+# postfix null client config (office)
+#
+
+#mydomain = $mydomain
+#	When above is enabled
+# 	postfixpostfix: warning: unreasonable macro call nesting: "mydomain"
+#	postfix: fatal: dictionary mail_dict: macro processing error
+#	failed!
+
+myorigin = $myhostname
+# no local, so map local->sysadm via virtual
+virtual_alias_maps = hash:/etc/aliases
+# also set alias_maps so default nis entry is removed
+alias_maps = hash:/etc/aliases
+relayhost = mrxnet1.vlan.mbuyu.com
+mynetworks = 127.0.0.0/8
+inet_interfaces = 127.0.0.1
+local_transport = error:local delivery is disabled
+
+# max 20mb mails !! :''(
+message_size_limit = 20971520

@@ -1,0 +1,89 @@
+#!/bin/sh -e
+### BEGIN INIT INFO
+# Provides:          ioscheduler
+# Required-Start:    mountkernfs udev $local_fs
+# Required-Stop:
+# Default-Start:     S
+# Default-Stop:
+# Short-Description: Set the IO scheduler and block device properties
+### END INIT INFO
+
+PATH="/sbin:/usr/sbin:/bin:/usr/bin"
+
+. /lib/init/vars.sh
+. /lib/lsb/init-functions
+
+do_start() {
+
+    log_action_begin_msg "Setting IO scheduler properties "
+
+    IO_SCHEDULER_CONF="/etc/default/ioscheduler"
+
+    if [ -f ${IO_SCHEDULER_CONF} ]; then
+
+        # include configuration file and set IO scheduler properties
+        . ${IO_SCHEDULER_CONF}
+
+        # tunable noop properties
+        for DEVICE in ${SCHEDULER_NOOP}; do
+            echo "noop" > /sys/block/${DEVICE}/queue/scheduler
+
+            if [ "${NOOP_READ_AHEAD}" != "" ]; then
+                blockdev --setra ${NOOP_READ_AHEAD} /dev/${DEVICE}
+            else
+                # revert to defaults
+                blockdev --setra 512 /dev/${DEVICE}
+            fi
+        done
+
+        # tunable anticipatory properties
+        for DEVICE in ${SCHEDULER_ANTICIPATORY}; do
+            echo "anticipatory" > /sys/block/${DEVICE}/queue/scheduler
+
+            if [ "${ANTICIPATORY_READ_AHEAD}" != "" ]; then
+                blockdev --setra ${ANTICIPATORY_READ_AHEAD} /dev/${DEVICE}
+            else
+                # revert to defaults
+                blockdev --setra 512 /dev/${DEVICE}
+            fi
+        done
+
+        # tunable deadline properties
+        for DEVICE in ${SCHEDULER_DEADLINE}; do
+            echo "deadline" > /sys/block/${DEVICE}/queue/scheduler
+
+            if [ "${DEADLINE_READ_AHEAD}" != "" ]; then
+                blockdev --setra ${DEADLINE_READ_AHEAD} /dev/${DEVICE}
+            else
+                # revert to defaults 
+                blockdev --setra 512 /dev/${DEVICE}
+            fi
+        done
+
+        # tunable cfq properties
+        for DEVICE in ${SCHEDULER_CFQ}; do
+            echo "cfq" > /sys/block/${DEVICE}/queue/scheduler
+
+            if [ "${CFQ_READ_AHEAD}" != "" ]; then
+                blockdev --setra ${CFQ_READ_AHEAD} /dev/${DEVICE}
+            else
+                # revert to defaults
+                blockdev --setra 512 /dev/${DEVICE}
+            fi
+        done
+    fi
+}
+
+case "$1" in
+    start)
+        do_start
+        ;;
+    restart|reload|force-reload|stop)
+        echo "Error: argument '$1' not supported" >&2
+        exit 3
+        ;;
+    *)
+        echo "Usage: $0 start" >&2
+        exit 3
+        ;;
+esac

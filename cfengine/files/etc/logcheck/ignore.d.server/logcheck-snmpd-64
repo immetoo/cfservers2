@@ -1,0 +1,4 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ snmpd\[[0-9]+\]: truncating integer value(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ snmpd\[[0-9]+\]: truncating signed value(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ snmpd\[[0-9]+\]: Connection from UDP: \[172.16.21.137\]:(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ snmpd\[[0-9]+\]: diskio.c: don't know how to handle [ :0-9]{3} request$

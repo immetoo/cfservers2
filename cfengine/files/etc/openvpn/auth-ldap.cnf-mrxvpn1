@@ -1,0 +1,38 @@
+<LDAP>
+        # LDAP server URL
+        URL             ldap://ldap1.lan.mbuyu.nl
+
+        BindDN          uid=openvpn,ou=services,dc=m4n,dc=nl
+        Password        superV
+
+        # Network timeout (in seconds)
+        Timeout         20
+
+        # Enable Start TLS
+        TLSEnable       no
+
+        # Follow LDAP Referrals (anonymously)
+        FollowReferrals yes
+
+        # TLS CA Certificate File
+        TLSCACertFile  /etc/openvpn/ssl/rapidssl_01.cer
+</LDAP>
+
+
+<Authorization>
+        # Base DN
+        BaseDN          ou=users,dc=m4n,dc=nl
+
+        # User Search Filter
+        #SearchFilter   "(&(uid=%u)(accountStatus=active))"
+        SearchFilter    "(&(uid=%u))"
+
+        # Require Group Membership
+        RequireGroup    false
+
+        <Group>
+                BaseDN          ou=groups,dc=m4n,dc=nl
+                SearchFilter    "(cn=sysvpn)"
+                MemberAttribute memberUid
+        </Group>
+</Authorization>

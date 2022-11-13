@@ -1,0 +1,180 @@
+#
+# CFEngine manages this file
+#
+127.0.0.1	localhost	localhost.localdomain
+
+# bit hosts
+172.16.19.2 mehxen0.dmz.bit.mbuyu.com
+# fix voor cfagent op mexvpn0
+#172.16.19.3 mexvpn0.dmz.bit.mbuyu.com
+172.16.31.1 mexvpn0.dmz.bit.mbuyu.com
+172.16.19.4 mexbak0.dmz.bit.mbuyu.com
+172.16.19.5 mexsat0.dmz.bit.mbuyu.com
+172.16.19.6 mexauth0.dmz.bit.mbuyu.com
+172.16.19.7 mexproxy0.dmz.bit.mbuyu.com
+172.16.19.8 mexdns0.dmz.bit.mbuyu.com
+
+# Cyso smz hosts
+172.16.20.2 nrxsmz0.smz.cyso.mbuyu.com
+172.16.20.9 nrxsmz0.smz.cyso.mbuyu.com
+172.16.20.5 mrxjump0.smz.cyso.mbuyu.com
+172.16.20.6 mrxnoc0.smz.cyso.mbuyu.com
+
+# Cyso dmz hosts
+172.16.21.2 nrxsmz0.dmz.cyso.mbuyu.com
+172.16.21.5 mrhxen5.vlan.mbuyu.com
+172.16.21.6 mrhxen6.vlan.mbuyu.com
+172.16.21.7 mrhxen7.vlan.mbuyu.com
+172.16.21.8 mrhxen8.vlan.mbuyu.com
+172.16.21.9 nrxsmz1.dmz.cyso.mbuyu.com
+172.16.21.13 mrhxen13.vlan.mbuyu.com
+172.16.21.14 mrhxen14.vlan.mbuyu.com
+172.16.21.80 mrxweb1.vlan.mbuyu.com
+172.16.21.103 mrhpgdb3.vlan.mbuyu.com
+172.16.21.104 mrhpgdb4.vlan.mbuyu.com
+172.16.21.122 mrhxen2.vlan.mbuyu.com
+172.16.21.128 mrxmysql0.vlan.mbuyu.com
+172.16.21.129 mrxsec0.vlan.mbuyu.com
+172.16.21.130 mrxbak0.vlan.mbuyu.com
+172.16.21.131 mrxcfe0.vlan.mbuyu.com
+172.16.21.133 mrxnet1.vlan.mbuyu.com
+172.16.21.134 mrxgate0.vlan.mbuyu.com
+172.16.21.135 mrxns0.vlan.mbuyu.com
+172.16.21.137 mrxwww1.vlan.mbuyu.com
+172.16.21.138 mrxauth0.vlan.mbuyu.com
+172.16.21.139 mrxvpn0.vlan.mbuyu.com
+172.16.21.140 mrxmail2.vlan.mbuyu.com
+172.16.21.141 mrxauth1.vlan.mbuyu.com
+172.16.21.142 mrxbuild0.dmz.cyso.mbuyu.com
+172.16.21.143 mrxvpn1.vlan.mbuyu.com
+172.16.21.144 mrxsat0.vlan.mbuyu.com
+172.16.21.145 mrximg0.vlan.mbuyu.com
+172.16.21.146 mrxauth2.vlan.mbuyu.com
+172.16.21.147 mrxsat1.vlan.mbuyu.com
+172.16.21.148 mrxdf0.vlan.mbuyu.com
+172.16.21.149 mrxdf1.vlan.mbuyu.com
+172.16.21.151 mrxcode0.vlan.mbuyu.com
+172.16.21.152 mrxcode1.vlan.mbuyu.com
+172.16.21.153 mrxcode2.vlan.mbuyu.com
+172.16.21.189 mrximg1.vlan.mbuyu.com
+172.16.21.192 mrxnet2.vlan.mbuyu.com
+172.16.21.193 mrhxen13.hmc.vlan.mbuyu.com
+172.16.21.194 mrxsmtp0.vlan.mbuyu.com
+172.16.21.195 mrxapi0.vlan.mbuyu.com
+172.16.21.196 trxweb0.vlan.mbuyu.com
+#temp server dedicated to mailserver:
+172.16.21.197 mrxauth3.vlan.mbuyu.com
+172.16.21.230 mrhapc0.vlan.mbuyu.com
+172.16.21.239 mrhrcon0.vlan.mbuyu.com
+172.16.21.240 mrhmsw0.vlan.mbuyu.com
+172.16.21.242 mrhmsw2.vlan.mbuyu.com
+172.16.21.250 mrhlb0.dmz.cyso.mbuyu.com
+172.16.21.251 mrhlb1.dmz.cyso.mbuyu.com
+
+# dmz hosts
+172.16.24.2  pgha.dmz.main.mbuyu.com
+172.16.24.3  noxsmz0.dmz.main.mbuyu.com
+172.16.24.4	 noxsmz1.dmz.main.mbuyu.com
+172.16.24.5  noxolz0.dmz.main.mbuyu.com
+172.16.24.6  noxolz1.dmz.main.mbuyu.com
+172.16.24.11 moxproxy0.dmz.main.mbuyu.com
+172.16.24.12 moxproxy1.dmz.main.mbuyu.com
+172.16.24.13 proxy.main.mbuyu.nl
+172.16.24.15 moxnexus0.dmz.main.mbuyu.com
+172.16.24.16 moxhudson0.dmz.main.mbuyu.com
+172.16.24.17 toxjboss0.dmz.main.mbuyu.com
+172.16.24.18 toxjboss1.dmz.main.mbuyu.com
+172.16.24.19 toxajp0.dmz.main.mbuyu.com
+172.16.24.20 toxajp1.dmz.main.mbuyu.com
+172.16.24.21 toxlb0.dmz.main.mbuyu.com
+172.16.24.22 toxlb1.dmz.main.mbuyu.com
+172.16.24.23 toxlb-ha0.dmz.main.mbuyu.com
+172.16.26.90 noxdhcp0.office.mbuyu.com
+172.16.26.91 noxdhcp1.office.mbuyu.com
+172.16.24.174 noxdhcp1.dmz.main.mbuyu.com
+172.16.24.177 noxdhcp0.dmz.main.mbuyu.com
+172.16.24.178 moxdns0.dmz.main.mbuyu.com
+172.16.24.182 moxauth2.dmz.office.mbuyu.com
+172.16.24.183 toxapi3.dmz.office.mbuyu.com
+172.16.24.184 toxns3.dmz.office.mbuyu.com
+172.16.24.185 toxsat3.dmz.office.mbuyu.com
+172.16.24.186 toxweb3.dmz.office.mbuyu.com
+172.16.24.188 mohxen6.dmz.office.mbuyu.com
+172.16.24.196 moxwww0.dmz.office.mbuyu.com
+172.16.24.197 moxauth1.dmz.office.mbuyu.com
+172.16.24.200 doxads0.dmz.main.mbuyu.com
+172.16.24.201 toxsat1.dmz.office.mbuyu.com
+172.16.24.202 toxsat2.dmz.office.mbuyu.com
+172.16.24.203 doxapi0.dmz.main.mbuyu.com
+172.16.24.204 toxapi1.dmz.office.mbuyu.com
+172.16.24.205 toxapi2.dmz.office.mbuyu.com
+172.16.24.206 doxweb0.dmz.main.mbuyu.com
+172.16.24.207 toxweb1.dmz.office.mbuyu.com
+172.16.24.208 toxweb2.dmz.office.mbuyu.com
+172.16.24.209 doxns0.dmz.main.mbuyu.com
+172.16.24.210 toxns1.dmz.office.mbuyu.com
+172.16.24.211 toxns2.dmz.office.mbuyu.com
+172.16.24.215 toxdf0.dmz.office.mbuyu.com
+172.16.24.216 moxvpn1.dmz.office.mbuyu.com
+172.16.24.218 moxnet2.dmz.office.mbuyu.com
+172.16.24.221 moxvpn0.dmz.office.mbuyu.com
+172.16.24.222 moxwos0.dmz.office.mbuyu.com
+172.16.24.225 moxgate1.dmz.office.mbuyu.com
+172.16.24.226 mohxen5.dmz.office.mbuyu.com
+172.16.24.228 moxsts1.dmz.office.mbuyu.com
+172.16.24.232 tohpgdb1.dmz.office.mbuyu.com
+172.16.24.244 mohxen4.dmz.office.mbuyu.com
+172.16.24.245 mohxen3.dmz.office.mbuyu.com
+172.16.24.246 mohxen2.dmz.office.mbuyu.com
+172.16.24.249 moxnet3.dmz.office.mbuyu.com
+172.16.24.250 noxint0.dmz.main.mbuyu.com
+172.16.24.251 noxwiz0.dmz.main.mbuyu.com
+172.16.24.252 noxsmz0.dmz.main.mbuyu.com
+172.16.24.253 noxolz-ha.dmz.main.mbuyu.com
+
+#wireless access points
+172.16.25.220 mohwap0.wifi.office.mbuyu.com
+10.0.0.138    mohwap1.wifi.office.mbuyu.com
+
+#wireless router/firewall
+172.16.25.254 noxwiz0.wifi.office.mbuyu.com
+172.16.24.253 noxolz0.dmz.main.mbuyu.com
+
+# Core network services which should work without dns;
+172.16.21.138 ldap.mbuyu.nl
+172.16.21.141 ldap0.lan.mbuyu.nl
+172.16.21.138 ldap1.lan.mbuyu.nl
+172.16.21.146 ldap3.lan.mbuyu.nl
+172.16.24.197 ldap4.lan.mbuyu.nl
+172.16.21.104 db0.live.mbuyu.nl
+85.158.204.168 www.m4n.nl
+
+172.16.26.5 noxolz0.olz.mbuyu.com
+172.16.26.6 noxolz1.olz.mbuyu.com
+# temp office workstations for resolving.
+172.16.26.11  mohwks1.office.mbuyu.com
+172.16.26.12  mohwks2.office.mbuyu.com
+172.16.26.13  mohwks3.office.mbuyu.com
+172.16.26.14  mohwks4.office.mbuyu.com
+172.16.26.15  mohwks5.office.mbuyu.com
+172.16.26.16  mohwks6.office.mbuyu.com
+172.16.26.17  mohwks7.office.mbuyu.com
+172.16.26.18  mohwks8.office.mbuyu.com
+172.16.26.19  mohwks9.office.mbuyu.com
+172.16.26.20  mohwks10.office.mbuyu.com
+172.16.26.21  mohwks11.office.mbuyu.com
+172.16.26.22  mohwks12.office.mbuyu.com
+172.16.26.23  mohwks13.office.mbuyu.com
+172.16.26.24  mohwks14.office.mbuyu.com
+172.16.26.25  mohwks15.office.mbuyu.com
+
+#router/firewall to office
+172.16.26.254 noxolz-ha.olz.mbuyu.com
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+ff02::3 ip6-allhosts

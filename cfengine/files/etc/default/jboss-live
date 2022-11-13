@@ -1,0 +1,6 @@
+# M4N JBoss configuration
+
+# The address JBoss should bind on, possible values are: LOCALHOST, HOSTNAME, ALL
+BIND="ALL"
+
+M4N_STAGING="-Dm4n.staging=live"

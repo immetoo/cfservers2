@@ -1,0 +1,10 @@
+#
+# This file is managed by cfengine
+#
+
+# Temp disabled for space reasons see ticket #xxxx
+45 7    * * *	root	nice -n 10 /etc/rbackup/rbackup-rotation.sh daily
+25 7    * * 0	root	nice -n 10 /etc/rbackup/rbackup-rotation.sh weekly
+ 5 7     1 * *	root	nice -n 10 /etc/rbackup/rbackup-rotation.sh monthly
+
+ # EOF

@@ -1,0 +1,45 @@
+#
+# manages initab
+#
+
+control:
+	any::
+		inittab_config	= ( /etc/inittab )
+		
+copy:
+	!SERVER_XEN_DOMU_HVC.!SERVER_XEN_DOM0.!mrhlb0.!mrhlb1::
+		${cfe_files}${inittab_config}
+			dest=${inittab_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=TEL_INIT
+	SERVER_XEN_DOM0::
+		${cfe_files}${inittab_config}-dom0
+			dest=${inittab_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=TEL_INIT		
+	!SERVER_XEN_DOM0.SERVER_XEN_DOMU_HVC::
+		${cfe_files}${inittab_config}-domU-hvc
+			dest=${inittab_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=TEL_INIT	
+	mrhlb0|mrhlb1::
+		${cfe_files}${inittab_config}-ttyS1
+			dest=${inittab_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=TEL_INIT	
+
+files:
+	any::
+		${inittab_config}	owner=root group=root mode=644	action=fixall define=TEL_INIT
+			
+shellcommands:
+	TEL_INIT::
+		"/sbin/telinit q"

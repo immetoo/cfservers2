@@ -1,0 +1,2 @@
+UPDATE lead SET status = 'ACCEPTED'  WHERE EXTRACT(MONTH FROM -age(lead.created, now())) > 0 AND status = 'TO_BE_APPROVED';
+UPDATE lead SET status = 'ACCEPTED'  WHERE created < now() - interval '100 days' AND status = 'ON_HOLD';

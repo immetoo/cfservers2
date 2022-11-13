@@ -1,0 +1,53 @@
+#
+# Git ignore for cfservers2
+#
+
+### Forbidden
+*.log
+*.cache
+*.class
+*.so
+*.dll
+
+### Temp
+*~
+.tmp
+*.bak
+*.swp
+.~lock.*
+.kate-swp
+
+### Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code
+.vscode/
+
+# mac finder
+.DS_Store
+
+# windows exploder
+Thumbs.db
+
+# kde dolphin
+.directory

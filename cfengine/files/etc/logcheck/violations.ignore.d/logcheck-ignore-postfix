@@ -1,0 +1,3 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: certificate verification failed for(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtpd\[[0-9]+\]: NOQUEUE: filter: RCPT from(.*)Recipient address triggers FILTER amavis(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: [[:alnum:]]+: to=<[^[:space:]]+>, relay=(.*), delay=[.0-9]+,( delays=[.0-9/]+,)? dsn=[45]\.0\.0, status=bounced(.*)said: 550(.*)$

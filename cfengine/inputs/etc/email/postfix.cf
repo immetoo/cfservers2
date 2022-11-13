@@ -1,0 +1,251 @@
+#
+# installs postfix and configs it.
+#
+
+packages:
+	install::
+		postfix				action=install
+		bsd-mailx			action=install
+		
+	install.SRV_MAIL|SRV_MAIL_DOVECOT::
+		postfix-ldap		action=install
+		libsasl2-modules	action=install
+	
+control:
+	any::
+		dynamicmaps_config	= ( /etc/postfix/dynamicmaps.cf )
+		master_config		= ( /etc/postfix/master.cf )
+		main_config			= ( /etc/postfix/main.cf )
+		sasl_config			= ( /etc/postfix/sasl/smtpd.conf )
+		postfix_mine_checks = ( /etc/postfix/mime_header_checks.regexp )
+		postfix_header_checks = ( /etc/postfix/header_checks.regexp )
+		postfix_ldap_prefix = ( /etc/postfix/ldap/ldap_ )
+
+
+directories:
+	SRV_MAIL|SRV_MAIL_DOVECOT::
+		/etc/postfix/ldap					mode=644 owner=root group=root
+
+editfiles:
+	any::
+		{ /etc/passwd
+			BeginGroupIfNoLineContaining "vmail"
+				Append "vmail:x:888:888::/var/vmail/:/bin/true"
+			EndGroup
+		}
+		{ /etc/group
+			BeginGroupIfNoLineContaining "vmail"	
+				Append "vmail:x:888:vmail"
+			EndGroup	
+		}
+
+copy:	
+	NET_POP_MAIN.!SRV_MAIL.!SRV_NET.!SRV_MAIL_DOVECOT.!SRV_SMTP::
+		${cfe_files}${main_config}-null-office
+			dest=${main_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${dynamicmaps_config}
+			dest=${dynamicmaps_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART	
+		${cfe_files}${master_config}
+			dest=${master_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+	NET_POP_CYSO.!SRV_MAIL.!SRV_NET.!SRV_MAIL_DOVECOT.!SRV_SMTP::
+			${cfe_files}${main_config}-null-cyso
+			dest=${main_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${dynamicmaps_config}
+			dest=${dynamicmaps_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART	
+		${cfe_files}${master_config}
+			dest=${master_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+	NET_POP_BIT.!SRV_SMTP::
+		${cfe_files}${main_config}-null-bit
+			dest=${main_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${dynamicmaps_config}
+			dest=${dynamicmaps_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART	
+		${cfe_files}${master_config}
+			dest=${master_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+	
+	# MAIN MAil server
+	SRV_MAIL|SRV_MAIL_DOVECOT::
+		${cfe_files}${dynamicmaps_config}-mrxmail1
+			dest=${dynamicmaps_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_mine_checks}
+			dest=${postfix_mine_checks}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART	
+		${cfe_files}${postfix_header_checks}
+			dest=${postfix_header_checks}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART	
+	# Required ldap tables		
+		${cfe_files}${postfix_ldap_prefix}aliases.cf
+			dest=${postfix_ldap_prefix}aliases.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}forwards.cf
+			dest=${postfix_ldap_prefix}forwards.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}lists.cf
+			dest=${postfix_ldap_prefix}lists.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}trans.cf
+			dest=${postfix_ldap_prefix}trans.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}users.cf
+			dest=${postfix_ldap_prefix}users.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}vdoms.cf
+			dest=${postfix_ldap_prefix}vdoms.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}yaa.cf
+			dest=${postfix_ldap_prefix}yaa.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}access.cf
+			dest=${postfix_ldap_prefix}access.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}translist.cf
+			dest=${postfix_ldap_prefix}translist.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}boxes.cf
+			dest=${postfix_ldap_prefix}boxes.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${postfix_ldap_prefix}malia.cf
+			dest=${postfix_ldap_prefix}malia.cf
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+	SRV_MAIL|SRV_MAIL_DOVECOT::
+		${cfe_files}${main_config}-mrxmail2
+			dest=${main_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${master_config}-mrxmail2
+			dest=${master_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${sasl_config}
+			dest=${sasl_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART	
+	SRV_SMTP::
+		${cfe_files}${main_config}-mrxsmtp0
+			dest=${main_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${master_config}-mrxmail2
+			dest=${master_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+		${cfe_files}${sasl_config}
+			dest=${sasl_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART		
+
+			
+	# Redbus relay email server
+	NET_POP_CYSO.SRV_NET::
+		${cfe_files}${main_config}-srv_net_remote
+			dest=${main_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+	# Office relay email server
+	NET_POP_MAIN.SRV_NET::
+		${cfe_files}${main_config}-moxnet0
+			dest=${main_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=POSTFIX_RESTART
+
+files:
+	${dynamicmaps_config}	mode=644 owner=root group=root	action=fixall define=POSTFIX_RESTART
+	${master_config}		mode=644 owner=root group=root	action=fixall define=POSTFIX_RESTART
+	${main_config}			mode=644 owner=root group=root	action=fixall define=POSTFIX_RESTART
+	
+shellcommands:
+	POSTFIX_RESTART::
+		"/etc/init.d/postfix restart"

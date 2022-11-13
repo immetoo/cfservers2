@@ -1,0 +1,53 @@
+#
+# Sets the io scheduler
+#
+
+control:
+	any::
+		io_scheduler      = ( /etc/init.d/ioscheduler )
+		io_scheduler_conf = ( /etc/default/ioscheduler )
+		
+copy:
+	any::
+		${cfe_files}${io_scheduler}
+			dest=${io_scheduler}
+			server=${cfe_host}
+			mode=700 owner=root group=root
+			backup=false
+			type=checksum
+	mrhpgdb3::
+		${cfe_files}${io_scheduler_conf}-mrhpgdb3
+			dest=${io_scheduler_conf}
+			server=${cfe_host}
+			mode=600 owner=root group=root
+			backup=false
+			type=checksum
+	mrhpgdb4::
+		${cfe_files}${io_scheduler_conf}-mrhpgdb4
+			dest=${io_scheduler_conf}
+			server=${cfe_host}
+			mode=600 owner=root group=root
+			backup=false
+			type=checksum
+	mrhpgdb5::
+		${cfe_files}${io_scheduler_conf}-mrhpgdb5
+			dest=${io_scheduler_conf}
+			server=${cfe_host}
+			mode=600 owner=root group=root
+			backup=false
+			type=checksum
+	tohpgdb1::
+		${cfe_files}${io_scheduler_conf}-tohpgdb1
+			dest=${io_scheduler_conf}
+			server=${cfe_host}
+			mode=600 owner=root group=root
+			backup=false
+			type=checksum
+			
+shellcommands:
+	DEBIAN5.!INIT_IOSCHEDULER::
+		"update-rc.d ioscheduler defaults 13"
+	DEBIAN6.!INIT_IOSCHEDULER::
+		"update-rc.d ioscheduler defaults 13"
+		"insserv ioscheduler"
+		

@@ -1,0 +1,15 @@
+#
+# installs and config nagios
+#
+
+packages:
+	install.DEBIAN::
+			nagios3		action=install
+
+	
+shellcommands:
+	APACHE2_NAGIOS3_CONF::
+		"/bin/rm -rf /etc/apache2/conf.d/nagios3.conf"
+		
+	NAGIOS_SERVER_RESTART|APACHE2_NAGIOS3_CONF::
+		"/etc/init.d/nagios3 restart"

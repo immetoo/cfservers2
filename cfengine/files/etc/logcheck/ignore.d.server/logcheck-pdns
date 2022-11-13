@@ -1,0 +1,2 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ pdns\[[0-9]+\]: Database module reported condition which prevented lookup - sending out servfail$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ pdns\[[0-9]+\]: Received a malformed qdomain from(.*)sending servfail$

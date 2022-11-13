@@ -1,0 +1,1 @@
+ALTER TABLE click_new ADD CONSTRAINT click_advertisement_id_fkey FOREIGN KEY (advertisement_id) REFERENCES advertisement (id) ON UPDATE CASCADE ON DELETE CASCADE;

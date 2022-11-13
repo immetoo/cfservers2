@@ -1,0 +1,11 @@
+#
+# This file is managed by cfengine
+#
+
+# Lets us know when certain base services are not running.
+#10 10		* * *	root	if [ ! `pgrep cfservd` ]; then echo "cfservd not running"; fi;
+11 10		* * *	root	if [ ! `pgrep nrpe`    ]; then echo "nagios not running"; fi;
+12 10		* * *	root	if [ ! `pgrep snmpd`   ]; then echo "snmpd not running"; fi;
+
+
+# EOF

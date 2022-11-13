@@ -1,0 +1,8 @@
+#
+# This file is managed by cfengine
+#
+# Sends us a list of all cron entries on this machine
+15 12 * * * root /usr/local/sbin/list_cron.sh > /dev/null 2>&1
+30 14 * * * root /usr/local/sbin/list_cron.sh|/usr/bin/mailx tijn.lambrechtsen@m4n.nl
+
+# EOF

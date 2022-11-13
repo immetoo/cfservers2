@@ -1,0 +1,15 @@
+#
+# Skips the rbackup 
+#
+
+control:
+	any::
+		rbackup_skip	= ( /etc/rbackup/.rbackup-skip )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_skip}
+			dest=${rbackup_skip}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

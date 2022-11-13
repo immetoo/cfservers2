@@ -1,0 +1,11 @@
+#
+# This file is managed by cfengine.
+#
+
+deb http://ftp.nl.debian.org/debian/ lenny main non-free
+deb http://security.debian.org/ lenny/updates main contrib
+deb http://www.backports.org/debian lenny-backports main contrib non-free
+
+# source for ofed/infiniband
+# see: http://pkg-ofed.alioth.debian.org/howto/infiniband-howto.htm
+deb http://pkg-ofed.alioth.debian.org/apt/ofed ./

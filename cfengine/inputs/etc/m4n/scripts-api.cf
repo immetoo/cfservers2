@@ -1,0 +1,44 @@
+#
+# Add api m4n-settings
+#
+
+
+control:
+	any::
+		m4n_settings_api = ( /etc/m4n-settings.xml )
+
+copy:
+	SRV_LIVE::
+		${cfe_files}${m4n_settings_api}-api
+			dest=${m4n_settings_api}
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			type=checksum
+	
+	SRV_DEV::
+		${cfe_files}${m4n_settings_api}-api-dev
+			dest=${m4n_settings_api}
+			server=${cfe_host}
+			mode=644 owner=root	group=root
+			type=checksum
+	
+	SRV_UPDATE::
+		${cfe_files}${m4n_settings_api}-api-update
+			dest=${m4n_settings_api}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+	
+	SRV_BETA::
+		${cfe_files}${m4n_settings_api}-api-beta
+			dest=${m4n_settings_api}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			
+	SRV_TEST::
+		${cfe_files}${m4n_settings_api}-api-test
+			dest=${m4n_settings_api}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum

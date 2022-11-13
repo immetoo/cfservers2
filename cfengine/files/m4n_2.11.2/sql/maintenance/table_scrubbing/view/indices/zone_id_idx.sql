@@ -1,0 +1,1 @@
+CREATE INDEX view_zone_id_idx ON view_new (zone_id);

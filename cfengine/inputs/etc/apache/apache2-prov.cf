@@ -1,0 +1,20 @@
+#
+# added prov to apache2
+#
+
+control:
+	any::
+		apache2_prov	= ( /etc/apache2/sites-available/prov.mbuyu.nl )
+		
+copy:
+	any::
+		${cfe_files}${apache2_prov}
+			dest=${apache2_prov}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/sites-enabled/prov.mbuyu.nl ->! ${apache2_prov} define=APACHE2_RESTART

@@ -1,0 +1,20 @@
+#
+# This file is managed by cfengine
+#
+#
+# Simple relay postfix config
+#
+
+mydomain = office.m4n.nl
+myorigin = office.m4n.nl
+# no local, so map local->sysadm via virtuel
+virtual_alias_maps = hash:/etc/aliases
+# also set alias_maps so default nis entry is removed
+alias_maps = hash:/etc/aliases
+relayhost = mrxnet1.vlan.mbuyu.com
+mynetworks = 127.0.0.0/8 172.16.0.0/16
+inet_interfaces = all
+local_transport = error:local delivery is disabled
+
+# max 20mb mails !! :''(
+message_size_limit = 20971520

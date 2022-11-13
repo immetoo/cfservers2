@@ -1,0 +1,21 @@
+#
+# Added apache2 ldap support
+#
+# note: also import ldap.cf and apache2-ldap.cf
+
+packages:
+	install.DEBIAN_4::
+		libapache-mod-ldap  action=install define=APACHE2_RESTART
+		
+copy:
+	DEBIAN_4::
+		${cfe_files}/etc/apache2/conf.d/mod_ldap.conf
+			dest=/etc/apache2/conf.d/mod_ldap.conf
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=644 owner=root group=root
+			define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/mods-enabled/authnz_ldap.load ->! ../mods-available/authnz_ldap.load define=APACHE2_RESTART

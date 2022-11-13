@@ -1,0 +1,2 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpnlivetunnel.mbuyu.nl(?.*): NOTE: --mute triggered...$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpnlivetunnel.mbuyu.nl(?.*): Replay-window backtrack occurred(.*)$

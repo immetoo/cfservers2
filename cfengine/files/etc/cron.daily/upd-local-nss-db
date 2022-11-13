@@ -1,0 +1,3 @@
+#!/bin/sh
+# Updated cached credentials database 
+/usr/sbin/nss_updatedb ldap

@@ -1,0 +1,13 @@
+#
+# This file is managed by cfengine
+#
+# Postfix dynamic maps configuration file.
+#
+# The first match found is the one that is used.  Wildcards are not supported
+# as of postfix 2.0.2
+#
+#type   location of .so file                    open function   (mkmap func)
+#====   ================================        =============   ============
+tcp     /usr/lib/postfix/dict_tcp.so            dict_tcp_open
+ldap    /usr/lib/postfix/dict_ldap.so           dict_ldap_open
+#sdbm    /usr/lib/postfix/dict_sdbm.so           dict_sdbm_open  mkmap_sdbm_open

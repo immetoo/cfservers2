@@ -1,0 +1,19 @@
+#/bin/bash
+#
+# Nagios check for LSI SAS raid cards.
+# Note: file is managed by cfengine
+#
+
+ERROR=0;
+MegaCli64 -LDInfo -Lall -aALL | grep State | while read LINE; do
+	echo -n $LINE;
+	echo -n " "; # extra space to split the different arrays
+	if [[ ! "$LINE" =~ "State: Optimal" ]]
+	then
+		# not OK
+		ERROR=2;
+	fi
+done;
+
+# NORMAL(0) OR WARNING(1) OR CRITICAL(2) OR UNKNOWN(3)
+exit $ERROR;

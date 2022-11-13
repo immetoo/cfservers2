@@ -1,0 +1,36 @@
+#
+# Adds ajp to apache for cluster
+#
+# this file is temp until working order
+
+control:
+	any::
+		apache2_m4n_dev2  = ( /etc/apache2/sites-available/dev2.m4n.nl )
+		modjk_config_ajp  = ( /etc/apache2/conf.d/mod_jk.conf )
+
+packages:
+	install::
+		libapache2-mod-jk  action=install define=APACHE2_RESTART
+
+# Dev only at the moment.
+copy:
+	SRV_AJP::
+		${cfe_files}${apache2_m4n_dev2}
+			dest=${apache2_m4n_dev2}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+		${cfe_files}${modjk_config_ajp}-ajp-beta
+			dest=${modjk_config_ajp}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			backup=false
+			define=APACHE2_RESTART
+	
+links:
+	SRV_AJP::
+		/etc/apache2/sites-enabled/dev2.m4n.nl ->! ${apache2_m4n_dev2} define=APACHE2_RESTART
+		/etc/apache2/mods-enabled/jk.load ->! ../mods-available/jk.load define=APACHE2_RESTART
+

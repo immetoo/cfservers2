@@ -1,0 +1,19 @@
+#
+# Manages logcheck
+#
+
+control:
+	any::
+		logcheck_ignore_snmpd_64		= ( /etc/logcheck/ignore.d.server/logcheck-snmpd-64 )
+
+copy:
+	HW_AMD64::
+		${cfe_files}${logcheck_ignore_snmpd_64}
+			dest=${logcheck_ignore_snmpd_64}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+			
+files:
+	HW_AMD64::
+		${logcheck_ignore_snmpd_64}			mode=640 owner=root group=logcheck	action=fixall

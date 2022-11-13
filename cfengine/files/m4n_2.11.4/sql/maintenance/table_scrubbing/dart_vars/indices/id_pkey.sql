@@ -1,0 +1,1 @@
+ALTER TABLE dart_vars_new ADD CONSTRAINT dart_vars_pkey PRIMARY KEY(id);

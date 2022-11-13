@@ -1,0 +1,33 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(MULTI: multi_create_instance called)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Re-using SSL/TLS context)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(LZO compression initialized)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Control Channel MTU parms)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Data Channel MTU parms)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Local Options hash)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Expected Remote Options hash)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(TLS: Initial packet from)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Peer Connection Initiated with)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(MULTI: Learn:)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(MULTI: primary virtual IP for)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(PUSH: Received control message:)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(SENT CONTROL)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(TLS: soft reset)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(PLUGIN_CALL: POST)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(TLS: Username/Password authentication succeeded)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Data Channel Encrypt:)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Data Channel Decrypt:)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Control Channel:)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(MULTI: bad source address from client)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(MULTI: new connection by client)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(suppressed by --mute)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Replay-window backtrack occurred)(?.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(TLS: move_session: dest=TM_LAME_DUCK src=TM_ACTIVE reinit_src=1)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(TLS Error: TLS key negotiation failed to occur within 60 seconds \(check your network connectivity\))$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(TLS Error: TLS handshake failed)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(received, client-instance exiting)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(read UDPv4 \[EHOSTUNREACH\]: No route to host \(code=113\))$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(received, client-instance restarting)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(NOTE: --mute triggered...)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(read UDPv4 \[ECONNREFUSED\]: Connection refused \(code=111\))$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(Inactivity timeout \(--ping-restart\), restarting)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ ovpn-vpn0.mbuyu.nl(?.*)(TLS: tls_process: killed expiring key)$

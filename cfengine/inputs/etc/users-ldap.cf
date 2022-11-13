@@ -1,0 +1,173 @@
+#
+# manages Ldap users
+#
+# UID:
+# 0-999: System Accounts (not network authenticated) 
+# 1000-1999: Local Users (not network authenticated) 
+# 2000-2999: Administration Accounts (network authenticated) 
+# 3000-3999: Service Accounts (network authenticated) 
+# 4000-9999: reserved 
+# 10000-24999: Network Users (network authenticated) 
+# 25000-29999: Network WWW Users (network authenticated) 
+# 30000-39999: Network Groups (network authenticated) 
+# 40000-59999: Network Hosts (network authenticated) 
+# 60000-60999: Network Mail boxes
+# 61000-64999: reserved 
+# 65000-65535: System Accounts (not network authenticated)
+#
+# see: http://linuxwiki.riverworth.com/index.php/LDAP_Authentication#Samba_Authentication
+# and: http://www.nomis52.net/?section=docs&page=samldap
+#
+
+
+control:
+	any::
+		pam_account	 	= ( /etc/pam.d/common-account )
+		pam_session 	= ( /etc/pam.d/common-session )
+		pam_password	= ( /etc/pam.d/common-password )
+		pam_auth 	 	= ( /etc/pam.d/common-auth ) 
+		pam_ldap		= ( /etc/pam_ldap.conf )
+		
+		nss_switch		= ( /etc/nsswitch.conf )
+		nss_lib			= ( /etc/libnss-ldap.conf )
+
+packages:
+	install::
+		libpam-ldap		action=install
+		libnss-ldap		action=install
+
+copy:
+	any::			
+		${cfe_files}${pam_account}-ldap
+			dest=${pam_account}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=644 owner=root group=root
+		${cfe_files}${pam_session}-ldap
+			dest=${pam_session}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=644 owner=root group=root
+		${cfe_files}${pam_password}-ldap
+			dest=${pam_password}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=644 owner=root group=root
+		${cfe_files}${pam_auth}-ldap
+			dest=${pam_auth}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=644 owner=root group=root
+		${cfe_files}${nss_switch}-ldap
+			dest=${nss_switch}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=644 owner=root group=root
+
+
+files:
+	any::
+		${nss_lib}		mode=644 owner=root group=root action=fixall
+		${nss_switch}	mode=644 owner=root group=root action=fixall
+		${pam_ldap}		mode=644 owner=root group=root action=fixall
+		${pam_auth}		mode=644 owner=root group=root action=fixall
+		${pam_password}	mode=644 owner=root group=root action=fixall
+		${pam_session}	mode=644 owner=root group=root action=fixall
+		${pam_account}	mode=644 owner=root group=root action=fixall
+
+			
+editfiles:
+	any::
+		{ ${pam_ldap}
+			AutoCreate
+			EmptyEntireFilePlease
+			Backup "false"
+			IfElapsed 59
+			
+			AppendIfNoSuchLine "#"
+			AppendIfNoSuchLine "# This file is managed by cfengine"
+			AppendIfNoSuchLine "#"
+			AppendIfNoSuchLine "ldap_version 3"
+			AppendIfNoSuchLine "binddn uid=pam,ou=services,dc=m4n,dc=nl"
+			AppendIfNoSuchLine "bindpw superP"
+			AppendIfNoSuchLine "base ou=users,dc=m4n,dc=nl"
+			
+			# Dit is voor een andere posixGroup....
+			# AppendIfNoSuchLine "pam_groupdn cn=admins,ou=groups,dc=m4n,dc=nl"
+			
+			AppendIfNoSuchLine "pam_min_uid 10000"
+			AppendIfNoSuchLine "pam_max_uid 30000"
+			AppendIfNoSuchLine "pam_password exop"
+			AppendIfNoSuchLine "ssl on"
+			
+			# Set some sane timeouts
+			AppendIfNoSuchLine "timelimit 30"
+			AppendIfNoSuchLine "idletimeout 75"
+			
+			BeginGroupIfDefined "NET_POP_CYSO"
+				AppendIfNoSuchLine "uri ldaps://ldap1.lan.mbuyu.nl ldaps://ldap3.lan.mbuyu.nl"
+			EndGroup
+			BeginGroupIfDefined "NET_POP_MAIN"
+				AppendIfNoSuchLine "uri ldaps://ldap4.lan.mbuyu.nl ldaps://ldap2.lan.mbuyu.nl ldaps://ldap1.lan.mbuyu.nl"
+			EndGroup
+			BeginGroupIfDefined "NET_POP_BIT"
+				AppendIfNoSuchLine "uri ldaps://ldap3.lan.mbuyu.nl ldaps://ldap1.lan.mbuyu.nl"
+			EndGroup
+			
+			BeginGroupIfDefined "USERS_GROUP_USERS"
+				AppendIfNoSuchLine "pam_filter &(objectClass=m4nAccount)(m4nAccountActive=TRUE)"
+			EndGroup
+			BeginGroupIfDefined "USERS_GROUP_M4N"
+				AppendIfNoSuchLine "pam_filter &(objectClass=m4nAccount)(m4nAccountActive=TRUE)(|(m4nHosts=\*)(m4nHosts=${fqhost})(m4nHosts=m4nCluster))"
+			EndGroup
+			BeginGroupIfDefined "!USERS_GROUP_M4N.!USERS_GROUP_USERS"
+				AppendIfNoSuchLine "pam_filter &(objectClass=m4nAccount)(m4nAccountActive=TRUE)(|(m4nHosts=\*)(m4nHosts=${fqhost}))"
+			EndGroup
+		}
+		
+		{ ${nss_lib}
+			AutoCreate
+			EmptyEntireFilePlease
+			Backup "false"
+			IfElapsed 59
+			
+			AppendIfNoSuchLine "#"
+			AppendIfNoSuchLine "# This file is managed by cfengine"
+			AppendIfNoSuchLine "#"
+			AppendIfNoSuchLine "ldap_version 3"
+			AppendIfNoSuchLine "binddn uid=libnss,ou=services,dc=m4n,dc=nl"
+			AppendIfNoSuchLine "bindpw superN"
+			AppendIfNoSuchLine "bind_policy soft"
+			AppendIfNoSuchLine "base dc=m4n,dc=nl"
+			AppendIfNoSuchLine "nss_base_group ou=groups,dc=m4n,dc=nl"
+			AppendIfNoSuchLine "ssl on"
+			
+			# Made non-network bootups a bit quicker
+			AppendIfNoSuchLine "timelimit 5"
+			AppendIfNoSuchLine "bind_timelimit 5"
+			AppendIfNoSuchLine "nss_initgroups_ignoreusers root,deamon,www-data,sshd,postgres,openldap,scanner,nvram,tss,fuse,kvm,rdma"
+						
+			BeginGroupIfDefined "NET_POP_CYSO"
+				AppendIfNoSuchLine "uri ldaps://ldap1.lan.mbuyu.nl ldaps://ldap3.lan.mbuyu.nl"
+			EndGroup
+			BeginGroupIfDefined "NET_POP_MAIN"
+				AppendIfNoSuchLine "uri ldaps://ldap4.lan.mbuyu.nl ldaps://ldap2.lan.mbuyu.nl ldaps://ldap1.lan.mbuyu.n"
+			EndGroup
+			BeginGroupIfDefined "NET_POP_BIT"
+				AppendIfNoSuchLine "uri ldaps://ldap3.lan.mbuyu.nl ldaps://ldap1.lan.mbuyu.nl"
+			EndGroup
+			
+			BeginGroupIfDefined "SRV_SMB"
+				Append "nss_base_passwd ou=machines,dc=m4n,dc=nl"
+				Append "nss_base_passwd ou=users,dc=m4n,dc=nl?sub?&(objectClass=m4nAccount)(m4nAccountActive=TRUE)"
+			EndGroup
+			BeginGroupIfDefined "USERS_GROUP_USERS"
+				AppendIfNoSuchLine "nss_base_passwd ou=users,dc=m4n,dc=nl?sub?&(objectClass=m4nAccount)(m4nAccountActive=TRUE)"
+			EndGroup
+			BeginGroupIfDefined "USERS_GROUP_M4N"
+				AppendIfNoSuchLine "nss_base_passwd ou=users,dc=m4n,dc=nl?sub?&(objectClass=m4nAccount)(m4nAccountActive=TRUE)(|(m4nHosts=\*)(m4nHosts=${fqhost})(m4nHosts=m4nCluster))"
+			EndGroup
+			BeginGroupIfDefined "!USERS_GROUP_M4N.!USERS_GROUP_USERS.!SRV_SMB"
+				AppendIfNoSuchLine "nss_base_passwd ou=users,dc=m4n,dc=nl?sub?&(objectClass=m4nAccount)(m4nAccountActive=TRUE)(|(m4nHosts=\*)(m4nHosts=${fqhost}))"
+			EndGroup
+		}

@@ -1,0 +1,27 @@
+#
+# Managed some default init scripts
+#
+
+control:
+	any::
+		initscripts_defaults	= ( /etc/default/rcS )
+		sys_proc_checks			= ( /etc/cron.d/sys-proc-checks )
+
+copy:
+	any::
+		${cfe_files}${initscripts_defaults}
+			dest=${initscripts_defaults}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			
+		${cfe_files}${sys_proc_checks}
+			dest=${sys_proc_checks}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+
+files:
+	any::
+		${initscripts_defaults}		owner=root group=root mode=644	action=fixall
+		${sys_proc_checks}			owner=root group=root mode=644	action=fixall

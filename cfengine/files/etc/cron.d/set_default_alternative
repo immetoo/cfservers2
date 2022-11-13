@@ -1,0 +1,7 @@
+#
+# This file is managed by cfengine
+#
+# Sets vi as default editor at this server
+3 3 * * * root /usr/local/sbin/default_alternative.sh editor /usr/bin/vim.tiny
+
+# EOF

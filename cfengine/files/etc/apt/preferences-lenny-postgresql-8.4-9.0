@@ -1,0 +1,45 @@
+Explanation: This file is managed by cfengine
+Explanation: pin default on lenny
+Package: *
+Pin: release a=lenny
+Pin-Priority: 1234
+
+Package: libpq5
+Pin: release a=lenny-backports-sloppy
+Pin-Priority: 888
+
+Package: postgresql-client-common
+Pin: release a=lenny-backports-sloppy
+Pin-Priority: 888
+
+Package: postgresql-common
+Pin: release a=lenny-backports-sloppy
+Pin-Priority: 999
+
+Package: postgresql-contrib
+Pin: release a=lenny-backports-sloppy
+Pin-Priority: 888
+
+Package: postgresql-8.4
+Pin: release a=lenny-backports
+Pin-Priority: 999
+
+Package: postgresql-9.0
+Pin: release a=lenny-backports-sloppy
+Pin-Priority: 888
+
+Package: postgresql-client-8.4
+Pin: release a=lenny-backports
+Pin-Priority: 999
+
+Package: postgresql-client-9.0
+Pin: release a=lenny-backports-sloppy
+Pin-Priority: 888
+
+Package: postgresql-contrib-8.4
+Pin: release a=lenny-backports
+Pin-Priority: 999
+
+Package: postgresql-contrib-9.0
+Pin: release a=lenny-backports-sloppy
+Pin-Priority: 888

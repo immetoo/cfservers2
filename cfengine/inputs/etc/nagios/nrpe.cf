@@ -1,0 +1,344 @@
+#
+# installs and config nagios
+#
+
+control:
+	any::
+		nagios_config	= ( /etc/nagios/nrpe.cfg )
+		nagios_confd	= ( /etc/nagios/conf.d )
+		nagios_default  = ( /etc/nagios/conf.d/default.cfg )
+
+packages:
+	install.DEBIAN::
+			nagios-nrpe-server		action=install
+			nagios-plugins-basic	action=install
+
+
+copy:
+	any::
+		${cfe_files}${nagios_config}
+			dest=${nagios_config}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}${nagios_confd}/default.cfg
+			dest=${nagios_confd}/default.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}${nagios_confd}/disk-root.cfg
+			dest=${nagios_confd}/disk-root.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_udevd
+			dest=/usr/local/sbin/check_udevd
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root		
+
+	SRV_SAT::
+		${cfe_files}${nagios_confd}/proc-sat.cfg
+			dest=${nagios_confd}/proc-sat.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	SRV_WEB::		
+		${cfe_files}${nagios_confd}/proc-sat.cfg
+			dest=${nagios_confd}/proc-sat.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}${nagios_confd}/proc-httpd.cfg
+			dest=${nagios_confd}/proc-httpd.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root	
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}${nagios_confd}/http-images-m4n.cfg-mrxweb1
+			dest=${nagios_confd}/http-images-m4n.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+			
+	SRV_IMG|SRV_WWW::
+		${cfe_files}${nagios_confd}/proc-httpd.cfg
+			dest=${nagios_confd}/proc-httpd.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root	
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}${nagios_confd}/proftp.cfg
+			dest=${nagios_confd}/proftp.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_proftp_user
+			dest=/usr/local/sbin/check_proftp_user
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART			
+		${cfe_files}/usr/local/sbin/check_sftp
+			dest=/usr/local/sbin/check_sftp
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART			
+						
+	SRV_SMB::
+		${cfe_files}${nagios_confd}/proftp.cfg
+			dest=${nagios_confd}/proftp.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_proftp_user
+			dest=/usr/local/sbin/check_proftp_user
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+		${cfe_files}/usr/local/sbin/check_sftp
+			dest=/usr/local/sbin/check_sftp
+			type=checksum
+			mode=755 owner=root	group=root
+				
+	SRV_PGDB.!tohpgdb1::
+		${cfe_files}${nagios_confd}/proc-pgdb.cfg
+			dest=${nagios_confd}/proc-pgdb.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	tohpgdb1::
+		${cfe_files}${nagios_confd}/proc-pgdb.cfg-tohpgdb1
+			dest=${nagios_confd}/proc_pgdb.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART			
+	
+	SRV_LIVE::
+		${cfe_files}/usr/local/sbin/swap_eventhandler
+			dest=/usr/local/sbin/swap_eventhandler
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+	
+	SRV_MAIL|SRV_SMTP::	
+		${cfe_files}${nagios_confd}/mail-blacklist.cfg
+			dest=${nagios_confd}/mail-blacklist.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}${nagios_confd}/postfix-avspam.cfg
+			dest=${nagios_confd}/postfix-avspam.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_bl_async.pl
+			dest=/usr/local/sbin/check_bl_async.pl
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+		${cfe_files}${nagios_confd}/mail-amavis.cfg
+			dest=${nagios_confd}/mail-amavis.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_amavis.pl
+			dest=/usr/local/sbin/check_amavis.pl
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+
+	SRV_MYSQL::
+		${cfe_files}${nagios_confd}/mysql.cfg
+			dest=${nagios_confd}/mysql.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+
+	SRV_AUTH::
+		${cfe_files}${nagios_confd}/slapd.cfg
+			dest=${nagios_confd}/slapd.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+						
+	SRV_WEB|SRV_API|SRV_NS|SRV_DF::
+		${cfe_files}${nagios_confd}/proc-jboss.cfg
+			dest=${nagios_confd}/proc-jboss.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+			
+	SRV_XEN::
+		${cfe_files}${nagios_confd}/xen-vm.cfg
+			dest=${nagios_confd}/xen-vm.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_xenvm
+			dest=/usr/local/sbin/check_xenvm
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root	
+			
+	SRV_DHCP::
+		${cfe_files}${nagios_confd}/dhcpd.cfg
+			dest=${nagios_confd}/dhcpd.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	SRV_DNS::
+		${cfe_files}${nagios_confd}/powerdns.cfg
+			dest=${nagios_confd}/powerdns.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	SRV_LIVE::
+		${cfe_files}${nagios_confd}/swap-event.cfg
+			dest=${nagios_confd}/swap-event.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	SRV_LB|SRV_NRX|moxproxy0|moxproxy1::	
+		${cfe_files}${nagios_confd}/ucarp.cfg
+			dest=${nagios_confd}/ucarp.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+		${cfe_files}/usr/local/sbin/check_ucarp
+			dest=/usr/local/sbin/check_ucarp
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root			
+			
+			
+	mrximg0::
+		${cfe_files}${nagios_confd}/http-images-m4n.cfg-mrximg0
+			dest=${nagios_confd}/http-images-m4n.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	mrximg1::
+		${cfe_files}${nagios_confd}/http-images-m4n.cfg-mrximg1
+			dest=${nagios_confd}/http-images-m4n.cfg
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			mode=644 owner=root	group=root							
+			define=NAGIOS_RESTART	
+
+	mrxsec0::
+		${cfe_files}${nagios_confd}/proc-nagios.cfg
+			dest=${nagios_confd}/proc-nagios.cfg
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			mode=644 owner=root	group=root							
+			define=NAGIOS_RESTART			
+	mexvpn0::
+		${cfe_files}${nagios_confd}/openvpn.cfg-mexvpn0
+			dest=${nagios_confd}/openvpn.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART			
+	moxvpn0::
+		${cfe_files}${nagios_confd}/openvpn.cfg-moxvpn0
+			dest=${nagios_confd}/openvpn.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	mrxvpn0::
+		${cfe_files}${nagios_confd}/openvpn.cfg-mrxvpn0
+			dest=${nagios_confd}/openvpn.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	mrxvpn1::
+		${cfe_files}${nagios_confd}/openvpn.cfg-mrxvpn1
+			dest=${nagios_confd}/openvpn.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	mrxvpn2::
+		${cfe_files}${nagios_confd}/openvpn.cfg-mrxvpn2
+			dest=${nagios_confd}/openvpn.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART
+	mrxwww2::
+		${cfe_files}${nagios_confd}/http-tools-m4n.cfg-mrxwww2
+			dest=${nagios_confd}/http-tools-m4n.cfg
+			server=${cfe_host}
+			type=checksum
+			backup=false
+			mode=644 owner=root	group=root							
+			define=NAGIOS_RESTART				
+
+files:
+	any::
+		${nagios_config}		mode=644 owner=root group=root	action=fixall define=NAGIOS_RESTART
+		${nagios_default}	    mode=644 owner=root group=root	action=fixall define=NAGIOS_RESTART
+	
+
+shellcommands:
+	NAGIOS_RESTART::
+		"/etc/init.d/nagios-nrpe-server restart"

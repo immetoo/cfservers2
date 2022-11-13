@@ -1,0 +1,25 @@
+#
+# manages system limits
+#
+
+control:
+	any::
+		limits_config		= ( /etc/security/limits.conf )
+		
+copy:
+	any.!SRV_LIVE::
+		${cfe_files}${limits_config}
+			dest=${limits_config}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+	SRV_LIVE::
+		${cfe_files}${limits_config}-srv_live
+			dest=${limits_config}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root			
+
+files:
+	any::
+		${limits_config}		owner=root group=root mode=644	action=fixall

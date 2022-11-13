@@ -1,0 +1,4 @@
+#
+# This file is managed by cfengine
+#
+BACKUP="/var/log/m4n/ /m4n/log";

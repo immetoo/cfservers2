@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<!--
+#
+# This file is managed by cfengine
+#
+-->
+<properties>
+	<!-- The filehosting image path -->
+	<entry key="com.mbuyu.m4n.filehosting.FileList.filehosting_basepath">/var/www/images.mbuyu.nl/</entry>
+	
+	<!-- mail to local postfix -->
+	<entry key="mailserver">localhost</entry>	
+	
+	<!-- Do send daily/etc emails  -->
+	<entry key="PROCESS_SCHEDULED_SYSTEM_MAILS">true</entry>
+	
+	<!-- Do update banners -->
+	<entry key="PROCESS_FETCH_BANNERS">true</entry>
+	
+	<!-- Location and port to find JBoss -->
+	<entry key="com.mbuyu.ns.serviceJNPURL">jnp://ns0.live.mbuyu.nl:1099</entry>
+	
+</properties>

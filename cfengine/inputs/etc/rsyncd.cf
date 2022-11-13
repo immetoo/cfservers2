@@ -1,0 +1,70 @@
+#
+# This file is managed by cfengine
+#
+
+control:
+	any::
+		rsyncd_config		= ( /etc/rsyncd.conf )
+		rsyncd_default		= ( /etc/default/rsync )
+		rsyncd_secrets		= ( /etc/rsyncd.secrets )
+		crond_entry_bit		= ( /etc/cron.d/backup_cyso_2_bit )
+		backup_script_bit	= ( /usr/local/sbin/backup_cyso_2_bit.sh )
+
+packages:
+	install::
+		rsync	action=install
+		
+copy:
+    any::
+		${cfe_files}${rsyncd_default}
+			dest=${rsyncd_default}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=RSYNCD_RESTART    
+	mrxbak0::
+		${cfe_files}${rsyncd_config}-mrxbak0
+			dest=${rsyncd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=RSYNCD_RESTART
+		${cfe_files}${rsyncd_secrets}-mrxbak0
+			dest=${rsyncd_secrets}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=RSYNCD_RESTART
+		${cfe_files}${crond_entry_bit}
+			dest=${crond_entry_bit}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=400
+		${cfe_files}${backup_script_bit}
+			dest=${backup_script_bit}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=755					
+	mexbak0::
+		${cfe_files}${rsyncd_config}-mexbak0
+			dest=${rsyncd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=RSYNCD_RESTART
+		${cfe_files}${rsyncd_secrets}-mexbak0
+			dest=${rsyncd_secrets}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=600
+			define=RSYNCD_RESTART
+
+files:
+	any::
+		${rsyncd_config}	owner=root group=root mode=644	action=fixall define=RSYNCD_RESTART
+		${rsyncd_default}	owner=root group=root mode=644	action=fixall define=RSYNCD_RESTART
+		${rsyncd_secrets}	owner=root group=root mode=600	action=fixall define=RSYNCD_RESTART
+
+shellcommands:
+	RSYNCD_RESTART::
+		"/etc/init.d/rsync restart"

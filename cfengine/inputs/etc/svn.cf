@@ -1,0 +1,42 @@
+#
+# manages the subversion
+#
+
+control:
+	any::
+		create_svn_base		= ( /usr/local/bin/create_svn_base.sh )
+		create_svn_repro	= ( /usr/local/bin/create_svn_repro.sh )
+		svn_auth_file		= ( /svn/.svnauth )
+
+packages:
+	install::
+		subversion			action=install
+		subversion-tools	action=install
+		
+copy:
+	any::
+		${cfe_files}${create_svn_base}
+			dest=${create_svn_base}xxx
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=775
+		${cfe_files}${create_svn_repro}
+			dest=${create_svn_repro}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=775
+		${cfe_files}${svn_auth_file}
+			dest=${svn_auth_file}
+			server=${cfe_host}
+			type=checksum
+			owner=www-data group=www-data mode=640
+
+directories:
+	any::
+		/svn					mode=766 owner=root group=root
+
+files:
+	any::
+		${create_svn_base}	owner=root group=root mode=775	action=fixall
+		${create_svn_repro}	owner=root group=root mode=775	action=fixall
+

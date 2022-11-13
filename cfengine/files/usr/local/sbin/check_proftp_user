@@ -1,0 +1,67 @@
+#!/bin/sh
+
+############################################
+# +-------------------------------------------------------------------------------------------- +
+# | This program is free software; you can redistribute it and/or                		|
+# | modify it under the terms of the GNU General Public License                  		|
+# | as published by the Free Software Foundation; either version 2               		|
+# | of the License, or (at your option) any later version.                           		|
+# |												|
+# | This program is distributed in the hope that it will be useful,              		|
+# | but WITHOUT ANY WARRANTY; without even the implied warranty of 				|
+# | MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.        				|
+# | See the GNU General Public License for more details.                         		|
+# +--------------------------------------------------------------------------------------------	+
+# | This code is designed, written, and maintained by the Michel Sigloch      			|
+# +--------------------------------------------------------------------------------------------	+
+############################################
+
+WARNLIMIT=$2
+CRITLIMIT=$3
+
+function fusercount(){
+
+FTPUSER=`ftpwho|grep -v " $" | grep -v "class" | grep -v "FTP" | grep -v "users" |awk '{print $2}'|wc -l`
+
+if [ "$FTPUSER" -lt "$WARNLIMIT" ]
+        then
+        echo OK $FTPUSER logged in!
+        exit 0
+elif [ "$FTPUSER" -ge "$WARNLIMIT" ] && [ "$FTPUSER" -lt "$CRITLIMIT" ]
+        then
+        echo WARNING $FTPUSER logged in!
+        exit 1
+elif [ "$FTPUSER" -ge "$CRITLIMIT" ]
+        then
+        echo CRITICAL $FTPUSER logged in!
+        exit 2
+else
+        echo UNKNOWN what happened?!!
+fi
+exit 0
+}
+
+function errorfunction(){
+echo Usage of check_proftpd_user:
+echo "$0 <CHECK> <WARNLIMIT> <CRITLIMT> "
+echo "     where CHECK can be:"
+echo -e "                       USER"
+echo -e "       WARNLIMIT and CRITLIMIT have to be INTEGER!"
+}
+
+if [ "$#" -lt 3 ]
+        then
+        errorfunction
+        exit 1
+fi
+
+if [ "$1" = "USER" ]
+        then
+        fusercount
+else
+        errorfunction
+        exit 3
+fi
+fi
+echo UNKNOWN what happened?!
+exit 3

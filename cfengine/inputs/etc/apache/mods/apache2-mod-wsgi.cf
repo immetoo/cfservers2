@@ -1,0 +1,13 @@
+#
+# Addes mod python
+#
+
+packages:
+	install::
+		libapache2-mod-wsgi	action=install define=APACHE2_RESTART
+
+
+links:
+	any::
+		/etc/apache2/mods-enabled/wsgi.load ->! ../mods-available/wsgi.load define=APACHE2_RESTART
+		/etc/apache2/mods-enabled/wsgi.conf ->! ../mods-available/wsgi.conf define=APACHE2_RESTART

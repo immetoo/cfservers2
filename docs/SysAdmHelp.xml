@@ -1,0 +1,2983 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book lang="nl">
+  <bookinfo revision="1.0">
+    <!--
+    QUICH REF:
+    http://www.dpawson.co.uk/docbook/qrefhtml.html
+   
+    This line is needed to display inline graphics
+    editing the stylesheets for generation ourselves.
+      <inlinemediaobject><imageobject><imagedata fileref="images/test.png" /></imageobject></inlinemediaobject>      
+     -->
+    <title>SysAdm Handleiding</title>
+
+    <corpname>The Mbuyu Community B.V.</corpname>
+    <corpcredit>M4N</corpcredit>
+    
+    <authorgroup>
+      <author>
+        <firstname>Willem</firstname>
+        <surname>Cazander</surname>
+      </author>
+      <author>
+        <firstname>Paul</firstname>
+        <surname>Wiebes</surname>
+      </author>
+      <author>
+        <firstname>Tijn</firstname>
+        <surname>Lambrechtsen</surname>
+      </author>
+  
+    </authorgroup>
+    
+    <edition>Handleiding voor SysAdm @ m4n</edition>
+    <pubdate>2007</pubdate>
+    
+    <copyright>
+      <year>1999-2010</year>
+      <holder>The Mbuyu Community B.V.</holder>
+    </copyright>
+
+    <revhistory>
+      <revision>
+        <revnumber>0.1</revnumber>
+        <date>14-02-2007</date>
+      </revision>
+      <revision>
+        <revnumber>0.2</revnumber>
+        <date>18-02-2007</date>
+      </revision>
+      <revision>
+        <revnumber>0.3</revnumber>
+        <date>25-04-2007</date>
+      </revision>
+      <revision>
+        <revnumber>0.3.1</revnumber>
+        <date>17-08-2009</date>
+      </revision>
+      <revision>
+        <revnumber>0.4</revnumber>
+        <date>27-04-2010</date>
+      </revision>
+      <revision>        
+       <revnumber>0.4.1</revnumber>
+        <date>26-05-2010</date>
+        <authorinitials>TL</authorinitials>
+        <revremark>Added procedures for creating users</revremark>
+      </revision>
+      <revision>
+        <revnumber>0.5</revnumber>
+        <date>23-11-2010</date>
+        <authorinitials>WC</authorinitials>
+        <revremark>Auto documentation build.</revremark>
+      </revision>
+      <revision>
+        <revnumber>0.5.1</revnumber>
+        <date>24-01-2011</date>
+        <authorinitials>WC</authorinitials>
+        <revremark>Updated dia's and moved a bit HW docs</revremark>
+      </revision>
+    </revhistory>       
+  </bookinfo>
+
+  <preface>
+    <beginpage/>
+    <title>Voorwoord</title>
+
+    <para>Welkom in de <application>SysAdm</application> Help
+    systeem. Hierin worden de machines en procedures beschreven en haar mogelijkheden.
+	In de inhoudsopgaven kunt u zien op welke onderwerpen u help
+    kunt krijgen.</para>
+    <para>
+    Als u geen systeembeheerfunctie vervult binnen de "The Mbuyu Community B.V." dan dient u zo snel
+    mogelijk contact op te nemen met systeembeheer@m4n.nl.
+    </para>
+    
+    <para>- The Mbuyu Community B.V.</para>
+    
+    <para>
+      <note>
+        <title>Prettig Gebruik</title>
+        <para>Wij wensen u een prettig gebruik van de help.</para>
+      </note>
+    </para>
+  </preface>
+
+
+
+  <chapter lang="nl">
+    <chapterinfo>
+      <title>Welkom</title>
+      <keywordset>
+        <keyword>Welkom</keyword>
+        <keyword>Introductie</keyword>
+      </keywordset>
+    </chapterinfo>
+    <title>Welkom</title>
+    <beginpage/>
+    <sect1>
+      <title>Introductie</title>
+      <para>Welkom in de <application>Sysadm</application> Handleiding.</para>
+    </sect1>
+  </chapter>
+
+  <chapter lang="nl">
+    <chapterinfo>
+      <title>Procedures</title>
+      <keywordset>
+        <keyword>gebruiker</keyword>
+        <keyword>user</keyword>
+        <keyword>mail</keyword>
+        <keyword>svn</keyword>
+        <keyword>rechten</keyword>
+        <keyword>ftp</keyword>
+      </keywordset>
+    </chapterinfo>
+    <title>Procedures</title>
+    <beginpage/>
+    
+    <sect1>
+      <title>Overview</title>
+      <para>
+      	Hier vindt u alle informatie om op de juiste manier gebruikers aan te maken en rechten te geven binnen de Mbuyu Community. Er zijn verschillende lagen waarop een gebruiker rechten kan krijgen. Soms zijn er aanpassingen in verschillende lagen nodig om een gebruiker de juiste functionaliteit te kunnen bieden.
+      </para>
+    	<sect2>
+    		<title>LDAP gebruikers of groepen aanmaken</title>
+    		<para>Nieuwe gebruiker of groep aanmaken</para>
+    			<sect3>
+	    			<title>LHIT</title>
+	    			<para>lhit management interface</para>
+	    			<para>
+		    			<link linkend="https://prov.mbuyu.nl/uu/users.php">Open en klik op 'add new'</link>
+	    				<link linkend="https://prov.mbuyu.nl/uu/groups.php">Open en klik op 'add new'  Let erop een unieke SambaSID aan te maken!!</link>
+	    			</para>
+    			</sect3>
+				<sect3>
+    			<title>Sudo rechten geven</title>
+    			<sect4>
+    				<title>cfengine aanpassen</title>
+       					<synopsis>    			
+    					Pas in cfengine het volgende bestand aan:
+       					</synopsis>
+    			</sect4>
+				
+				<sect4>
+					<title>LHIT voorzien van juiste entries</title>
+       					<synopsis>    			
+    					Zorg dat de gebruiker op de machine kan komen middels LHIT
+       					</synopsis>
+				</sect4>
+    			</sect3>
+				<sect3>
+					<title>LDAP groepen aanmaken</title>
+					<synopsis>Open https://prov.mbuyu.nl/uu/groups.php en klik op 'add new' Let erop een unieke SambaSID aan te maken!!</synopsis>
+				</sect3>
+    	</sect2>
+    	<sect2>
+    		<title>Email</title>
+    		<para>
+    		</para>
+    	</sect2>
+    	<sect2>
+    		<title>SVN</title>
+    		<para>
+    		Rechten uitdelen op svn
+    		</para>
+    		    <sect3>
+    				<title>Rechten uitdelen op svn</title>
+    				<para>Zie daarvoor in cfengine files/svn/.svnauth
+    				</para>
+    				
+    			</sect3>
+    			<sect3>
+    				<title>LHIT aanpassen</title>
+    				<para>Iemand die alles moet kunnen (committen?), moet in het lijstje van svnadmin worden opgenomen.</para>
+    			</sect3>
+    	</sect2>
+    	<sect2>
+    		<title>www.m4n.nl</title>
+    		<para>
+    		</para>
+    	</sect2>
+    	<sect2>
+    		<title>FTP</title>
+    		<para>
+    		</para>
+    	</sect2>
+    </sect1>
+	<sect1>
+		<title>Xen procedures</title>
+			<para>Hier vindt u informatie om op de juiste manier Xen gerelateerde zaken uit te voeren.
+			</para>
+  		<sect2>
+  			<title>Toegang tot XEN virtuele machine herstellen.</title>
+  			<para>Het kan gebeuren dat je jezelf hebt buitengesloten van een virtuele machine, bijvoorbeeld door de firewall dicht te zetten en uit te loggen. 
+  			De toegang krijg je weer als volgt:</para>
+  			<para>Zet de machine uit: xm shutdown machinenaam</para>
+  			<para>Pas het configuratiebestandje in /etc/xen/machinenaam.cfg aan. 
+  			Zet achter de regel die begint met root =' ' de optie init=/bin/bash. Hierdoor worden de opstartscripts niet 
+  			uitgevoerd.</para>
+  			<para>Start de machine op: xm create machinenaam.cfg. Mount de schijf rw: mount -o remount rw /</para>
+  			<para>Voer de wijzigingen uit die je nodig hebt, bijvoorbeeld de aanpassing van de firewallconfiguratie.</para>
+  			<para>Mount de schijf weer read-only: mount -o remount ro /, en sluit de machine af via xm shutdown machinenaam</para>
+  			<para>Haal de optie in het configuratiebestandje in /etc/xen/machinenaam.cfg weer weg en herstart de machine</para>
+  		</sect2>
+  		<sect2>
+  			<title>Configuratie van mrhxen5-8</title>
+  			<para>Mrhxen5 t/m 8 zitten in 1 kast. Alle machines hebben 1 harddisk en 2 SSD-schijven. De harddisk heeft een partitie voor /boot, (/dev/sda1) een LVM partitie met /root, /swap, en /save (/dev/sda2)</para>
+  			<para>De harddisks partities /dev/sda3 en /dev/sda4 worden gebruikt voor RAID. Via DRBD heeft mrhxen5 een actieve RAIDpartitie op /dev/sda3 en een kopie op /dev/sda4 op Mrhxen6. </para>
+			<para>Voor de SSD partities /dev/sdb en /deb/sdc is een zelfde constructie van toepassing.</para>
+		</sect2>		
+      </sect1>
+    <!-- 
+	<sect1>
+		<title></title>
+		<para></para>
+	</sect1>
+	 -->
+  </chapter>
+  
+  <chapter lang="nl">
+    <chapterinfo>
+      <title>Network</title>
+
+      <keywordset>
+        <keyword>network</keyword>
+        <keyword>ip</keyword>
+        <keyword>netmask</keyword>
+      </keywordset>
+    </chapterinfo>
+    <title>Network</title>
+    <beginpage/>
+    
+    <sect1>
+      <title>Overview</title>
+      <para>
+      	Hier vindt u alle informatie over de netwerk indeling binnen Mbuyu.
+      </para>
+
+      <sect2>
+        <title>Network Physical</title>
+    	  <para>
+			The Physical network	  	
+          </para>
+          <para>
+            <mediaobject><imageobject>
+              <imagedata fileref="images/m4n-physical.png" />
+            </imageobject></mediaobject>
+          </para>
+      </sect2>
+      <sect2>
+        <title>Network Logical</title>
+    	  <para>
+			The Logical network	  	
+          </para>
+          <para>
+            <mediaobject><imageobject>
+              <imagedata fileref="images/m4n-network.png" />
+            </imageobject></mediaobject>
+          </para>
+      </sect2>
+     <sect2>
+        <title>M4N Application</title>
+    	  <para>
+			The m4n application image	  	
+          </para>
+          <para>
+            <mediaobject><imageobject>
+              <imagedata fileref="images/m4n-application.png" />
+            </imageobject></mediaobject>
+          </para>
+      </sect2>
+      
+      
+    </sect1>
+    
+    <sect1>
+    	<title>Server-naming</title>
+    	<para>De servernaamgeving is onderverdeeld in onderdelen.</para>
+    	
+    	<sect2>
+    		<title>Domainen</title>
+    		<para>
+    			We hebben verschrikkelijk veel domeinen tot onze beschikking.
+    			Hiervan gebruiken we maar 3 primary domeinen om alles over te verdelen.
+    			De rest van de domeinen verwijst in veel gevallen naar een service van het netwerk. 
+    		</para>
+       		<table frame="all">
+    			<title>Domain usage</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>Domein</entry>
+							<entry>Usage</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>mbuyu.com</entry>
+							<entry>Dit domain wordt gebruikt om alle netwerk hosts and internet access point als A records in op te nemen.</entry>
+						</row>
+						<row>
+							<entry>mbuyu.nl</entry>
+							<entry>hierop worden al onze services gedefineerd, welke dmv een CNAME naar de .com wijzen.</entry>
+						</row>
+						<row>
+							<entry>[views/clicks/leads/www].m4n.nl</entry>
+							<entry>M4N application services</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+    	</sect2>
+    	    	
+		<sect2>
+    		<title>Hostnames</title>
+    		<para>Uitleg hoe de hostname van een server is opgebouwd.</para>
+	    	<table frame="all">
+	    		<title>Hostname usage</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+								<entry>Hostname</entry>
+								<entry>Uitleg</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>X-------</entry>
+								<entry>
+									<synopsis>
+Production hostnames:
+M = Mbuyu
+N = Network device
+I = IPMI remote 
+
+Stageing hostnames:
+S = All non-m4n stageing hosts
+D = m4n-Development
+U = m4n-Update 
+B = m4n-Beta
+T = m4n-Test (unittest)
+									</synopsis>
+								</entry>
+							</row>
+							<row>
+								<entry>-X------</entry>
+								<entry>
+									<synopsis>							
+R = Cyso POP host (was in Redbus)
+O = Main POP host (at Office)
+E = BIT  POP host (in Ede)
+									</synopsis>
+								</entry>
+							</row>
+							<row>
+								<entry>--X-----</entry>
+								<entry>
+									<synopsis>
+H = Hardware
+X = Xen Host (virtual)
+									</synopsis>
+								</entry>
+							</row>
+							<row>
+								<entry>---XXX--</entry>
+								<entry>
+									<synopsis>
+# M4N Specific
+API = API server
+NS  = Notification server
+APP = Application server									
+SAT = SATELITE
+WEB = M4N WEB server
+
+# Sysadm machines									
+APS = APC Power Switch
+AUTH = Auth server
+BAK = Backup server
+CFE = CFengine Server
+CODE = Code/SVN server
+CUPS = Cups Server
+LOG = Logging server
+MRC = Managed RAID controller
+COS = Commander Of Switches
+MSW = Managed Switch
+NET = Network server = DEPRECATED
+PGDB = Postgres DB server
+PRN = Printer
+RCON= Remote console
+RFW = Router/Firewall
+SEC = Secure webserver
+SMB = Samba file server
+SRV = General Server
+STS = StaTS server
+SVN = SVN server
+UPS = Uninterrupted Power Supply
+VIP = Voip Server
+WAP = Wifi Access Point
+WKS = Workstation
+WOS = WebOffice server
+WWW = Apache Mass Hosting server
+XEN = XEN Management server
+
+								</synopsis>
+							</entry>
+						</row>
+						<row>
+							<entry>-----XX</entry>
+							<entry>Volgnummer beginnend met 0.</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+			<para>Voorbeelden</para>
+			<synopsis>
+mrhsat0 - Mbuyu Redbus Host M4N Satellite 0.
+mrhweb1 - Mbuyu Redbus Host M4N Website 1.
+mohfrw0 - Mbuyu Office Host Router/Firewall 0.
+moxpgdb0 - Mbuyu Office Xen Postgress 0.
+			</synopsis>
+		</sect2>
+			
+			
+		<sect2>
+    		<title>vlan segmenten</title>
+    		<para>Alle vlans die gebruikt worden.</para>
+       		<table frame="all">
+    			<title>vlan usage</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>ID</entry>
+							<entry>Name</entry>
+							<entry>Description</entry>
+							<entry>Usage</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>01</entry>
+							<entry>DEFAULT</entry>
+							<entry>--not used--</entry>
+							<entry>CURRENTLY client lan is on this !!</entry>
+						</row>
+						<row>
+							<entry>02</entry>
+							<entry>DMZ</entry>
+							<entry>DeMilitarized Zone</entry>
+							<entry>Hier zitten nu me meesten in. (oud 'vlan')</entry>
+						</row>
+						<row>
+							<entry>03</entry>
+							<entry>SMZ</entry>
+							<entry>System Management Zone</entry>
+							<entry>xen/ups/apc/msw/etc</entry>
+						</row>
+						<row>
+							<entry>04</entry>
+							<entry>SEC</entry>
+							<entry>SecurE Zone</entry>
+							<entry>DB's</entry>
+						</row>
+						<row>
+							<entry>05</entry>
+							<entry>IXZ</entry>
+							<entry>Internet Exchange Zone</entry>
+							<entry>Routers</entry>
+						</row>
+						<row>
+							<entry>06</entry>
+							<entry>free</entry>
+							<entry></entry>
+							<entry></entry>
+						</row>
+						<row>
+							<entry>07</entry>
+							<entry>WSZ</entry>
+							<entry>Windows Services Zone</entry>
+							<entry>av/wts</entry>
+						</row>
+						<row>
+							<entry>08</entry>
+							<entry>SSZ</entry>
+							<entry>Stageing Service Zone</entry>
+							<entry>beta,update,dev,test - services or servers.</entry>
+						</row>
+						<row>
+							<entry>09</entry>
+							<entry>NPZ</entry>
+							<entry>Network Printer Zone</entry>
+							<entry>Om printers te isoleren van netwerk.</entry>
+						</row>
+						<row>
+							<entry>10</entry>
+							<entry>WIZ</entry>
+							<entry>Wireless Internet Zone</entry>
+							<entry>Company provides wifi access.</entry>
+						</row>
+						<row>
+							<entry>11</entry>
+							<entry>HAZ-11</entry>
+							<entry>HA (CrossLink) Zone</entry>
+							<entry>For heartbeat and keepalived.</entry>
+						</row>
+						<row>
+							<entry>12...19</entry>
+							<entry>HAZ-12...HAZ-19</entry>
+							<entry>HA (CrossLink) Zone</entry>
+							<entry>idem.</entry>
+						</row>
+						<row>
+							<entry>20</entry>
+							<entry>OLZ-20</entry>
+							<entry>Office Lan Zone</entry>
+							<entry>Hier zitten de workstations/thinclients en laptops.</entry>
+						</row>
+						<row>
+							<entry>21..27</entry>
+							<entry>OLZ-21...OLZ-27</entry>
+							<entry>Office Lan Zone</entry>
+							<entry>idem.</entry>
+						</row>
+						<row>
+							<entry>28...36</entry>
+							<entry>reserved</entry>
+							<entry></entry>
+							<entry>Extra office lans of total 16.</entry>
+						</row>
+						<row>
+							<entry>37...39</entry>
+							<entry>free</entry>
+							<entry></entry>
+							<entry></entry>
+						</row>
+						<row>
+							<entry>40...42</entry>
+							<entry>reserved</entry>
+							<entry></entry>
+							<entry>Voor andere internet zones.</entry>
+						</row>
+						<row>
+							<entry>43</entry>
+							<entry>MMZ</entry>
+							<entry>Mbuyu Main 'Internet' Zone</entry>
+							<entry></entry>
+						</row>
+						<row>
+							<entry>44</entry>
+							<entry>MCZ</entry>
+							<entry>Mbuyu Cyso 'Internet' Zone</entry>
+							<entry></entry>
+						</row>
+						<row>
+							<entry>45...50</entry>
+							<entry>free</entry>
+							<entry></entry>
+							<entry></entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</sect2>
+    	
+   	</sect1>
+
+
+   	<sect1>
+      <title>POPS</title>
+      <para>
+Alle netwerk relevant informatie gebonden per locatie.
+      </para>
+      
+      <sect2>
+      	<title>Global M4N netwerk</title>
+      	<para>
+      	</para>
+      	
+      	
+		<sect3>
+      		<title>IP range</title>
+      		<para>Het interne netwerk techische omschijving.</para>
+<synopsis>
+Address:   172.16.16.0          10101100.00010000.00 010000.00000000
+Netmask:   255.255.192.0 = 18   11111111.11111111.11 000000.00000000
+Wildcard:  0.0.63.255           00000000.00000000.00 111111.11111111
+=>
+Network:   172.16.0.0/18        10101100.00010000.00 000000.00000000
+HostMin:   172.16.0.1           10101100.00010000.00 000000.00000001
+HostMax:   172.16.63.254        10101100.00010000.00 111111.11111110
+Broadcast: 172.16.63.255        10101100.00010000.00 111111.11111111
+Hosts/Net: 16382                Class B, Private Internet
+</synopsis>
+		</sect3>    	
+     
+		<sect3>
+      		<title>IP assignment</title>
+      		<table frame="all">
+    			<title>netwerk segment devision</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>IP-segment</entry>
+							<entry>Usage</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>172.16.0.0</entry>
+							<entry>reserved</entry>
+						</row>
+						<row>
+							<entry>172.16.1.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.2.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.3.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.4.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.5.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.6.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.7.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.8.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.9.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.10.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.11.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.12.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.13.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.14.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.15.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.16.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.17.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.18.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.19.0</entry>
+							<entry>dmz.bit.mbuyu.com - DMZ @ bit</entry>
+						</row>
+						<row>
+							<entry>172.16.20.0</entry>
+							<entry>smz.cyso.mbuyu.com - Secure Management Zone @ cyso</entry>
+						</row>
+						<row>
+							<entry>172.16.21.0</entry>
+							<entry>dmz.cyso.mbuyu.com - dmz @ redbus</entry>
+						</row>
+						<row>
+							<entry>172.16.22.0</entry>
+							<entry>vpn.mbuyu.com - VPN clients network</entry>
+						</row>
+						<row>
+							<entry>172.16.23.0</entry>
+							<entry>vpn_live.mbuyu.com - VPN clients live network</entry>
+						</row>
+						<row>
+							<entry>172.16.24.0</entry>
+							<entry>dmz.main.mbuyu.com - dmz office</entry>
+						</row>
+						<row>
+							<entry>172.16.25.0</entry>
+							<entry>wiz.main.mbuyu.com - wifi office</entry>
+						</row>
+						<row>
+							<entry>172.16.26.0</entry>
+							<entry>lan.main.mbuyu.com - office clients network  (will be fased out)</entry>
+						</row>
+						<row>
+							<entry>172.16.27.0</entry>
+							<entry>smz.main.mbuyu.com - System Management Zone</entry>
+						</row>
+						<row>
+							<entry>172.16.28.0</entry>
+							<entry>npz.office.mbuyu.com - Network Printer Zone</entry>
+						</row>
+						<row>
+							<entry>172.16.29.0</entry>
+							<entry>vpnliveclients.mbuyu.nl</entry>
+						</row>
+						<row>
+							<entry>172.16.30.0</entry>
+							<entry>vpnlive.mbuyu.nl</entry>
+						</row>
+						<row>
+							<entry>172.16.31.0</entry>
+							<entry>vpnbit.mbuyu.nl - VPN tunnel CYSO-BIT </entry>
+						</row>
+						<row>
+							<entry>172.16.32.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.33.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.34.0</entry>
+							<entry>free</entry>
+						</row>
+						<row>
+							<entry>172.16.35.0</entry>
+							<entry>reserved</entry>
+						</row>
+						<row>
+							<entry>172.16.36.0</entry>
+							<entry>reserved</entry>
+						</row>
+						<row>
+							<entry>172.16.37.0</entry>
+							<entry>reserved</entry>
+						</row>
+						<row>
+							<entry>172.16.38.0</entry>
+							<entry>reserved</entry>
+						</row>
+						<row>
+							<entry>172.16.39.0</entry>
+							<entry>reserved</entry>
+						</row>
+						<row>
+							<entry>172.16.40.0</entry>
+							<entry>OLZ-20</entry>
+						</row>
+						<row>
+							<entry>172.16.41.0</entry>
+							<entry>OLZ-21</entry>
+						</row>
+						<row>
+							<entry>172.16.42.0</entry>
+							<entry>OLZ-22</entry>
+						</row>
+						<row>
+							<entry>172.16.43.0</entry>
+							<entry>OLZ-23</entry>
+						</row>
+						<row>
+							<entry>172.16.44.0</entry>
+							<entry>OLZ-24</entry>
+						</row>
+						<row>
+							<entry>172.16.45.0</entry>
+							<entry>OLZ-25</entry>
+						</row>
+						<row>
+							<entry>172.16.46.0</entry>
+							<entry>OLZ-26</entry>
+						</row>
+						<row>
+							<entry>172.16.47.0</entry>
+							<entry>OLZ-27</entry>
+						</row>
+						<row>
+							<entry>172.16.48.0</entry>
+							<entry>OLZ-28</entry>
+						</row>
+						<row>
+							<entry>172.16.49.0</entry>
+							<entry>OLZ-29</entry>
+						</row>
+						<row>
+							<entry>172.16.50...63</entry>
+							<entry>OLZ-30...OLZ-46</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</sect3>
+	</sect2>
+	 
+	<sect2>
+      	<title>Cysonet</title>
+		<para>Wij zijn al heel lang klant bij cysonet daar hangen onze live servers.</para>
+
+		<sect3>
+			<title>IP range</title>
+<synopsis>
+Netmask:   255.255.255.224 = 27 11111111.11111111.11111111.111 00000
+Wildcard:  0.0.0.31             00000000.00000000.00000000.000 11111
+Network:   85.158.204.160/27    01010101.10011110.11001100.101 00000
+Gateway:   85.158.204.161
+DNS1:	   217.170.2.39
+DNS2:	   62.58.71.6
+HostMin:   85.158.204.162       01010101.10011110.11001100.101 00001
+HostMax:   85.158.204.190       01010101.10011110.11001100.101 11110
+Broadcast: 85.158.204.191       01010101.10011110.11001100.101 11111
+Hosts/Net: 29                   Class A
+</synopsis>
+		</sect3>
+		<sect3>
+			<title>IP assignment</title>
+      		<table frame="all">
+    			<title>Cyso IP assignments</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>IP</entry>
+							<entry>Hostname</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>85.158.204.162</entry>
+							<entry>mrhmsw0.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.163</entry>
+							<entry>mrhmsw1.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.164</entry>
+							<entry>mrxsat1.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.165</entry>
+							<entry>mrxsat0.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.166</entry>
+							<entry>mrxcode1.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.167</entry>
+							<entry>mrxcode0.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.168</entry>
+							<entry>mrxweb1.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.169</entry>
+							<entry>mrxvpn1.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.170</entry>
+							<entry>Gereserveerd: mrxsat2.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.171</entry>
+							<entry>mrhxen2.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.172</entry>
+							<entry>mrxvpn0.mbuyu.com (unnecessary)</entry>
+						</row>
+						<row>
+							<entry>85.158.204.173</entry>
+							<entry> ??</entry>
+						</row>
+						<row>
+							<entry>85.158.204.174</entry>
+							<entry>mrxwww2.mbuyu.com (was Gereserveerd: mrxsat3.mbuyu.com)</entry>
+						</row>
+						<row>
+							<entry>85.158.204.175</entry>
+							<entry>mrxmail2.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.176</entry>
+							<entry>mrxmail2.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.177</entry>
+							<entry>mrxgate0.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.178</entry>
+							<entry>mrxwww1.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.179</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>85.158.204.180</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>85.158.204.181</entry>
+							<entry>mrxcfe0.mbuyu.com: Overbodig </entry>
+						</row>
+						<row>
+							<entry>85.158.204.182</entry>
+							<entry>mrximg0.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>85.158.204.183</entry>
+							<entry>mrxauth0.mbuyu.com : Overbodig </entry>
+						</row>
+						<row>
+							<entry>85.158.204.184</entry>
+							<entry>Reserved for testing Internet connectivity</entry>
+						</row>
+						<row>
+							<entry>85.158.204.185</entry>
+							<entry>Reserved for testing Internet connectivity</entry>
+						</row>
+						<row>
+							<entry>85.158.204.186</entry>
+							<entry>Reserved for testing Internet connectivity</entry>
+						</row>
+						<row>
+							<entry>85.158.204.187</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>85.158.204.188</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>85.158.204.189</entry>
+							<entry> mrxjboss0.mbuyu.com </entry>
+						</row>
+						<row>
+							<entry>85.158.204.190</entry>
+							<entry>mrxnet1.mbuyu.com</entry>
+						</row>						
+					</tbody>
+				</tgroup>
+			</table>
+		</sect3>
+		
+		<sect3>
+			<title>vlan.mbuyu.com</title>
+			<para>
+			Dit network verbindt alle machines bij redbus aan een vlan.
+			</para>
+			<table frame="all">
+    			<title>Vlan hosts</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>IP</entry>
+							<entry>Hostname</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>172.16.21.1</entry>
+							<entry>mrhxen5.hmc.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.2</entry>
+							<entry>mrhpgdb2.hmc.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.3</entry>
+							<entry>mrhpgdb3.hmc.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.5</entry>
+							<entry>mrhxen5.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.6</entry>
+							<entry>mrhxen6.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.7</entry>
+							<entry>mrhxen7.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.8</entry>
+							<entry>mrhxen8.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.10</entry>
+							<entry>mrhxen8.hmc.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.11</entry>
+							<entry>mrhxen7.hmc.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.12</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>172.16.21.80</entry>
+							<entry>mrxweb1.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.100</entry>
+							<entry>mrxpgdb0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.101</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>172.16.21.121</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>172.16.21.122</entry>
+							<entry>mrhxen2.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.123</entry>
+							<entry>mrhxen3.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.124</entry>
+							<entry>mrhxen4.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.127</entry>
+							<entry>mrxlog0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.128</entry>
+							<entry>mrxmysql0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.129</entry>
+							<entry>mrxsec0.mbuyu.nl </entry>
+						</row>
+						<row>
+							<entry>172.16.21.130</entry>
+							<entry>mrxbak0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.131</entry>
+							<entry>mrxcfe0.vlan.mbuyu.com</entry>
+						</row>		
+						<row>
+							<entry>172.16.21.132</entry>
+							<entry>mrxmail0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.133</entry>
+							<entry>mrxnet0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.134</entry>
+							<entry>mrxgate0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.135</entry>
+							<entry> mrxns0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.136</entry>
+							<entry>mrxwww1.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.137</entry>
+							<entry> --- </entry>
+						</row>		
+						<row>
+							<entry>172.16.21.138</entry>
+							<entry>mrxauth0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.139</entry>
+							<entry>mrxvpn0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.140</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>172.16.21.141</entry>
+							<entry>mrxauth1.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.142</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>172.16.21.143</entry>
+							<entry>mrxvpn1.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.144</entry>
+							<entry>mrxsat0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.145</entry>
+							<entry>mrximg0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.146</entry>
+							<entry>mrxauth2.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.147</entry>
+							<entry>mrxsat1.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.148</entry>
+							<entry>mrxnet1.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.149</entry>
+							<entry>mrxsat2.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.150</entry>
+							<entry>mrxmail1.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.151</entry>
+							<entry>mrxcode0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.152</entry>
+							<entry>mrxcode1.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.153</entry>
+							<entry>mrxcode2.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.154</entry>
+							<entry>mrxbak1.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.155</entry>
+							<entry>reserved: mrxsat3.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.195</entry>
+							<entry>mrxjboss0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.196</entry>
+							<entry>trxweb0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.197</entry>
+							<entry>trxsat0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.198</entry>
+							<entry> --- </entry>
+						</row>
+						<row>
+							<entry>172.16.21.199</entry>
+							<entry>trxpgdb0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.200</entry>
+							<entry>mrhxen2.hmc.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.201</entry>
+							<entry>mrhxen3.hmc.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.203</entry>
+							<entry>trxapi0.lan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.204</entry>
+							<entry>trxapi1.lan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.205</entry>
+							<entry>trxapi2.lan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.215</entry>
+							<entry>mrxphplist0.lan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.230</entry>
+							<entry>mrhapc0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.239</entry>
+							<entry>mrhrcon0.vlan.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.21.240</entry>
+							<entry>mrhmsw0.vlan.mbuyu.com</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</sect3>
+
+    	<sect3>
+    		<title>Switch Layout</title>
+			<synopsis>
+Port 1-8 + 23,24    = Mbuyu vlan naar cysonet (23,24 are tagged)
+Port 9-22           = Private Vlan 
+			</synopsis>
+			<table frame="all">
+    			<title>Switch Layout MRHMSW0</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>PortNumber</entry>
+							<entry>Hostname</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>1</entry>
+							<entry>MRHSAT0</entry>
+						</row>
+						<row>
+							<entry>3</entry>
+							<entry>MRHSAT1</entry>
+						</row>
+						<row>
+							<entry>4</entry>
+							<entry>-- LEEG --</entry>
+						</row>
+						<row>
+							<entry>5</entry>
+							<entry>-- ??? ---</entry>
+						</row>
+						<row>
+							<entry>6</entry>
+							<entry>-- LEEG --</entry>
+						</row>
+						<row>
+							<entry>7</entry>
+							<entry>-- LEEG? --</entry>
+						</row>
+						<row>
+							<entry>8</entry>
+							<entry>-- LEEG? --</entry>
+						</row>
+						<row>
+							<entry>9</entry>
+							<entry>MRHSAT0.vlan</entry>
+						</row>
+						<row>
+							<entry>11</entry>
+							<entry>voorheen MRHSAT1.vlan</entry>
+						</row>
+						<row>
+							<entry>12</entry>
+							<entry>-- LEEG --</entry>
+						</row>
+						<row>
+							<entry>13</entry>
+							<entry>MRHXEN4.vlan</entry>
+						</row>
+						<row>
+							<entry>14</entry>
+							<entry>-- LEEG --</entry>
+						</row>
+						<row>
+							<entry>15</entry>
+							<entry>MRHXEN2.vlan ??</entry>
+						</row>
+						<row>
+							<entry>16</entry>
+							<entry>MRHXEN3.vlan ??</entry>
+						</row>
+						<row>
+							<entry>17</entry>
+							<entry>mrhxen2.hmc.vlan ??</entry>
+						</row>
+						<row>
+							<entry>18</entry>
+							<entry>mrhxen3.hmc.vlan ??</entry>
+						</row>
+						<row>
+							<entry>19</entry>
+							<entry>-- LEEG --</entry>
+						</row>
+						<row>
+							<entry>20</entry>
+							<entry>MRHAPS0</entry>
+						</row>
+						<row>
+							<entry>21</entry>
+							<entry>-- LEEG --</entry>
+						</row>
+						<row>
+							<entry>22</entry>
+							<entry>-- LEEG --</entry>
+						</row>
+						<row>
+							<entry>23</entry>
+							<entry>-- UPLINK CYSONET 0 --</entry>
+						</row>
+						<row>
+							<entry>24</entry>
+							<entry>-- UPLINK CYSONET 1 --</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+    	</sect3>
+		 
+		<sect3>
+    		<title>APC Switch Layout</title>
+			<para>APC Master Power Switches Port layout.</para>	
+			<table frame="all">
+    			<title>APC Switch Layout MRHAPC0</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>PortNumber</entry>
+							<entry>Hostname</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>1</entry>
+							<entry>MRHXEN4</entry>
+						</row>
+						<row>
+							<entry>2</entry>
+							<entry>voorheen MRHSAT1</entry>
+						</row>
+						<row>
+							<entry>3</entry>
+							<entry>MRHSAT0</entry>
+						</row>
+						<row>
+							<entry>6</entry>
+							<entry>MRHXEN1</entry>
+						</row>
+						<row>
+							<entry>7</entry>
+							<entry>MRHSAT2</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+    	</sect3>
+		 	
+	</sect2>
+      
+
+	<sect2>
+      	<title>Office M4N netwerk</title>
+      	<para>
+      		Main Amsterdam Office Location
+      	</para>
+
+		<sect3>
+       		<title>Internet Access</title>
+       		<para>Dit zijn de netwerk instellingen van al onze office internet lijnen.</para>
+       		
+       		<sect4>
+       			<title>Chello</title>
+       			<synopsis>
+IP's 95.97.69.226 - 95.97.69.230
+MASK 255.255.255.248 
+GW 95.97.69.225
+DNS 62.179.104.196
+       			</synopsis>
+       		</sect4>
+       		
+       		<sect4>
+       			<title>Tele2</title>
+       			<synopsis>
+IP: 87.215.139.9
+       			</synopsis>
+       		</sect4>
+       		
+       		<sect4>
+       			<title>Xs4all</title>
+       			<synopsis>
+IP: 80.101.123.149
+       			</synopsis>
+       		</sect4>
+		</sect3>
+		
+				
+		<sect3>
+			<title>dmz.main.mbuyu.com</title>
+			<para>
+			Dit network is voor de dmz servers
+			</para>
+			<table frame="all">
+    			<title>dmz hosts</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>IP</entry>
+							<entry>Hostname</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>172.16.24.145</entry>
+							<entry>browsertester.mbuyu.nl</entry>
+						</row>
+						<row>
+							<entry>172.16.24.146</entry>
+							<entry>mohwts0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.189</entry>
+							<entry>toxcode0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.190</entry>
+							<entry>moxsmb1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.193</entry>
+							<entry>moxvpn1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.197</entry>
+							<entry>moxauth1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.198</entry>
+							<entry>toxsonar0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.200</entry>
+							<entry>toxsat0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.201</entry>
+							<entry>toxsat1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.202</entry>
+							<entry>toxsat2.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.203</entry>
+							<entry>toxapi0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.204</entry>
+							<entry>toxapi1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.205</entry>
+							<entry>toxapi2.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.206</entry>
+							<entry>toxweb0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.207</entry>
+							<entry>toxweb1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.208</entry>
+							<entry>toxweb2.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.209</entry>
+							<entry>toxns0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.210</entry>
+							<entry>toxns1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.211</entry>
+							<entry>toxns2.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.212</entry>
+							<entry>tohpgdb0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.213</entry>
+							<entry>tohpgdb0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.214</entry>
+							<entry>tohpgdb0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.215</entry>
+							<entry>mohrfw1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.216</entry>
+							<entry>moxvpn1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.217</entry>
+							<entry>mohwts0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.218</entry>
+							<entry>moxnet1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.219</entry>
+							<entry>mohmrs0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.220</entry>
+							<entry>moxauth0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.221</entry>
+							<entry>moxvpn0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.222</entry>
+							<entry>moxwos0.dmz.office.mbuyu.com</entry>
+						</row>				
+						<row>
+							<entry>172.16.24.223</entry>
+							<entry>mohups0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.224</entry>
+							<entry>moxsmb0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.225</entry>
+							<entry>moxgate0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.226</entry>
+							<entry>tohpgdb0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.227</entry>
+							<entry>mohrdp0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.228</entry>
+							<entry>moxsts0.dmz.office.mbuyu.com</entry>
+						</row>							
+						<row>
+							<entry>172.16.24.229</entry>
+							<entry>moxdb0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.230</entry>
+							<entry>lb0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.231</entry>
+							<entry>lb1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.233</entry>
+							<entry>IPMI interface lb0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.234</entry>
+							<entry>IPMI interface lb1.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.235</entry>
+							<entry>VHRP interface lb0/lb1</entry>
+						</row>
+						<row>
+							<entry>172.16.24.236</entry>
+							<entry>Identiteit nog onbekend...</entry>
+						</row>
+						<row>
+							<entry>172.16.24.238</entry>
+							<entry>ipmi interface tohpgdb1</entry>
+						</row>
+						<row>
+							<entry>172.16.24.243</entry>
+							<entry>ipmi interface mrhpgdb3</entry>
+						</row>
+						<row>
+							<entry>172.16.24.244</entry>
+							<entry>mohxen4.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.245</entry>
+							<entry>mohxen3.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.246</entry>
+							<entry>m---</entry>
+						</row>
+						<row>
+							<entry>172.16.24.247</entry>
+							<entry>---</entry>
+						</row>
+						<row>
+							<entry>172.16.24.248</entry>
+							<entry>mohxen0.dmz.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.24.249</entry>
+							<entry>moxnet0.dmz.office.mbuyu.com</entry>
+						</row>	
+						<row>
+							<entry>172.16.24.254</entry>
+							<entry>mohrfw0.dmz.office.mbuyu.com</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</sect3>
+
+		<sect3>
+			<title>wifi.main.mbuyu.com</title>
+			<para>
+			Dit network is voor de wifi toegang
+			</para>
+			<table frame="all">
+    			<title>wifi hosts</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>IP</entry>
+							<entry>Hostname</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>172.16.25.220</entry>
+							<entry>mohwap0.wifi.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.25.254</entry>
+							<entry>mohrfw0.wifi.office.mbuyu.com</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</sect3>
+
+		<sect3>
+			<title>lan.main.mbuyu.com</title>
+			<para>
+			Dit network is voor de office client computers
+			</para>
+			<table frame="all">
+    			<title>lan hosts</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>IP</entry>
+							<entry>Hostname</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>172.16.26.50-55</entry>
+							<entry>lb0/lb1</entry>
+						</row>
+						<row>
+							<entry>172.16.26.202</entry>
+							<entry>devtest.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.219</entry>
+							<entry>moh.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.220</entry>
+							<entry>mohsmb0.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.221</entry>
+							<entry>mohprn0.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.222</entry>
+							<entry>mohprn1.lan.office.mbuyu.com</entry>
+						</row>							
+						<row>
+							<entry>172.16.26.223</entry>
+							<entry>mohprn2.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.224</entry>
+							<entry>mohprn3.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.225</entry>
+							<entry>mohprn4.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.249</entry>
+							<entry>mohnet0.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.250</entry>
+							<entry>mohmsw0.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.251</entry>
+							<entry>mohmsw1.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.252</entry>
+							<entry>mohmsw2.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.253</entry>
+							<entry>mohmsw3.lan.office.mbuyu.com</entry>
+						</row>
+						<row>
+							<entry>172.16.26.254</entry>
+							<entry>mohrfw0.lan.office.mbuyu.com</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</sect3>
+
+		<sect3>
+			<title>smz.main.mbuyu.com</title>
+			<para>
+			Dit network is de Server Managed Zone voor switches en ups's.
+			</para>
+			<table frame="all">
+    			<title>lan hosts</title>
+				<tgroup cols="2" align="left" colsep="1" rowsep="1">
+					<thead>
+						<row>
+							<entry>IP</entry>
+							<entry>Hostname</entry>
+						</row>
+					</thead>
+					<tbody>
+						<row>
+							<entry>172.16.27.223</entry>
+							<entry>mohups0.smz.mbuyu.com</entry>
+						</row>
+					</tbody>
+				</tgroup>
+			</table>
+		</sect3>
+		
+      </sect2>
+    </sect1>
+        
+  </chapter>
+
+
+  <chapter lang="nl">
+    <chapterinfo>
+      <title>Fysieke Hardware</title>
+
+      <keywordset>
+        <keyword>hardware</keyword>
+        <keyword>servers</keyword>
+        <keyword>mac</keyword>
+      </keywordset>
+    </chapterinfo>
+    <title>Fysieke Hardware</title>
+    <beginpage/>
+    
+    <sect1>
+      <title>Introductie</title>
+      <para>
+      	Hier vindt u alle hardware welke in beheer is binnen Mbuyu.
+      </para>
+    </sect1>
+    
+    <sect1>
+    	<title>POPS</title>
+    	<para>De hardware is ingedeeld op locatie.</para>
+    	
+    	<sect2>
+    		<title>Cyso</title>
+    		
+    		<para>
+    			Alle hardware welke bij Cysonet in het rack hangt.
+    		</para>
+    		
+    		<sect3>
+    			<title>mrhmsw3</title>
+    			<para>
+					<itemizedlist mark="none">
+						<listitem><para>HP Procurve 2510G-24 J9279A</para></listitem>
+						<listitem><para>20x 1000Mbit</para></listitem>
+						<listitem><para>4x 1000Mbit dual poorten</para></listitem>
+					</itemizedlist>
+    			</para>
+    		</sect3>
+    		<sect3>
+    			<title>mrhmsw4</title>
+    			<para>
+					<itemizedlist mark="none">
+						<listitem><para>HP Procurve 2510G-24 J9279A</para></listitem>
+						<listitem><para>20x 1000Mbit</para></listitem>
+						<listitem><para>4x 1000Mbit dual poorten</para></listitem>
+					</itemizedlist>
+    			</para>
+    		</sect3>
+			<sect3>
+			    <title>mrhpgdb3</title>
+			    <synopsis>
+<![CDATA[	    
+2 x Xeon W5590 [2 x 4@3,33] 
+6 x 8GB = 48GB 
+24 x INTEL X25-E 32GB (3 x RAID 6) 
+			    
+    * hostname: mrhpgdb3.vlan.mbuyu.com
+    * alias: db0.live.mbuyu.nl 
+    * chassis: supermicro SC216A -  http://www.supermicro.com/products/chassis/2U/216/SC216A-R900LP.cfm
+    * motherboard: supermicro X8DTH-iF -  http://www.supermicro.com/products/motherboard/QPI/5500/X8DTH-iF.cfm
+    * cpus: 2 x Xeon W5590 -  http://ark.intel.com/Product.aspx?id=41643
+    * ram: 6 x 8GB Kingston KVR1066D3D4R7S/8 -  http://www.ec.kingston.com/ecom/configurator_new/PartsInfo.asp?root=us&LinkBack=http://www.valueram.com&ktcpartno=KVR1066D3D4R7S/8G
+    * raid-conroller: 3 x ARC1680ix-08 (512MB - BBU) -  http://www.areca.com.tw/products/pcietosas1680series.htm
+    * solid state drives: 24 x INTEL X25-E 32GB (3 x RAID 6) -  http://www.intel.com/design/flash/nand/extreme/index.htm
+]]> 
+			    </synopsis>
+			    <para>Disk layout</para>
+			    <synopsis>
+     +-----------------------------------------------------------------------------------------------+
+     |      LEG 1 = controller 1     |      LEG 2 = controller 2     |      LEG 3 = controller 3     | == raid controller
+     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+
+     |0  |1  |2  |3  |4  |5  |6  |7  |8  |9  |10 |11 |12 |13 |14 |15 |16 |17 |18 |19 |20 |21 |22 |23 | == bay number
+     |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+     | #9|#10|#11|#12|#13|#14|#15|#16| #9|#10|#11|#12|#13|#14|#15|#16| #9|#10|#11|#12|#13|#14|#15|#16| == disk# on controller 
+     |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+     |ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd|ssd| == drive type: Intel X25-E 32GB 2.5" firmware 8850
+     |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+     |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+     +---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+---+			    
+			    </synopsis>
+			    
+			</sect3>
+      		<sect3>
+    			<title>MRHXEN4</title>
+    			<synopsis>
+SM 1U Superserver 6015VT XEON SATA
+2 x Intel Xeon 5148 2.33Ghz LV
+2 x Seagate 80gb 7200rpm SATA
+4 x Apacer 1GB DDR2 667 ECC FB-Dimm
+3Ware 8006-2 Raid controller
+Supermicro IPMI 2.0 Card
+    			</synopsis>
+    		</sect3>
+    		<sect3>
+		<title> MRHXEN5 (en 6,7,8)</title>
+		<synopsis>
+SM 2U Server  SC827, gekocht in feb. 2010
+2 x Intel Xeon X5570 2,93 Mhz
+1 x Seagate Constellation ST9500530NS 500G SATA 7,200 RPM
+2 x Intel X25-M Postville SSDSA2MH160G2C1 160GB SSD
+ 6 x 4GB Kingston KVR1333D3D4R9S/4G  
+		</synopsis>
+    		</sect3>
+			<sect3>
+    			<title>mrhaps0</title>
+    			<synopsis>
+APC AP7920 8 poort powerswitch max 10A
+8 stuks Powerkabel voor APC powerswitch
+    			</synopsis>
+    		</sect3>
+			<sect3>
+    			<title>mrhaps1</title>
+    			<synopsis>
+APC AP7920 8 poort powerswitch max 10A
+8 stuks Powerkabel voor APC powerswitch
+    			</synopsis>
+    		</sect3>
+    		<sect3>
+    			<title>mrhrcon0</title>
+    			<synopsis>
+HP Serial Console Server 16 ports
+				</synopsis>
+    		</sect3>
+    	</sect2>
+    	<sect2>
+    		<title>Main</title>
+    		<para>
+    			Alle hardware die op office in het rack hangt.
+    		</para>
+    		
+    		
+    		<sect3>
+    			<title>MOHRFW0</title>
+    			<synopsis>
+TWP 2U SUPERSTORAGE BERN XEON aangeschaft 15 mei 2008
+2GB memory
+Intel Xeon 3085 3.00GHZ
+2x160GB,  RAID1
+3ware 9650SE-4LPML Sata II Raid controller
+eth0: 00:15:17:70:3A:12 
+eth1: 00:15:17:70:3A:13
+eth2: 00:15:17:70:3A:02
+eth3: 00:15:17:70:3A:03
+eth4: 00:30:48:65:58:90
+eth5: 00:30:48:65:58:91
+    			</synopsis>
+    		</sect3>
+			<sect3>
+				<title>TOHPGDB0</title>
+				<synopsis>
+SUPERMICRO, gekocht okt 2007
+SM 2U SuperServer 2021M-T2R+ SATA
+2 x AMD Opteron 2350 2.0 ghz Quad Core 2MB cpu
+4 x Kingston 2GB DDR2 667 ECC Registered
+4 x Seagate 320GB SATA II
+1 x 3Ware 9650SE-8LPML Sata raid controller
+4X Mtron SSD Pro 7000
+ 				</synopsis>
+    		</sect3>
+    		<sect3>
+    			<title>MOHXEN0</title>
+    			<synopsis>
+DELL
+1x Xeon 2.4Ghz/512kb met HT
+3GB memory
+2x 250GB PATA
+eth0: 00:30:48:28:6A:9C
+eth1: 00:30:48:28:6A:9D
+    			</synopsis>
+    		</sect3>
+    		<sect3>
+    			<title>MOHXEN3</title>
+    			<synopsis>
+ SM PDSMi+ X3230 QUAD 2.66GHz
+ 8GB DIMM memory, 667Mhz
+ 1 TB HDD
+ 3Ware 8006-2LP 2-port SATA RAID Controller
+ 				</synopsis>
+ 
+    		</sect3>
+    		<sect3>
+    			<title>MOHWAP0</title>
+    			<synopsis>
+Belkin N Wireless Router
+mac:00:22:75:12:0A:A3
+    			</synopsis>
+    		</sect3>
+    		<sect3>
+    			<title>MOHWAP1</title>
+    			<synopsis>
+FRITZ!Box Fon 5124
+IP: 10.0.0.138
+Het INFO is zo ingesteld dat het oplicht als er een internetverbinding is.
+				</synopsis>
+			</sect3>
+    	</sect2>
+   	</sect1>
+  </chapter>
+
+
+	<chapter lang="nl">
+		<chapterinfo>
+			<title>Installatie Hardware</title>
+				<keywordset>
+					<keyword>Installatie</keyword>
+					<keyword>regels</keyword>
+				</keywordset>
+		</chapterinfo>
+		<title>Installatie Hardware</title>
+		<beginpage/>
+		<sect1>
+			<title>Introductie</title>
+			<para>Om alle servers gelijk te houden zijn er een aantal procedures waarmeer we te maken hebben.</para>
+		</sect1>
+		
+		<sect1>
+			<title>Debian Installs</title>
+			<para>Verschillende debian installs.</para>
+			
+			<sect2>
+				<title>Normal debian install</title>
+				<para>Install debian lenny.</para>
+				<para>De disken moeten minimaal in mirror draaien.</para>
+				<para>En worden normaal in 2 partities ingedeeld, namelijk het grootste deel als root partie(reiserfs) en een swap van +-1/2GB</para>
+				<para>MORE TODO</para>
+			</sect2>
+			<sect2>
+				<title>Xen3 Dom0 install</title>
+				<para>Install debian lenny</para>
+				<para>Disken moeten minimaal in mirror draaien.</para>
+				<para>Maak 2GB root(reiserfs) disk aan</para>
+				<para>Maak 512MB swap parties aan</para>
+				<para>Maar van de rest van de disk een lvm partie</para>
+				<para>Na complete installatie</para>
+				<para>apt-get install xen-hypervisor-3.0-i386 xen-utils-3.0</para>
+				<para>apt-get install linux-image-2.6.xx-x-xen-686</para>
+				<para>apt-get install bridge-utils iproute sysfsutils xen-tools vlan</para>
+				
+				
+				<sect3>
+					<title>Network briding</title>
+					<para>Creates the bridges in /etc/network/interfaces</para>
+<synopsis>
+# This file describes the network interfaces available on your system
+# and how to activate them. For more information, see interfaces(5).
+
+
+# The loopback network interface
+auto lo
+iface lo inet loopback
+
+auto vbr0
+iface vbr0 inet manual
+        bridge_ports eth0 eth1
+        bridge_stp on
+        bridge_maxwait 5
+
+auto vbr0.2
+iface vbr0.2 inet manual
+        vlan-raw-device vbr0
+
+auto vbr0.3
+iface vbr0.3 inet manual
+        vlan-raw-device vbr0
+
+auto vbr0.44
+iface vbr0.44 inet manual
+        vlan-raw-device vbr0
+
+# VLAN
+auto vlan02
+iface vlan02 inet static
+        address 172.16.21.14
+        netmask 255.255.255.0
+        gateway 172.16.21.133
+        bridge_ports vbr0.2
+        bridge_stp off
+        bridge_maxwait 5
+        post-up route add -net 172.16.16.0 netmask 255.255.240.0 gw 172.16.21.139 vlan02
+        post-up route add -net 172.16.23.0 netmask 255.255.255.0 gw 172.16.21.143 vlan02
+		
+#auto vlan03
+#iface vlan03 inet static
+#       address 172.16.20.xx
+#       netmask 255.255.255.0
+#       bridge_ports vbr0.3
+#       bridge_stp off
+#       bridge_maxwait 5
+
+auto vlan44
+iface vlan44 inet manual
+#       address 85.158.204.181
+#       netmask 255.255.255.224
+#       gateway 85.158.204.161
+        bridge_ports vbr0.44
+        bridge_stp off
+        bridge_maxwait 5
+</synopsis>				
+					<para>Pas xend network setup aan naar:</para>	
+<synopsis>
+(network-script network-dummy)
+(vif-script vif-bridge)
+</synopsis>
+				</sect3>
+				
+				<sect3>
+					<title>Init LVM</title>
+					<para>Zoek de lvm partities met; (In geval van software raid gebruik je de md device direct !)</para>
+<synopsis>
+mrhxen1:/# fdisk -l | grep LVM
+/dev/sda3             306       60801   485934120   8e  Linux LVM
+</synopsis>
+					<para>Voeg deze toe.</para>
+<synopsis>
+mohxen0:/# pvcreate /dev/md1
+  Physical volume "/dev/md1" successfully created
+</synopsis>
+					<para>Maak Volume group aan.</para>
+<synopsis>
+mohxen0:/# vgcreate xenvg /dev/md1
+  Volume group "xenvg" successfully created
+</synopsis>					
+				</sect3>
+			
+				<sect3>
+					<title>xen-save voor domUs</title>
+					<para>Maak een xen-save lvm partie aan om de memory saves van domeinen in te zetten.</para>
+					<para>Voor de groote maak hem mem size + 1GB</para>
+<synopsis>
+mohxen0:/n#  lvcreate -C y -L 4G -n xen-save xenvg
+  Logical volume "xen-save" created
+</synopsis>
+					<para>Maak ext3 fs aan en voeg toe aan mount</para>
+<synopsis>
+mohxen0:/# mkfs.ext3 /dev/xenvg/xen-save
+mohxen0:/# mkdir -p /var/lib/xen/save
+mohxen0:/# echo "/dev/xenvg/xen-save     /var/lib/xen/save       ext3        defaults       0        0" >> /etc/fstab
+mohxen0:/# mount -a
+</synopsis>
+				</sect3>
+
+
+				<sect3>
+					<title>Memory fixes</title>
+					<para>In /boot/grub/menu.lst edit de volgende lijn naar: (incl # !!)</para>
+<synopsis>
+# xenhopt=dom0_mem=128M
+</synopsis>
+					<para>Voer hierna update-grub uit.</para>
+
+					<para>In /etc/xen/xend-config.sxp edit de volgende lijn naar:</para>
+<synopsis>
+(dom0-min-mem 128)
+</synopsis>
+					<para>en een keer rebooten</para>
+
+				</sect3>
+
+
+				<sect3>
+					<title>resize lvm parties</title>
+					<para>Maak een parties groter</para>
+<synopsis>
+mrhxen1:/home/willemc# lvresize -L+100G /dev/xenvg/mrxbak0-backup
+  Extending logical volume mrxbak0-backup to 400.00 GB
+  Logical volume mrxbak0-backup successfully resized
+</synopsis>
+					<para>resize reiserfs parties</para>
+<synopsis>
+reboot
+umount /backup/
+resize_reiserfs /dev/sda3
+mount -a
+</synopsis>
+				</sect3>
+	
+	
+			</sect2>
+			<sect2>
+				<title>Xen3 DomU install</title>
+				<para>In Lenny eenmalig: vim /etc/xen/xend-config.sxp</para>
+<synopsis>
+#
+# /etc/xen/xend-config.sxp
+#
+(network-script network-dummy)
+(vif-script vif-bridge)
+(dom0-min-mem 196)
+</synopsis>					
+				<para>vim /etc/xen-tools/xen-tools.conf</para>
+<synopsis>
+#
+# /etc/xen-tools/xen-tools.conf
+#
+lvm = xenvg
+size   = 5Gb      # Disk image size.
+memory = 256Mb    # Memory size
+swap   = 512Mb    # Swap size
+fs     = ext3      # use the EXT3 filesystem for the disk image.
+dist   = lenny     # Default distribution to install.
+
+#  Currently supported and tested distributions include:
+#   sid          - Debian
+#   sarge        - Debian
+#   etch         - Debian
+#   lenny		 - Debian
+#   dapper       - Ubuntu
+#   centos4      - CentOS 4
+#   fedora-core4 - Fedora Core 4 (codname stentz)
+#
+gateway   = 85.158.204.161
+netmask   = 255.255.255.224
+# dhcp = 1
+
+passwd = 1
+debootstrap = 1
+kernel = /boot/vmlinuz-2.6.18-3-xen-686
+initrd = /boot/initrd.img-2.6.18-3-xen-686
+mirror  = http://ftp.nl.debian.org/debian/
+</synopsis>
+
+
+<synopsis>
+xen-create-image --hostname=mrxwww0 --ip=85.158.204.178
+xm create mrxwww0.cfg
+</synopsis>
+				<para>evt disk toevoegen, en daarna in geboot systeem ook toevoegen aan /etc/fstab</para>
+<synopsis>
+	lvcreate -n mrxmail0-home --size 40G xenvg
+	vim /etc/xen/mrxmail0.cfg
+</synopsis>
+			</sect2>
+			<sect2>
+				<title>Cfengine install</title>
+				<para>Install cfengine only on etch++</para>
+				<para>Etch-- has an to old cfengine, so templating won't work.</para>
+				<para>op newe bake:
+					<code>apt-get install cfengine2</code>
+				</para>
+				<para>Op mrxcfe0</para>
+				<synopsis>
+cd /var/lib/cfengine2/ppkeys/
+scp ##BAK_NAAM##:/var/lib/cfengine2/ppkeys/localhost.pub root-##BAK_IPADDRESS##.pub
+scp localhost.pub ##BAK_NAAM##:/var/lib/cfengine2/ppkeys/root-85.158.204.181.pub		
+cd /etc/cfengine/
+scp update.conf.clients ##BAK_NAAM##:/etc/cfengine/update.conf
+scp cfservd.conf.clients ##BAK_NAAM##:/etc/cfengine/cfservd.conf
+				</synopsis>
+				<para>op nieuwe bak:
+					<synopsis>cfagent -v -q </synopsis>
+				</para>
+				<para>
+					Soms nog ff de tijd gelijk zetten met bv ntpdate ntp.xs4all.nl
+				</para>
+				<para>
+					Bij verbinding niet over het VLAN (deprecated): Op Office machines ook de localhost pub en key copyen van een andere office machine !!
+				</para>
+				<para>
+				Nadat cfengine 1/2 heeft gelopen moeten er soms nog een paar dingen geinstalleerd worden.
+				Dit is voornamelijk machines welke java en/of tomcat nodig hebben.
+				</para>
+				<para>
+				 Soms gaat de 1ste keer cfe draaien mis doordat hij teveel packages in 1x wil instaleren.
+				 Zie de error melding: "Too many arguments in embedded script"
+				 Dan de apt-get install met de packages even 1st met de hand uitvoeren.
+				</para>
+				<para>
+				Om problemen met de time-sources te voorkomen ("Time went backwards") moet er nog wat aangepast in de domU:
+				voeg toe aan /etc/xen/domU-foo.conf op de domO: 
+				extra =  'clocksource = jiffies'
+				voeg toe aan /etc/sysctl.d/xen-dom0.conf op de dom0:
+				xen.independant._wallclock=1
+				</para>
+			</sect2>
+			
+			<sect2>
+				<title>Firehol install </title>
+				<para>CF engine doet op dit moment nog niet de config van de firehol</para>
+				<para>Instaleren juiste kernel modules</para>
+				<synopsis>
+apt-get install linux-modules-2.6.18-5-xen-686
+				</synopsis>
+				<para>
+					Daarna dient in /etc/default/firehol de START variables op YES gezet te worden.
+				</para>
+				<para>
+					En Als laaste moet er een config in /etc/firehol/firehol.conf gezet worden welke oke is voor deze machine.
+				</para>
+			</sect2>
+			
+			<sect2>
+				<title>Java install</title>
+				<para>
+					We installeren java met de hand omdat er een licentie achter zit welke we icm cfengine nog niet hebben omzeild.
+				</para>
+				<para>
+					<code>apt-get install sun-java5-jdk</code>
+				</para>
+			</sect2>
+			
+			<sect2>
+				<title>Tomcat install</title>
+				<para>Tomcat zit wel in debian maar niet de laastse versie, en het is nog een beetje vaag  in debian geintegreerd.</para>
+				<para>
+<synopsis>
+cd /opt/
+wget http://apache.cs.uu.nl/dist/tomcat/tomcat-5/v5.5.23/bin/apache-tomcat-5.5.23.tar.gz
+tar -xzvf apache-tomcat-5.5.23.tar.gz
+ln -s apache-tomcat-5.5.23 tomcat
+cd tomcat
+mv webapps/ webapps_old
+mkdir sites
+cd sites/
+
+SRV_SAT::
+	mkdir views.m4n.nl
+	cd views.m4n.nl
+	ln -s /m4n/www/views.m4n.nl ROOT
+SRV_WEB::
+	mkdir www.m4n.nl
+	cd www.m4n.nl
+	ln -s /m4n/www/www.m4n.nl ROOT
+
+copy /etc/init.d/tomcat5 from a server
+copy /usr/local/tomcat/conf/server.xml from a server and config
+
+copy activation.jar mail.jar and the PGdriver.jar so common/lib/
+
+</synopsis>
+</para>
+
+				<para>Dit is de tomcat6 config !!</para>
+				<para>
+<synopsis>
+<![CDATA[
+<Server port="8005" shutdown="SHUTDOWN">
+  <!--APR library loader. Documentation at /docs/apr.html -->
+  <Listener className="org.apache.catalina.core.AprLifecycleListener" SSLEngine="on" />
+  <!--Initialize Jasper prior to webapps are loaded. Documentation at /docs/jasper-howto.html -->
+  <Listener className="org.apache.catalina.core.JasperListener" />
+  <!-- JMX Support for the Tomcat server. Documentation at /docs/non-existent.html -->
+  <Listener className="org.apache.catalina.mbeans.ServerLifecycleListener" />
+  <Listener className="org.apache.catalina.mbeans.GlobalResourcesLifecycleListener" />
+
+  <GlobalNamingResources>
+    <Resource name="UserDatabase" auth="Container"
+              type="org.apache.catalina.UserDatabase"
+              description="User database that can be updated and saved"
+              factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
+              pathname="conf/tomcat-users.xml" />
+  </GlobalNamingResources>
+
+  <Service name="Catalina">
+    <Connector      port="8009"
+                    protocol="AJP/1.3"
+                    redirectPort="443"
+                    backlog="200"
+                    maxSpareThreads="50"
+                    maxThreads="800"
+                    minSpareThreads="10"
+                    connectionTimeout="20000"
+               />
+    <Engine name="Catalina" defaultHost="localhost">
+      <Realm className="org.apache.catalina.realm.UserDatabaseRealm" resourceName="UserDatabase"/>
+      <Host name="localhost"  appBase="sites/views.m4n.nl" workDir="work/Catalina/views.m4n.nl"
+            unpackWARs="true" autoDeploy="true"
+            xmlValidation="false" xmlNamespaceAware="false">
+
+        <Valve  className="org.apache.catalina.valves.AccessLogValve"
+                directory="logs"
+                pattern="combined"
+                prefix="views.m4n.nl-access"
+                resolveHosts="false"
+                suffix=".log"
+                rotatable="true"
+                fileDateFormat="-yyyy.MM.dd.HH"/>
+      </Host>
+    </Engine>
+  </Service>
+</Server>
+]]>
+</synopsis>
+				</para>
+			</sect2>
+			
+			<sect2>
+				<title>Install Postgres</title>
+				<para>Deze handelingen zijn op de main m4n postgres database servers nog nodig</para>
+				<para>
+<synopsis>
+
+=== Link data directry ===
+cd /data
+rm -rf postgresql_data/
+cd /var/lib
+mv postgresql/ /data/postgresql_data/
+ln -s /data/postgresql_data/ postgresql
+
+=== mbuyu user ===
+su - postgres
+createuser -S -D -R -l -i -P mbuyu
+PASS: eephoh2O
+exit
+echo "*:*:*:mbuyu:eephoh2O" > /root/.pgpass
+chmod 600 /root/.pgpass
+NOTE: mbuyu is GEEN superuser meer !!!! en kan dus geen users/db aanmaken
+
+SRV_SAT::
+	su - postgres
+	createdb -Ombuyu -EUTF8 m4n_satelite
+	exit (from postgres to root)
+	cat /m4n/sql/satelite_views_template.sql | psql -Umbuyu m4n_satelite
+SRV_PGDB::
+	su - postgres
+	echo "ALTER USER postgres ENCRYPTED PASSWORD 'Ngh$56S'" | psql 
+	createdb -Ombuyu -EUTF8 m4n
+	createdb -Ombuyu -EUTF8 forum
+	createdb -Ombuyu -EUTF8 datafeeds
+	cat /usr/share/postgresql/8.3/contrib/dblink.sql | psql m4n
+	echo "CREATE LANGUAGE plpgsql;" | psql m4n
+	echo "*:*:*:postgres:Ngh$56S" >> /root/.pgpass
+
+To restore as normal user to database:
+	zcat backup_m4n-backup.gz | psql -Umbuyu m4n_20071023
+
+To restore as postgres user:
+	pg_restore -dforum today-backup-forum.tar,
+	pg_restore -ddatafeeds today-backup-datafeeds.tar
+	pg_restore -dm4n today-backup-m4n.tar
+	
+	 
+	
+</synopsis>
+				</para>
+			</sect2>
+			
+			
+		</sect1>
+		
+		<sect1>
+			<title>Debian</title>
+			<para>Algemene debian procedures</para>
+			
+			<sect2>
+				<title>Xen Guest Host restarting</title>
+				<para>xm list</para>
+				<para>Check welke je wil rebooten ofzo.</para>
+				<para>Domain afsluiten:</para>
+				<para>xm shutdown ##DOMAIN##</para>
+				<para>En weer starten: (let op .cfg)</para>
+				<para>xm create ##DOMAIN##.cfg</para>
+			</sect2>
+			
+			<sect2>
+				<title>Xen kernel upgrading</title>
+				<para>De een kernel op een stable debian machine komt bijna altijd als dist-upgrade mee
+				en is altijd een security update, bijvoorbeeld;</para>
+<synopsis>
+mohxen1:~# apt-get upgrade
+Reading package lists... Done
+Building dependency tree... Done
+The following packages have been kept back:
+  linux-image-2.6-686
+The following packages will be upgraded:
+  bsdutils cpio debconf debconf-i18n findutils klibc-utils libc6 libc6-xen
+  libcairo2 libfreetype6 libklibc libkrb53 libnss-ldap libpam-modules
+  libpam-runtime libpam0g libpcre3 libsnmp-base libsnmp9
+  linux-image-2.6-686-smp linux-image-2.6.18-5-686
+  linux-image-2.6.18-5-xen-686 linux-modules-2.6.18-5-xen-686 locales lvm2
+  mount nscd python2.4 python2.4-minimal rsync snmpd tar tzdata util-linux
+34 upgraded, 0 newly installed, 0 to remove and 1 not upgraded.
+Need to get 47.3MB/54.4MB of archives.
+After unpacking 4595kB disk space will be freed.
+Do you want to continue [Y/n]? n
+Abort.
+mohxen1:~#
+</synopsis>		
+			<para>Eerst upgraden en dist-upgraden we de xen machine zelf.</para>
+			<para>Hierbij altijd goed kijken wat er binnen komt, dat voorkomt soms langzoeken als er iets breekt.</para>
+
+<synopsis>
+mohxen1:~# uname -a
+Linux mohxen1 2.6.18-5-xen-686 #1 SMP Sun Dec 2 02:19:42 UTC 2007 i686 GNU/Linux
+
+- update: security update kernel
+Get:18 http://security.debian.org etch/updates/main linux-image-2.6.18-5-xen-686 2.6.18.dfsg.1-13etch6 [1298kB]
+Get:19 http://security.debian.org etch/updates/main linux-modules-2.6.18-5-xen-686 2.6.18.dfsg.1-13etch6 [14.3MB]
+
+- dist-upgrade: kernel upgrade naar new debian patch level, via meta package.
+Get:1 http://ftp.nl.debian.org etch/main linux-image-2.6.18-6-686 2.6.18.dfsg.1-18etch1 [16.5MB]
+Get:1 http://ftp.nl.debian.org etch/main etch/main linux-image-2.6-686 2.6.18+6etch3 [2286B]
+
+LETOP: als dit geen XEN kernel is hoeven veel dingen niet aangepast te worden.
+NOTE: mohxen1 had de meta package nog niet;
+
+mohxen1:/etc/xen# apt-get install linux-image-2.6-xen-686
+The following NEW packages will be installed:
+  linux-image-2.6-xen-686 linux-image-2.6.18-6-xen-686
+</synopsis>
+			<para>
+				In dit geval hebben we beiden geupgrade, en willen we naar de nieuwe patchlevel kernel toe.
+				Hiervoor installeren we eerst de benodige modules erbij;
+			</para>
+<synopsis>
+mohxen1:~# apt-get install linux-modules-2.6.18-6-xen-686
+Reading package lists... Done
+Building dependency tree... Done
+The following NEW packages will be installed:
+  linux-modules-2.6.18-6-xen-686
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 14.4MB of archives.
+After unpacking 46.9MB of additional disk space will be used.
+Get:1 http://ftp.nl.debian.org etch/main linux-modules-2.6.18-6-xen-686 2.6.18.dfsg.1-18etch1 [14.4MB]
+Fetched 14.4MB in 14s (980kB/s)
+Selecting previously deselected package linux-modules-2.6.18-6-xen-686.
+(Reading database ... 27566 files and directories currently installed.)
+Unpacking linux-modules-2.6.18-6-xen-686 (from .../linux-modules-2.6.18-6-xen-686_2.6.18.dfsg.1-18etch1_i386.deb) ...
+Setting up linux-modules-2.6.18-6-xen-686 (2.6.18.dfsg.1-18etch1) ...
+
+mohxen1:~# 
+</synopsis>
+				<para>Tevens is hier helaas nog een losse update-grub voor nodig. (niet altijd)</para>
+<synopsis>
+mohxen1:~# update-grub
+Searching for GRUB installation directory ... found: /boot/grub
+Searching for default file ... found: /boot/grub/default
+Testing for an existing GRUB menu.lst file ... found: /boot/grub/menu.lst
+Searching for splash image ... none found, skipping ...
+Found Xen hypervisor 3.0.3-1-i386-pae,  kernel: /boot/vmlinuz-2.6.18-5-xen-686
+Found Xen hypervisor 3.0.3-1-i386-pae,  kernel: /boot/vmlinuz-2.6.18-4-xen-686
+Found kernel: /boot/vmlinuz-2.6.18-6-686
+Found kernel: /boot/vmlinuz-2.6.18-5-686
+Found kernel: /boot/vmlinuz-2.6.18-4-686
+Updating /boot/grub/menu.lst ... done
+
+mohxen1:~#
+</synopsis>
+			<para>Hierna passen we de config voor XEN aan in /etc/xen/*.cfg</para>
+			<para>Update in all files de kernel en ramdisk naar de newe kernel.</para>
+<synopsis>
+kernel  = '/boot/vmlinuz-2.6.18-6-xen-686'
+ramdisk = '/boot/initrd.img-2.6.18-6-xen-686'
+</synopsis>
+			<para>Hierna passen we ook all xen guest machines aan, deze missen namelijk altijd
+			de modules voor de nieuwe kernel.</para>
+			<para>Dus op ALLE xen guest van deze xen dom0 inloggen het de nieuwe kernel modules installeren</para>
+<synopsis>		
+moxsts0:/# apt-get install linux-modules-2.6.18-6-xen-686
+Reading package lists... Done
+Building dependency tree... Done
+The following NEW packages will be installed:
+  linux-modules-2.6.18-6-xen-686
+0 upgraded, 1 newly installed, 0 to remove and 0 not upgraded.
+Need to get 14.4MB of archives.
+After unpacking 46.9MB of additional disk space will be used.
+Get:1 http://ftp.nl.debian.org etch/main linux-modules-2.6.18-6-xen-686 2.6.18.dfsg.1-18etch1 [14.4MB]
+Fetched 14.4MB in 1s (9802kB/s)
+Selecting previously deselected package linux-modules-2.6.18-6-xen-686.
+(Reading database ... 18966 files and directories currently installed.)
+Unpacking linux-modules-2.6.18-6-xen-686 (from .../linux-modules-2.6.18-6-xen-686_2.6.18.dfsg.1-18etch1_i386.deb) ...
+Setting up linux-modules-2.6.18-6-xen-686 (2.6.18.dfsg.1-18etch1) ...
+
+moxsts0:/#
+</synopsis>
+
+		<para>Voor dat een xen guest domain de nieuwe kernel gebruikt moet deze gereboot worden.</para>
+		<para>Aangezien onze dom0 allemaal op save staan, zal deze de domU niet rebooten als hij zelf
+		wordt gereboot.</para>
+		<para>Hiervoor shutdown'en wij elke xen machine voor dat we de dom0 rebooten.</para>
+<synopsis>
+mohxen1:/etc/xen# xm shutdown toxpgdb0
+mohxen1:/etc/xen# xm shutdown toxbeta0
+mohxen1:/etc/xen# xm shutdown moxsts0
+mohxen1:/etc/xen# xm shutdown moxgate0
+</synopsis>		
+		<para>Geef het een minute om allemaal te shutdown'en waarna als de xm list leeg is de dom0 ge-reboot kan worden.</para>
+		<para>Dan zal de dom0 opkomen met de newe kernel en alle domU ook.</para>
+			</sect2>
+			
+			<sect2>
+				<title>Software raid rebuilden</title>
+				<para>+- deze commandos:</para>
+<synopsis>
+mdadm --zero-superblock /dev/sda2
+mdadm --add /dev/md0 /dev/sda2
+mdadm --detail /dev/md0
+</synopsis>
+			</sect2>
+
+			<sect2>	
+			<title>Hardware raid rebuilden</title>
+			<para>Op MRHPGDB1, met een PERC 5i RAIDkaart</para>
+<para>Rebuild, met vertoon van voortgang:</para>
+<synopsis>MegaCli -PDRbld -ShowProg -PhysDrv [1:4] -aALL</synopsis>
+<para>Tonen van volledige configuratie:</para>
+<synopsis>
+mrhpgdb1:/# MegaCli -CfgDsply -aALL | grep Firm
+Firmware state: Online
+Firmware state: Online
+Firmware state: Online
+Firmware state: Online
+Firmware state: Online
+Firmware state: Online
+
+zonder grep begint het met;
+mrhpgdb1:/# MegaCli -CfgDsply -aALL
+                                     
+==============================================================================
+Adapter: 0
+Product Name: PERC 5/i Integrated
+Memory: 256MB
+BBU: Present
+Serial No: 12345
+==============================================================================
+Number of DISK GROUPS: 1
+	DISK GROUPS: 0
+	Number of Spans: 3
+	SPAN: 0
+	Span Reference: 0x00
+	Number of PDs: 2
+	Number of VDs: 1
+	Number of dedicated Hotspares: 0
+	Virtual Disk Information:
+	Virtual Disk: 0
+	Name:
+	RAID Level: Primary-1, Secondary-3, RAID Level Qualifier-0
+	Size:208128MB
+	State: Optimal
+	....(snip) see -LDInfo for cache config
+</synopsis>
+<para>Bekijken van de eventlog.</para>
+<synopsis>
+MegaCli -AdpEventLog -GetEvents -f /tmp/raidevents.log -aALL
+tail -n200 /tmp/raidevents.log
+</synopsis>
+
+<para>Virtuele drive(raidset) info:</para>
+
+<synopsis>
+MegaCli -LDInfo -Lall -aALL                                 
+Adapter 0 -- Virtual Drive Information:
+Virtual Disk: 0
+Name:
+RAID Level: Primary-1, Secondary-3, RAID Level Qualifier-0
+Size:208128MB
+State: Optimal
+Stripe Size: 128kB
+Number Of Drives:2
+Span Depth:3
+Default Cache Policy: WriteThrough ReadAdaptive Direct
+Current Cache Policy: WriteThrough ReadAdaptive Direct
+Access Policy: Read/Write
+Disk Cache Policy: Disk's Default
+Ongoing Progresses:
+Background Initialization: Completed 2%, Taken 0 min.
+</synopsis>
+			</sect2>
+				
+			<sect2>
+				<title>DELL bios upgrade (2950)</title>
+				<para>quick and dirty steps as root user:</para>
+<synopsis>
+apt-get install libsmbios-bin
+# verify current bios
+getSystemId  
+wget "http://linux.dell.com/repo/firmware/bios-hdrs/dup/system_ven_0x1028_dev_0x01b2/dell_dup_componentid_00159_version_2.4.3/payload/PE2950-020403C.hdr"
+modprobe dell_rbu
+dellBiosUpdate -u -f PE2950-020403C.hdr
+reboot
+# verify new bios
+getSystemId
+apt-get purge libsmbios-bin 
+# done
+</synopsis>
+				<sect3>
+					<title>Reading material</title>
+					<para>
+						http://www.ducea.com/2007/08/27/dell-bios-firmware-updates-on-debian/
+						http://linux.dell.com/repo/firmware/bios-hdrs/dup/system_ven_0x1028_dev_0x01b2/dell_dup_componentid_00159_version_2.4.3/payload/
+					</para>
+				</sect3>
+			</sect2>
+		
+			<sect2>
+				<title>Migrating disk with dd</title>
+				<para>ff voordat je begint je destation file/dev 666 chmoden en daarna terug.</para>
+				<para>dd if=/dev/hdaX | ssh user@host 'dd of=/dev/hdaX'</para>
+				<para>dd if=/dev/hdaX | ssh -c'blowfish' user@host 'dd of=/dev/hdaX'</para>
+				<para>dd if=/dev/hdaX | gzip -c | ssh -c'blowfish' user@host 'gzip -cd | dd of=/dev/hdaX bs=2048'</para>
+				
+			</sect2>
+
+
+			<sect2>
+				<title>Openldap slave resync</title>
+				<para>Soms gebeurt het dat openldap slave servers traag of out of sync raken.</para>
+				<para>Dat is een voledige dump/restore een prima middel om het te fixen vanad de MASTER machine;</para>
+<synopsis>
+mrxauth0:~# slapcat > backup.ldif
+mrxauth0:~# scp backup.ldif willem.cazander@moxauth0.dmz.office.mbuyu.com:/tmp
+</synopsis>
+				<para>En dan op de slave:</para>
+<synopsis>
+moxauth0:/tmp# /etc/init.d/slapd stop
+moxauth0:/tmp# cd /var/lib/ldap/
+moxauth0:/var/lib/ldap# rm __db*;rm log*;rm *bdb;rm alock
+moxauth0:/var/lib/ldap# slapadd -n2 -l /tmp/backup.ldif
+moxauth0:/var/lib/ldap# chown openldap:openldap *
+moxauth0:/var/lib/ldap# /etc/init.d/slapd start
+</synopsis>
+			</sect2>
+			
+			<sect2>
+				<title>Upgrading</title>
+				<para>Het upgraden van debian is vrij makkelijk.</para>
+				<para>Pas de etc/sources.list aan.</para>
+				<para>Doe apt-get update en apt-get dist-upgrade</para>
+				<para>Dat is het ongeveer.</para>
+				<para>MORE TODO</para>
+			</sect2>
+			<sect2>
+				<title>Downgrading</title>
+				<para>From unstable to Etch</para>
+				<para>Create a file called /etc/apt/preferences, and in it, put:</para>
+				<para>
+<synopsis>
+Package: *
+Pin: release a=testing
+Pin-Priority: 1001
+</synopsis>
+				</para>
+
+				<para>
+					Then, change your /etc/apt/sources.list to point to Etch.  Then, apt-get update
+					and apt-get upgrade will attempt to downgrade.  You'll probably get a
+					number of errors about a file extisting in a package that already exists
+					in another package.  If you do, you'll have to download and install 
+					those packages individually with dpkg -I --force-overwrite packagename.deb.
+				</para>
+				<para>
+					When you're all done, if you see any packages in aptitude under
+					"obsolete or locally created packages", those are most likely
+					packages from Sid that aren't in Etch, and you should remove them.
+				</para>
+				<para>Also, don't forget to add security.debian.org to your /etc/apt/sources.list.</para>
+				<para>Finally, remove the /etc/apt/preferences file you created above.</para>
+			</sect2>
+			
+			<sect2>
+				<title>openssl PEM file aanmaken van crt file</title>
+				<para>Oa courier imap-ssl heeft een cert file in PEM formaat nodig deze maak je zo;</para>
+				<para>cat courier.key courier.crt > courier.pem</para>
+				<para>openssl gendh >> courier.pem</para>
+			</sect2>
+			
+		</sect1>
+			
+		<sect1>
+			<title>Restore</title>
+			<para>Algemene backup restore procedures</para>
+			
+			<sect2>
+				<title>SVN</title>
+				<para>De meest actuele SVN-backups zijn, bijv. via scp lokaal te halen bij de backupserver, mrxbak0.mbuyu.com.
+				Daarna moet gekeken worden of ze bruikbaar zijn. 
+				</para>
+				<para>
+				Open daarvoor een terminal. Restore met het commando
+				</para>
+				<synopsis>svn co file:///pad-naar-de-directory/m4n</synopsis>
+				<para>
+				voor de 'checkout' van de repository m4n. Voor sandbox en oss geldt hetzelfde. Handiger is om binnen de 
+				repository een enkel project te restoren. Welke projecten er zijn, is op te vragen met:</para>
+				<synopsis>svn list file:///pad-naar-de-directory/
+				</synopsis>
+				<para>
+				De projectnaam zet je vervolgens achter het pad.
+				</para>
+			</sect2>
+			<sect2>
+				 <title>Backup LDAP</title>
+				 <para>
+				 Configuratie van backup LDAP:
+				</para>
+				<para>
+				De master LDAP-server draait op mrxauth0.mbuyu.com. Er zijn twee backup (read-only) slaves
+				geinstalleerd: mrxauth0.mbuyu.com en, op het office zelf, moxauth0.dmz.office.mbuyu.com.
+				Die hebben aparte configuratiebestanden.
+				</para>
+			</sect2>
+		</sect1>
+	</chapter>
+	
+	   <chapter lang="nl">
+   		<title>Configuratie firewall</title>
+   		<sect1>
+			<title>Firewallregels van Cysonet</title>
+			<para>Deze kunnen per email worden opgevraagt bij cysonet.</para>
+			<synopsis>
+num  target     prot opt source               destination
+1    ACCEPT     0    --  0.0.0.0/0            0.0.0.0/0           state RELATED,ESTABLISHED
+2    DROP       0    --  0.0.0.0/0            85.158.204.162
+3    DROP       0    --  0.0.0.0/0            85.158.204.163
+4    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           tcp dpt:80
+5    ACCEPT     tcp  --  0.0.0.0/0            0.0.0.0/0           tcp dpt:443
+6    ACCEPT     tcp  --  85.158.200.68        0.0.0.0/0           tcp dpt:4949
+7    ACCEPT     udp  --  87.215.139.8/29      85.158.204.172      udp dpt:1194
+8    ACCEPT     udp  --  80.101.123.149       85.158.204.172      udp dpt:1194
+9    ACCEPT     udp  --  0.0.0.0/0            85.158.204.172      udp dpt:1195
+10   ACCEPT     tcp  --  87.215.139.8/29      85.158.204.170      state NEW tcp dpt:5432
+11   ACCEPT     tcp  --  80.101.123.149       85.158.204.170      state NEW tcp dpt:5432
+12   ACCEPT     tcp  --  194.109.245.108      85.158.204.170      state NEW tcp dpt:5432
+13   ACCEPT     tcp  --  86.81.136.172        85.158.204.170      state NEW tcp dpt:5432
+14   ACCEPT     tcp  --  82.92.22.160         85.158.204.170      state NEW tcp dpt:5432
+15   ACCEPT     tcp  --  87.215.139.8/29      0.0.0.0/0           tcp dpt:5308
+16   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.177      tcp dpt:22
+17   ACCEPT     tcp  --  80.101.123.149       0.0.0.0/0           tcp dpt:5308
+18   ACCEPT     tcp  --  87.215.139.8/29      0.0.0.0/0           tcp dpt:22
+19   ACCEPT     tcp  --  80.101.123.149       0.0.0.0/0           tcp dpt:22
+20   ACCEPT     tcp  --  194.109.245.108      0.0.0.0/0           tcp dpt:22
+21   ACCEPT     tcp  --  82.92.22.160         0.0.0.0/0           tcp dpt:22
+22   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.184      tcp dpt:22
+23   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.176      tcp dpt:25
+24   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.176      tcp dpt:465
+25   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.176      tcp dpt:993
+26   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.190      tcp dpt:25
+27   ACCEPT     tcp  --  87.215.139.8/29      85.158.204.183      tcp dpt:389
+28   ACCEPT     tcp  --  80.101.123.149       85.158.204.183      tcp dpt:389
+29   ACCEPT     tcp  --  87.215.139.8/29      85.158.204.183      tcp dpt:636
+30   ACCEPT     tcp  --  80.101.123.149       85.158.204.183      tcp dpt:636
+31   ACCEPT     tcp  --  87.215.139.8/29      85.158.204.169      tcp dpt:636
+32   ACCEPT     tcp  --  80.101.123.149       85.158.204.169      tcp dpt:636
+33   ACCEPT     tcp  --  87.215.139.8/29      85.158.204.182      tcp dpt:873
+34   ACCEPT     tcp  --  80.101.123.149       85.158.204.182      tcp dpt:873
+35   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.178      tcp dpts:20:21
+36   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.173      tcp dpts:20:21
+37   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.178      tcp dpts:5500:5700
+38   ACCEPT     tcp  --  0.0.0.0/0            85.158.204.173      tcp dpts:5500:5700
+39   LOG        0    --  0.0.0.0/0            0.0.0.0/0           limit: avg 5/min burst 5 LOG flags 0 level 4 prefix `mbuyu: '
+40   DROP       0    --  0.0.0.0/0            0.0.0.0/0
+
+			</synopsis>
+   		</sect1>
+   
+   </chapter>
+  
+ 	<chapter lang="nl">
+		<chapterinfo>
+			<title>Externe toegang</title>
+				<keywordset>
+					<keyword>Externe toegang</keyword>
+				</keywordset>
+		</chapterinfo>
+		<title>Externe toegang</title>
+		<sect1>
+			<title>Via SSH</title>
+			<para>De machines op het netwerk zijn vanaf het Internet zo min mogelijk benaderbaar. De machine 
+			gate.live.mbuyu.nl is als een van de weinige machines met SSH via het Internet bereikbaar.
+			Maar alleen voor bepaalde IP-nummers. Dat zijn die van Cyso, Klaas en de sysadmins. Daarna zijn er connecties te maken 
+			met alle machines via het private IP-nummer. Dus met bv. db0.live.mbuyu.nl of sat0.live.mbuyu.nl</para>
+		</sect1>
+ 		<sect1>
+ 			<title>Via VPN</title>
+ 			<para>Er staat een machine live waar iedereen een VPN-connectie mee kan maken, vpn.live.mbuyu.nl.
+			Daarvoor moet wel het juiste certificaat geinstalleerd zijn. Daarna kan er met elke machine verbinding gemaakt worden,
+			zoals boven beschreven.</para>
+ 		</sect1>
+ 		<sect1>
+ 			<title>Via de KVMconsole</title>
+ 			<para>Iemand die verbonden is met db2.live.mbuyu.nl, kan direct contact leggen met een andere livemachine
+		 	via de KVMconsole. Start daarvoor minicom op. Inlognaam en wachtwoord zijn bekend bij systeembeheer.
+			De poorten van de KVMconsole zijn als volgt verbonden:
+			</para>
+			<synopsis>
+			port 1  [volgt]
+			port 2  [volgt]
+			port 3  [volgt]
+			port 4  [volgt]
+			port 5  mrhxen4
+			port 6  [volgt]
+			port 7  [volgt]
+			port 8  [volgt]
+			port 9  mrhsat0
+			port 10 mrhsat1 (overbodig)
+			port 11 [volgt]
+			port 12 [volgt]
+			port 13 [volgt]
+			port 14 [volgt]
+			port 15 [volgt]
+			port 16 [volgt]
+			console mrhpgd2 [db0.live.mbuyu.nl]
+			</synopsis>
+			<para>
+		 	Het is ook mogelijk om via een andere machine contact te leggen met de KVMconsole. Ssh daarvoor naar
+		 	kvm.live.mbuyu.nl.
+  			</para>
+  			<para>
+  			De machine db0.live.mbuyu.nl is zelf ook rechtstreeks te benaderen via zijn remote managementkaart.
+  			Die zit op mrhpgdb2.hmc.lan.mbuyu.com. De machine mrhxen3.vlan.mbuyu.com is ook rechtstreeks benaderbaar via zijn eigen remote managementkaart. 
+  			Die zit op mrhxen3.vlan.mbuyu.com.</para>
+  			<para>Vanaf de KVM kan met 'connect' een overzicht van de poorten met bijbehorende namen worden opgevraagd.
+  			Met het commando 'port x' kan connectie gemaakt worden met de machine naar keuze.</para>
+ 			<para>Op 1 nov. 2009 is mrhapc0 nog aangesloten op de seriele poort van mrhxen1 en op het vlan.
+ 			</para>
+ 		</sect1>
+ 		
+  	</chapter>
+  	
+  	<chapter>
+  		<chapterinfo>
+			<title>Wachtwoorden</title>
+				<keywordset>
+					<keyword>wachtwoorden</keyword>
+				</keywordset>
+		</chapterinfo>
+		<title>Wachtwoorden</title>
+		<sect1>
+			<title>Access</title>
+				<para>
+				De standaarduser voor toegang is 'root'. Het wachtwoord hiervan is bekend bij Systeembeheer. Soms is er een 
+				afwijkende inlog.
+				</para>
+				<para>
+				...nadere invulling volgt...
+				Windows werkstations.
+				Mohwts0.dmz.office.mbuyu.com
+				UPS
+				APC
+				Remote KVMconsole
+				(meer apparaten/services)
+				</para>
+		</sect1>
+  	</chapter>
+  	
+  <appendix>
+    <appendixinfo>
+      <title>Bijlagen</title>
+      <keywordset>
+        <keyword>Bijladen</keyword>
+        <keyword>Mbuyu</keyword>
+        <keyword>Contact</keyword>
+      </keywordset>
+    </appendixinfo>
+    <title>Bijlagen</title>
+    <beginpage/>
+    
+    <section>
+        <title>The Mbuyu Community B.V.</title>
+        <beginpage/>
+        
+        <para>
+          <mediaobject><imageobject>
+            <imagedata fileref="images/logo-mbuyu.gif" />
+          </imageobject></mediaobject>
+        </para>
+  
+        <para>Deze help is geschreven door <orgname>The Mbuyu Community B.V.</orgname>.</para>
+  
+        <para>Contact gegevens:</para>
+        
+        <para>
+          <orgname>The Mbuyu Community B.V.</orgname>
+          <address>
+            The Mbuyu Community B.V.
+            <street>Wibautstraat 129</street>
+            <postcode>1091GL</postcode>
+            <city>Amsterdam</city>
+            <country>Nederland</country>
+            <otheraddr><ulink url="http://www.mbuyu.com">http://www.mbuyu.com</ulink></otheraddr>
+            <email>info@mbuyu.com</email>
+            <phone>+31 (20) 468 32 54</phone>
+            <fax>+31 (20) 524 12 93</fax>
+          </address>
+        </para>
+      <beginpage/>
+    </section>
+   </appendix>
+</book>

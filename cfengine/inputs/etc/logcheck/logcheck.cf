@@ -1,0 +1,42 @@
+#
+# Manages logcheck
+#
+
+control:
+	any::
+		logcheck_config	= ( /etc/logcheck/logcheck.conf )
+		logcheck_files	= ( /etc/logcheck/logcheck.logfiles )
+		logcheck_header	= ( /etc/logcheck/header.txt )
+		logcheck_cron	= ( /etc/cron.d/logcheck )
+
+packages:
+	install.DEBIAN::
+			logcheck			action=install
+			logcheck-database	action=install
+
+copy:
+	any::
+		${cfe_files}${logcheck_config}
+			dest=${logcheck_config}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=logcheck
+
+		${cfe_files}${logcheck_files}
+			dest=${logcheck_files}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=logcheck
+			
+		${cfe_files}${logcheck_header}
+			dest=${logcheck_header}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=logcheck
+			
+files:
+	any::
+		${logcheck_config}		mode=644 owner=root group=logcheck	action=fixall
+		${logcheck_files}		mode=644 owner=root group=logcheck	action=fixall
+		${logcheck_header}		mode=644 owner=root group=logcheck	action=fixall
+		${logcheck_cron}		mode=644 owner=root group=root	action=fixall

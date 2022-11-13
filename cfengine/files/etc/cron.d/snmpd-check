@@ -1,0 +1,9 @@
+#
+# This file is managed by cfengine
+#
+
+# Run every half hour.
+30 * * * * 	root	/usr/local/sbin/check_snmpd_xen0.sh
+
+
+# EOF

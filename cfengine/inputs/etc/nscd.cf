@@ -1,0 +1,37 @@
+#
+# Managed NSCD
+#
+
+control:
+	any::
+		nscd_config		= ( /etc/nscd.conf )
+
+
+packages:
+	install::
+		nscd			action=install
+
+		
+copy:
+	DEBIAN_5::
+		${cfe_files}${nscd_config}-lenny
+			dest=${nscd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=NSCD_RESTART
+	DEBIAN_6::
+		${cfe_files}${nscd_config}-squeeze
+			dest=${nscd_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=NSCD_RESTART
+
+files:
+	any::
+		${nscd_config}		owner=root group=root mode=644	action=fixall define=NSCD_RESTART
+
+shellcommands:
+	NSCD_RESTART::
+		"/etc/init.d/nscd restart"

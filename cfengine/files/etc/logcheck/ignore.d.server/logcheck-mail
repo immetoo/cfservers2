@@ -1,0 +1,6 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ couriertcpd: LOGIN: ip=\[(.*)\](.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ yaa.pl\[[0-9]+\]: [0-9]+: (.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ amavis\[[0-9]+\]: (.*)Passed BAD-HEADER(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ amavis\[[0-9]+\]: (.*)Passed CLEAN(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ amavis\[[0-9]+\]: (.*)Passed SPAM(.*)$
+^bayes: synced databases from journal(.*)$

@@ -1,0 +1,232 @@
+#!/bin/sh
+###############################################
+#
+# Nagios script to check dovecot status
+#
+# See usage for command line switches
+# 
+# Created: 2007-04-27 (i.yates@uea.ac.uk)
+# Updated: 2007-04-27 (i.yates@uea.ac.uk)
+# Updated: 2007-04-30 (i.yates@uea.ac.uk) - Added login availability check
+# Updated: 2007-04-30 (i.yates@uea.ac.uk) - Changes ps options to return quicker
+#
+###############################################
+
+. /usr/local/nagios/libexec/utils.sh
+
+
+VERSION="1.2"
+
+PS=/bin/ps
+GREP=/bin/grep
+WC=/usr/bin/wc
+
+FLAG_VERBOSE=FALSE
+FLAG_DOVECOT=FALSE
+FLAG_IMAP_LOGIN=FALSE
+FLAG_IMAP=FALSE
+FLAG_POP_LOGIN=FALSE
+FLAG_POP=FALSE
+LEVEL_WARN="0"
+LEVEL_CRIT="0"
+RESULT=""
+EXIT_STATUS=$STATE_OK
+
+DOVE_STATUS_TEXT=""
+IMAP_STATUS_TEXT=""
+POP_STATUS_TEXT=""
+
+
+###############################################
+#
+## FUNCTIONS 
+#
+
+## Print usage
+usage() {
+	echo " check_dovecot $VERSION - Nagios dovecot check script"
+	echo ""
+	echo " Usage: check_dovecot [-d] ({-i|-p|-m|-o} -w <warning queue size> -c <critical queue size>) [ -v ] [ -h ]"
+	echo ""
+	echo "		 -d  Check dovecot general status"
+	echo "		 -i  Check dovecot IMAP status"
+	echo "		 -p  Check dovecot POP status"
+	echo "		 -m  Check number of IMAP login processes"
+	echo "		 -o  Check number of POP login processes"
+	echo "		 -w  Number of connections at which a warning is triggered"
+	echo "		 -c  Number of connections at which a critical is triggered"
+	echo "		 -v  Verbose output (ignored for now)"
+	echo "		 -h  Show this page"
+	echo ""
+}
+ 
+## Process command line options
+doopts() {
+	if ( `test 0 -lt $#` )
+	then
+		while getopts dipmow:c:vh myarg "$@"
+		do
+			case $myarg in
+				h|\?)
+					usage
+					exit;;
+				d)
+					FLAG_DOVECOT=TRUE;;
+				i)
+					FLAG_IMAP=TRUE;;
+				p)
+					FLAG_POP=TRUE;;
+				m)
+					FLAG_IMAP_LOGIN=TRUE;;
+				o)
+					FLAG_POP_LOGIN=TRUE;;
+				w)
+					LEVEL_WARN=$OPTARG;;
+				c)
+					LEVEL_CRIT=$OPTARG;;
+				v)
+					FLAG_VERBOSE=TRUE;;
+				*)	# Default
+					usage
+					exit;;
+			esac
+		done
+	else
+		usage
+		exit
+	fi
+}
+
+
+# Write output and return result
+theend() {
+	echo $RESULT
+	exit $EXIT_STATUS
+}
+
+
+#
+## END FUNCTIONS 
+#
+
+#############################################
+#
+## MAIN 
+#
+
+
+# Handle command line options
+doopts $@
+
+# Do the do
+
+# Handle dovecot test
+if test $FLAG_DOVECOT = "TRUE" ; then
+	TMPOUT=`$PS ax | $GREP dovecot | $GREP -v 'imap\|pop' | $GREP -v $$ | $GREP -v grep | $WC -l`
+	if test "$TMPOUT" -eq "0"; then
+		DOVE_STATUS_TEXT="Dovecot CRITICAL - master processes NOT running"
+		EXIT_STATUS=$STATE_CRITICAL
+	else
+		DOVE_STATUS_TEXT="Dovecot OK - master processes running"
+	fi
+	RESULT="$RESULT$DOVE_STATUS_TEXT | "
+fi
+# Handle IMAP login test
+if test $FLAG_IMAP_LOGIN = "TRUE" ; then
+	if test -n "$LEVEL_WARN" -a -n "$LEVEL_CRIT" -a "$LEVEL_WARN" -gt "$LEVEL_CRIT" ; then
+		TMPOUT=`$PS ax | $GREP 'imap-login' | $GREP -v grep | $WC -l`
+		if test "$TMPOUT" -gt "$LEVEL_WARN" ; then
+			IMAP_STATUS_TEXT="IMAP login process OK - $TMPOUT connection(s) available."
+		else
+			if test "$TMPOUT" -le "$LEVEL_CRIT" ; then
+				IMAP_STATUS_TEXT="IMAP login process CRITICAL - $TMPOUT connection(s) available."
+				EXIT_STATUS=$STATE_CRITICAL
+			else
+				if test "$TMPOUT" -le "$LEVEL_WARN" ; then
+					IMAP_STATUS_TEXT="IMAP login process WARNING - $TMPOUT connection(s) available."
+					if test $EXIT_STATUS -ne $STATE_CRITICAL ; then EXIT_STATUS=$STATE_WARNING ; fi
+				fi
+			fi
+		fi
+		RESULT="$RESULT$IMAP_STATUS_TEXT | "
+	else
+		echo "ERROR: Invalid warning/critical values"
+		usage
+		exit
+	fi
+fi
+# Handle POP login test
+if test $FLAG_POP_LOGIN = "TRUE" ; then
+	if test -n "$LEVEL_WARN" -a -n "$LEVEL_CRIT" -a "$LEVEL_WARN" -gt "$LEVEL_CRIT" ; then
+		TMPOUT=`$PS ax | $GREP 'pop3-login' | $GREP -v grep | $WC -l`
+		if test "$TMPOUT" -gt "$LEVEL_WARN" ; then
+			IMAP_STATUS_TEXT="POP login process OK - $TMPOUT connection(s) available."
+		else
+			if test "$TMPOUT" -le "$LEVEL_CRIT" ; then
+				IMAP_STATUS_TEXT="POP login process CRITICAL - $TMPOUT connection(s) available."
+				EXIT_STATUS=$STATE_CRITICAL
+			else
+				if test "$TMPOUT" -le "$LEVEL_WARN" ; then
+					IMAP_STATUS_TEXT="POP login process WARNING - $TMPOUT connection(s) available."
+					if test $EXIT_STATUS -ne $STATE_CRITICAL ; then EXIT_STATUS=$STATE_WARNING ; fi
+				fi
+			fi
+		fi
+		RESULT="$RESULT$IMAP_STATUS_TEXT | "
+	else
+		echo "ERROR: Invalid warning/critical values"
+		usage
+		exit
+	fi
+fi
+# Handle IMAP test
+if test $FLAG_IMAP = "TRUE" ; then
+	if test -n "$LEVEL_WARN" -a -n "$LEVEL_CRIT" -a "$LEVEL_WARN" -lt "$LEVEL_CRIT" ; then
+		TMPOUT=`$PS ax | $GREP -v 'imap-login' | $GREP imap | $GREP -v grep | $WC -l`
+		if test "$TMPOUT" -lt "$LEVEL_WARN" ; then
+			IMAP_STATUS_TEXT="IMAP load OK - $TMPOUT IMAP connection(s)."
+		else
+			if test "$TMPOUT" -ge "$LEVEL_CRIT" ; then
+				IMAP_STATUS_TEXT="IMAP load CRITICAL - $TMPOUT IMAP connection(s)."
+				EXIT_STATUS=$STATE_CRITICAL
+			else
+				if test "$TMPOUT" -ge "$LEVEL_WARN" ; then
+					IMAP_STATUS_TEXT="IMAP load WARNING - $TMPOUT IMAP connection(s)."
+					if test $EXIT_STATUS -ne $STATE_CRITICAL ; then EXIT_STATUS=$STATE_WARNING ; fi
+				fi
+			fi
+		fi
+		RESULT="$RESULT$IMAP_STATUS_TEXT | "
+	else
+		echo "ERROR: Invalid warning/critical values"
+		usage
+		exit
+	fi
+fi
+# Handle POP test
+if test $FLAG_POP = "TRUE" ; then
+	if test -n "$LEVEL_WARN" -a -n "$LEVEL_CRIT" -a "$LEVEL_WARN" -lt "$LEVEL_CRIT" ; then
+		TMPOUT=`$PS ax | $GREP -v 'pop3-login' | $GREP pop3 | $GREP -v grep | $WC -l`
+		if test "$TMPOUT" -lt "$LEVEL_WARN" ; then
+			POP_STATUS_TEXT="POP load OK - $TMPOUT POP connection(s)."
+		else
+			if test "$TMPOUT" -ge "$LEVEL_CRIT" ; then
+				POP_STATUS_TEXT="POP load CRITICAL - $TMPOUT POP connection(s)."
+				EXIT_STATUS=$STATE_CRITICAL
+			else
+				if test "$TMPOUT" -ge "$LEVEL_WARN" ; then
+					POP_STATUS_TEXT="POP load WARNING - $TMPOUT POP connection(s)."
+					if test $EXIT_STATUS -ne $STATE_CRITICAL ; then EXIT_STATUS=$STATE_WARNING ; fi
+				fi
+			fi
+		fi
+		RESULT="$RESULT$POP_STATUS_TEXT | "
+	else
+		echo "ERROR: Invalid warning/critical values"
+		usage
+		exit
+	fi
+fi
+
+# Quit and return information and exit status
+theend

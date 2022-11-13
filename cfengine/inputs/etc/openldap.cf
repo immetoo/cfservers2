@@ -1,0 +1,95 @@
+#
+# Addes openldap 
+#
+
+packages:
+	install::
+		slapd				action=install
+		ldap-utils			action=install
+		libsasl2-modules	action=install
+
+control:
+	any::
+		slapd_conf		= ( /etc/ldap/slapd.conf )
+		slapd_default	= ( /etc/default/slapd )
+		samba_schema 	= ( /etc/ldap/schema/samba.schema )
+		mail_schema		= ( /etc/ldap/schema/mail.schema )
+		vhost_schema 	= ( /etc/ldap/schema/mod_vhost_ldap.schema )
+		dns_schema		= ( /etc/ldap/schema/dnsdomain2.schema )
+		m4n_schema		= ( /etc/ldap/schema/m4n.schema )
+		sudo_schema		= ( /etc/ldap/schema/sudo.schema )
+		
+copy:
+	any::
+		${cfe_files}${slapd_default}
+			dest=${slapd_default}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=SLAPD_RESTART
+		${cfe_files}${samba_schema}
+			dest=${samba_schema}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=SLAPD_RESTART
+		${cfe_files}${mail_schema}
+			dest=${mail_schema}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=SLAPD_RESTART			
+		${cfe_files}${vhost_schema}
+			dest=${vhost_schema}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=SLAPD_RESTART
+		${cfe_files}${dns_schema}
+			dest=${dns_schema}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=SLAPD_RESTART
+		${cfe_files}${m4n_schema}
+			dest=${m4n_schema}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=SLAPD_RESTART
+		${cfe_files}${sudo_schema}
+			dest=${sudo_schema}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=SLAPD_RESTART
+	
+	# Copy master and on rest the slave config
+	SRV_AUTH_MASTER::
+		${cfe_files}${slapd_conf}
+			dest=${slapd_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=openldap group=openldap mode=600
+			define=SLAPD_RESTART
+	!SRV_AUTH_MASTER::
+		${cfe_files}${slapd_conf}-slave
+			dest=${slapd_conf}
+			server=${cfe_host}
+			type=checksum
+			owner=openldap group=openldap mode=600
+			define=SLAPD_RESTART
+
+files:
+	any::
+		${slapd_conf}		owner=openldap group=openldap mode=600	action=fixall define=SLAPD_RESTART
+		${samba_schema}		owner=root group=root mode=644	action=fixall define=SLAPD_RESTART
+		${mail_schema}		owner=root group=root mode=644	action=fixall define=SLAPD_RESTART
+		${vhost_schema}		owner=root group=root mode=644	action=fixall define=SLAPD_RESTART
+		${m4n_schema}		owner=root group=root mode=644	action=fixall define=SLAPD_RESTART
+		${sudo_schema}		owner=root group=root mode=644	action=fixall define=SLAPD_RESTART
+								
+shellcommands:
+	SLAPD_RESTART::
+		"/etc/init.d/slapd restart"
+

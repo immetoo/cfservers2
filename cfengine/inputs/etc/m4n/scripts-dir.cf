@@ -1,0 +1,15 @@
+#
+# Created /m4n directory layout
+#
+
+directories:
+	any::
+		/m4n					mode=644 owner=root group=root
+	SRV_WEB|SRV_SAT::
+		/m4n/www				mode=644 owner=root group=root
+		/m4n/log				mode=644 owner=root group=root
+		/m4n/log/access			mode=644 owner=root group=root
+		/m4n/log/webapp			mode=644 owner=root group=root
+		# Directory for all log stats files
+		/var/spool/mstats		mode=644 owner=root group=root
+	

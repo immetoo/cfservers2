@@ -1,0 +1,19 @@
+#
+# This file is managed by cfengine
+#
+
+/var/log/apache2/*.log {
+	daily
+	missingok
+	rotate 13
+	compress
+	delaycompress
+	notifempty
+	create 640 root adm
+	sharedscripts
+	postrotate
+		if [ -f /var/run/apache2.pid ]; then
+			/usr/bin/killall -USR1 apache2
+		fi
+	endscript
+}

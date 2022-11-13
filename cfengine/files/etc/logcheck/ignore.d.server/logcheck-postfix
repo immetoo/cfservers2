@@ -1,0 +1,25 @@
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/cleanup\[[0-9]+\]: [0-9,A-F]+: filter: header Received: from mrxnet1.mbuyu.com(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/cleanup\[[0-9]+\]: [0-9,A-F]+: warning: header Subject:(.*)Your subject had too many subsequent spaces. Please change the subject and try again.$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtpd\[[0-9]+\]: [0-9,A-F]+: filter: RCPT from(.*)Recipient address triggers FILTER amavis(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtpd\[[0-9]+\]: [0-9,A-F]+: reject: RCPT from(.*)Recipient address rejected: User unknown(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtpd\[[0-9]+\]: NOQUEUE: filter: RCPT from(.*)Recipient address triggers FILTER amavis(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtpd\[[0-9]+\]: NOQUEUE: reject_warning: MAIL from unknown(.*) Sender address rejected: unverified address:(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtpd\[[0-9]+\]: NOQUEUE: reject_warning: MAIL from unknown(.*) Sender address rejected: undeliverable address:(.*)(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtpd\[[0-9]+\]: warning: network_biopair_interop: error writing 36 bytes to the network: Connection reset by peer$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: warning: no MX host for(.*)has a valid address record$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: warning: peer certificate has no subject CN$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: warning: tls_text_name:(.*)peer certificate has no subject CN$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: certificate verification failed for(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: connect to(.*)No route to host$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: [0-9,A-F]+: lost connection with (.*) while sending DATA command$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: [0-9,A-F]+: lost connection with (.*) while performing the EHLO handshake$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: [0-9,A-F]+: to=(.*) status=bounced(.*)User unknown \(in reply to RCPT TO command\)\)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: [0-9,A-F]+: to=(.*) status=bounced(.*)Recipient address rejected: User unknown in local recipient table \(in reply to RCPT TO command\)\)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: [0-9,A-F]+: enabling PIX(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/smtp\[[0-9]+\]: certificate verification failed for(.*)self-signed certificate$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/qmgr\[[0-9]+\]: [0-9,A-F]+: to=(.*) status=deferred \(delivery temporarily suspended: connect to(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/qmgr\[[0-9]+\]: [0-9,A-F]+: to=(.*) status=deferred \(delivery temporarily suspended: Host or domain name not found.(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/qmgr\[[0-9]+\]: [0-9,A-F]+: to=(.*) status=deferred \(delivery temporarily suspended: lost connection with(.*)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/qmgr\[[0-9]+\]: [0-9,A-F]+: to=(.*) status=deferred \(mail transport unavailable\)$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/qmgr\[[0-9]+\]: warning: connect to transport retry: Connection refused$
+^\w{3} [ :0-9]{11} [._[:alnum:]-]+ postfix/bounce\[[0-9]+\]: [[:alnum:]]+: sender delay notification:.(.*)$

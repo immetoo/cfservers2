@@ -1,0 +1,1 @@
+CREATE INDEX click_payment_period_id_idx ON click_new (payment_period_id);

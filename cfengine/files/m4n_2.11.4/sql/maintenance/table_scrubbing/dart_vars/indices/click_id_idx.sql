@@ -1,0 +1,1 @@
+CREATE INDEX dart_vars_click_id_idx ON dart_vars_new (transid);

@@ -1,0 +1,8 @@
+#
+# Adds trusted certs in order to enable push communication with Apple's notifications servers
+#
+
+packages:
+	install::
+		ca-certificates		action=install
+

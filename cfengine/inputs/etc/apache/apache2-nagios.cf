@@ -1,0 +1,20 @@
+#
+# added nagios to apache2
+#
+
+control:
+	any::
+		apache2_nagios	= ( /etc/apache2/sites-available/nagios.mbuyu.nl )
+		
+copy:
+	any::
+		${cfe_files}${apache2_nagios}
+			dest=${apache2_nagios}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/sites-enabled/nagios.mbuyu.nl ->! ${apache2_nagios} define=APACHE2_RESTART

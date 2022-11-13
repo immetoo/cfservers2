@@ -1,0 +1,1 @@
+CREATE INDEX click_created_idx ON click_new (created);

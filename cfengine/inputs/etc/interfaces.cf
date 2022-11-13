@@ -1,0 +1,134 @@
+#
+# manages the debian interfaces file
+#
+
+control:
+	any::
+		interfaces			= ( /etc/network/interfaces )
+		net_pre_up_bridge	= ( /usr/share/bridge-utils/ifupdown.sh )
+		net_pre_up_vlan		= ( /etc/network/if-pre-up.d/vlan )
+
+#
+# CHECK, currently all per machine basis !
+# (except for cluster nodes)
+#
+copy:
+
+	# FIX for xen dom0 machines to make lesser text output
+	SERVER_XEN_DOM0::
+		${cfe_files}${net_pre_up_bridge}
+			dest=${net_pre_up_bridge}
+			server=${cfe_host}
+			mode=755 owner=root group=root
+			type=checksum
+			backup=false
+			define=NETWORK_DEB_UPDATE_1
+		${cfe_files}${net_pre_up_vlan}
+			dest=${net_pre_up_vlan}
+			server=${cfe_host}
+			mode=755 owner=root group=root
+			type=checksum
+			backup=false
+			define=NETWORK_DEB_UPDATE_2
+
+	# M4N main LB cluster
+	mrhlb0::
+		${cfe_files}${interfaces}-mrhlb0
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART			
+	mrhlb1::
+		${cfe_files}${interfaces}-mrhlb1
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART
+	
+	# HA router machines
+	nrxsmz0::
+		${cfe_files}${interfaces}-nrxsmz0
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART
+	nrxsmz1::
+		${cfe_files}${interfaces}-nrxsmz1
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART
+
+	moxproxy0::
+		${cfe_files}${interfaces}-moxproxy0
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART
+	moxproxy1::
+		${cfe_files}${interfaces}-moxproxy1
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART
+			
+	toxlb0::
+		${cfe_files}${interfaces}-toxlb0
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART			
+	toxlb1::
+		${cfe_files}${interfaces}-toxlb1
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART
+
+	noxsmz0::
+		${cfe_files}${interfaces}-noxsmz0
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART			
+	noxsmz1::
+		${cfe_files}${interfaces}-noxsmz1
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART
+			
+	noxolz0::
+		${cfe_files}${interfaces}-noxolz0
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			define=NETWORK_RESTART			
+	noxolz1::
+		${cfe_files}${interfaces}-noxolz1
+			dest=${interfaces}
+			server=${cfe_host}
+			mode=644 owner=root group=root
+			type=checksum
+			#define=NETWORK_RESTART		
+
+shellcommands:
+	NETWORK_RESTART::
+		"/etc/init.d/networking restart"
+		
+	NETWORK_DEB_UPDATE_1::
+		"/bin/echo 'Update CF for ${net_pre_up_bridge}'|mailx -s 'Update CF' root"
+	NETWORK_DEB_UPDATE_2::
+		"/bin/echo 'Update CF for ${net_pre_up_vlan}'|mailx -s 'Update CF' root"
+

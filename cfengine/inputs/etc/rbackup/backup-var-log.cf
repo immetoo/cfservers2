@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_var_log	= ( /etc/rbackup/conf.d/backup-var-log )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_var_log}
+			dest=${rbackup_var_log}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

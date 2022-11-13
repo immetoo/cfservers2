@@ -1,0 +1,26 @@
+#/bin/bash
+
+STATUS=`/usr/local/sbin/tw_cli info c0 u0 status`
+
+# OK
+# INITIALIZING
+# VERIFYING
+# REBUILDING
+# DEGRADED and unknown states 
+
+echo $STATUS
+
+if [[ $STATUS =~ .*OK ]]
+then
+        # OK
+        exit 0
+fi
+
+if [[ $STATUS =~ .*INITIALIZING|.*VERIFYING|.*REBUILDING ]]
+then
+        # WARNING
+        exit 1
+fi
+
+# DEGRADED and unknown states should result in CRITICAL
+exit 2

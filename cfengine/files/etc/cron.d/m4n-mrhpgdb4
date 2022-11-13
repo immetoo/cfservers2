@@ -1,0 +1,10 @@
+#
+# This file is managed by cfengine
+#
+MAILTO=application@m4n.nl
+
+# compute current stats AND daily m4n update
+30 0	* * *   root    time /m4n/bin/nightly_cron_queries.sh
+*/30 4-23 * * *   root    time /m4n/bin/recalculate_lead_rewards.sh
+
+# EOF

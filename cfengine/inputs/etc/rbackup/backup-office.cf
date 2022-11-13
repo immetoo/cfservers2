@@ -1,0 +1,19 @@
+
+control:
+	any::
+		rbackup_office	= ( /etc/rbackup/conf.d/backup-office )
+		rbackup_office_exclude = ( /etc/rbackup/conf.d/exclude-office )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_office}
+			dest=${rbackup_office}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644
+
+		${cfe_files}${rbackup_office_exclude}
+			dest=${rbackup_office_exclude}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

@@ -1,0 +1,7 @@
+#
+# manages the logging on all systems
+#
+
+packages:
+	install::
+		syslog-ng		action=install

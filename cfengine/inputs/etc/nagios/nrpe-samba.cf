@@ -1,0 +1,29 @@
+#
+# installs nagios nmbd checks
+#
+
+control:
+	any::
+		check_nmbd	= ( /usr/local/sbin/check_nmbd )
+
+
+copy:
+
+	any::
+		${cfe_files}${check_nmbd}
+			dest=${check_nmbd}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root	group=root
+			backup=false								
+		${cfe_files}${nagios_confd}/samba.cfg
+			dest=${nagios_confd}/samba.cfg
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root	group=root
+			backup=false
+			define=NAGIOS_RESTART					
+
+shellcommands:
+	NAGIOS_RESTART::
+		"/etc/init.d/nagios-nrpe-server restart"

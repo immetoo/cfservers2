@@ -1,0 +1,150 @@
+#
+# Sets the apt rights correctly etc
+#
+
+control:
+	any::
+		apt_sources     = ( /etc/apt/sources.list )
+		apt_preferences = ( /etc/apt/preferences )
+		apt_mail_cron 	= ( /etc/cron.d/mail-new-packages )
+		apt_mail_sh 	= ( /usr/local/sbin/mail-apt-upgrades.sh )
+		apt_proxy		= ( /etc/apt/apt.conf.d/proxy )
+
+files:
+	DEBIAN::
+		/etc/apt/trustdb.gpg		mode=0600 owner=root group=root action=fixall
+		/etc/apt/secring.gpg		mode=0600 owner=root group=root	action=fixall
+		/etc/apt/trusted.gpg		mode=0644 owner=root group=root	action=fixall
+		
+copy:
+	any::	
+		${cfe_files}${apt_mail_cron}
+			dest=${apt_mail_cron}
+			server=${cfe_host}
+			mode=600 owner=root group=root
+			backup=false
+			type=checksum
+		${cfe_files}${apt_mail_sh}
+			dest=${apt_mail_sh}
+			server=${cfe_host}
+			mode=700 owner=root group=root
+			backup=false
+			type=checksum	
+
+	DEBIAN_4::
+		${cfe_files}${apt_sources}-etch
+			dest=${apt_sources}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644 define=APT_RESTART_UPDATE
+		${cfe_files}${apt_preferences}-etch
+			dest=${apt_preferences}
+			server=${cfe_host}
+			mode=644 owner=root group=root type=checksum define=APT_RESTART_UPDATE
+			
+	DEBIAN_5.!SRV_BACKPORTS::
+ 		${cfe_files}${apt_sources}-lenny
+			dest=${apt_sources}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644 define=APT_RESTART_UPDATE
+		${cfe_files}${apt_preferences}-lenny
+			dest=${apt_preferences}
+			server=${cfe_host}
+			mode=644 owner=root group=root type=checksum define=APT_RESTART_UPDATE
+	
+	# Introduced temporary situation that two versions of postgresql should be maintained 
+	DEBIAN_5.SRV_BACKPORTS.!SRV_IB.!SRV_LB.!tohpgdb1::		
+		${cfe_files}${apt_sources}-lenny-backports
+			dest=${apt_sources}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644 define=APT_RESTART_UPDATE
+		${cfe_files}${apt_preferences}-lenny-postgresql-8.4
+			dest=${apt_preferences}
+			server=${cfe_host}
+			mode=644 owner=root group=root type=checksum define=APT_RESTART_UPDATE
+	DEBIAN_5.SRV_BACKPORTS.!SRV_IB.!SRV_LB.tohpgdb1::		
+		${cfe_files}${apt_sources}-lenny-backports-backports-sloppy
+			dest=${apt_sources}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644 define=APT_RESTART_UPDATE
+		${cfe_files}${apt_preferences}-lenny-postgresql-8.4-9.0
+			dest=${apt_preferences}
+			server=${cfe_host}
+			mode=644 owner=root group=root type=checksum define=APT_RESTART_UPDATE
+						
+	DEBIAN_5.SRV_BACKPORTS.SRV_IB.!SRV_LB::
+		${cfe_files}${apt_sources}-lenny-backports-ib
+			dest=${apt_sources}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644 define=APT_RESTART_UPDATE
+		${cfe_files}${apt_preferences}-lenny-drbd-8.3
+			dest=${apt_preferences}
+			server=${cfe_host}
+			mode=644 owner=root group=root type=checksum define=APT_RESTART_UPDATE
+			
+	DEBIAN_6.!SRV_BACKPORTS::
+ 		${cfe_files}${apt_sources}-squeeze
+			dest=${apt_sources}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644 define=APT_RESTART_UPDATE
+		${cfe_files}${apt_preferences}-squeeze
+			dest=${apt_preferences}
+			server=${cfe_host}
+			mode=644 owner=root group=root type=checksum define=APT_RESTART_UPDATE
+	
+	DEBIAN_6.SRV_BACKPORTS::
+ 		${cfe_files}${apt_sources}-squeeze-backports
+			dest=${apt_sources}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644 define=APT_RESTART_UPDATE
+		${cfe_files}${apt_preferences}-squeeze-postgresql-9.0
+			dest=${apt_preferences}
+			server=${cfe_host}
+			mode=644 owner=root group=root type=checksum define=APT_RESTART_UPDATE
+	
+	SRV_LB::
+		${cfe_files}${apt_sources}-lenny-backports
+			dest=${apt_sources}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644 define=APT_RESTART_UPDATE
+		${cfe_files}${apt_preferences}-lenny-haproxy
+			dest=${apt_preferences}
+			server=${cfe_host}
+			mode=600 owner=root group=root type=checksum define=APT_RESTART_UPDATE
+			
+	NET_POP_MAIN::
+		${cfe_files}${apt_proxy}-pop-main
+			dest=${apt_proxy}
+			server=${apt_proxy}
+			backup=false
+			mode=644 owner=root group=root type=checksum	
+	NET_POP_CYSO::
+		${cfe_files}${apt_proxy}-pop-cyso
+			dest=${apt_proxy}
+			server=${cfe_host}
+			backup=false
+			mode=644 owner=root group=root type=checksum
+	NET_POP_BIT::
+		${cfe_files}${apt_proxy}-pop-bit
+			server=${cfe_host}
+			backup=false
+			mode=644 owner=root group=root type=checksum
+
+groups:
+	DEBIAN::
+		APT_REMOVE_PROXY_GUESS = ( "/usr/bin/test -f /etc/apt/apt.conf.d/proxy-guess" )
+
+# Deletes any proxy gues file is found one.
+shellcommands:
+	APT_RESTART_UPDATE::
+		"/usr/bin/apt-get update"
+	APT_REMOVE_PROXY_GUESS::
+		"/bin/rm /etc/apt/apt.conf.d/proxy-guess"
+			

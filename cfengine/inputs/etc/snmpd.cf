@@ -1,0 +1,132 @@
+#
+# Managed the snmpd config
+#
+
+control:
+	any::
+		snmpd_config	 = ( /etc/snmp/snmpd.conf )
+		snmpd_trap	  	 = ( /etc/snmp/snmptrapd.conf )
+		snmpd_default 	 = ( /etc/default/snmpd ) 
+		snmpd_m4n_stats  = ( /usr/local/sbin/snmp-m4nstats.sh )
+		snmpd_procinfo   = ( /usr/local/sbin/snmp-procesinfo.sh )
+		snmpd_postfix   = ( /usr/local/sbin/snmp-postfix.pl )
+		snmpd_apache2   = ( /usr/local/sbin/snmp-apache2.sh )
+		snmpd_check_xen0	 = ( /usr/local/sbin/check_snmpd_xen0.sh )
+		snmpd_check_xen0_cron= ( /etc/cron.d/snmpd-check )
+packages:
+	install::
+		snmpd	action=install
+
+copy:
+	any::
+		${cfe_files}${snmpd_config}
+			dest=${snmpd_config}-cfcopy
+			server=${cfe_host}
+			type=checksum
+			mode=600 owner=root group=root
+			define=SNMPD_RESTART			
+		${cfe_files}${snmpd_trap}
+			dest=${snmpd_trap}
+			server=${cfe_host}
+			type=checksum
+			mode=600 owner=root group=root
+			define=SNMPD_RESTART
+		${cfe_files}${snmpd_default}
+			dest=${snmpd_default}
+			server=${cfe_host}
+			type=checksum
+			mode=644 owner=root group=root
+			define=SNMPD_RESTART
+		${cfe_files}${snmpd_procinfo}
+			dest=${snmpd_procinfo}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root group=root
+			define=SNMPD_RESTART
+		${cfe_files}${snmpd_postfix}
+			dest=${snmpd_postfix}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root group=root
+			define=SNMPD_RESTART
+
+# Test for stats first, they seem to have this the most.
+	SRV_SAT::
+		${cfe_files}${snmpd_check_xen0}
+			dest=${snmpd_check_xen0}
+			server=${cfe_host}
+			type=checksum
+			mode=700 owner=root group=root
+		${cfe_files}${snmpd_check_xen0_cron}
+			dest=${snmpd_check_xen0_cron}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=600 owner=root group=root	
+		
+	SRV_SAT::
+		${cfe_files}${snmpd_m4n_stats}-tomcat
+			dest=${snmpd_m4n_stats}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root group=root
+			define=SNMPD_RESTART
+	SRV_WEB::
+		${cfe_files}${snmpd_m4n_stats}-jboss
+			dest=${snmpd_m4n_stats}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root group=root
+			define=SNMPD_RESTART
+	APACHE2_INSTALLED::
+		${cfe_files}${snmpd_apache2}
+			dest=${snmpd_apache2}
+			server=${cfe_host}
+			type=checksum
+			mode=755 owner=root group=root
+			define=SNMPD_RESTART	
+	!SNMPD_HAS_MAIL_STATS::
+		${cfe_files}/etc/snmp/var-log-mailstats.db-template
+			dest=/var/log/mailstats.db
+			server=${cfe_host}
+			type=checksum
+			mode=640 owner=snmp group=adm
+			define=SNMPD_RESTART
+
+editfiles:
+	any::
+		{ ${snmpd_config}
+			AutoCreate
+			EmptyEntireFilePlease
+			Backup "false"
+			IfElapsed 300
+			InsertFile "${snmpd_config}-cfcopy"
+			ExpandVariables "true"
+			
+			AppendIfNoSuchLine "# nagios check"
+			AppendIfNoSuchLine "#"
+			BeginGroupIfDefined "SRV_SAT|SRV_WEB"
+				Append "# Check m4n stats"
+				Append "pass .1.3.6.1.4.1.2021.200 /usr/local/sbin/snmp-m4nstats.sh .1.3.6.1.4.1.2021.200"
+			EndGroup
+			BeginGroupIfDefined "APACHE2_INSTALLED"
+				Append "# Apache stats"
+				Append "pass .1.3.6.1.4.1.2021.202 /usr/local/sbin/snmp-apache2.sh .1.3.6.1.4.1.2021.202"
+			EndGroup
+		}
+
+files:
+	any::
+		${snmpd_config}		mode=600 owner=root group=root	action=fixall define=SNMPD_RESTART
+		${snmpd_trap}		mode=600 owner=root group=root	action=fixall define=SNMPD_RESTART
+		${snmpd_default}	mode=644 owner=root group=root	action=fixall define=SNMPD_RESTART
+	SERVER_XEN_DOM0::
+		${snmpd_check_xen0}	mode=700 owner=root group=root	action=fixall
+	SRV_NET|SRV_MAIL::
+	/var/log/mailstats.db	mode=660 owner=snmp group=adm	action=fixall
+
+shellcommands:
+	!SNMPD_GROUP_INSTALLED::
+		"/usr/sbin/usermod -G adm snmp"
+		"/etc/init.d/snmpd restart"
+	SNMPD_RESTART::
+		"/etc/init.d/snmpd restart"

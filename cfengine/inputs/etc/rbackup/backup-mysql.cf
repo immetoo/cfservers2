@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_mysql	= ( /etc/rbackup/conf.d/backup-mysql )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_mysql}
+			dest=${rbackup_mysql}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

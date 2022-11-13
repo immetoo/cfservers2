@@ -1,0 +1,5 @@
+
+# runs the get mail script for all users
+# */5 *   * * *   root    /home/vmail/run_getmail.sh >> /var/log/getmail.log
+
+# EOF

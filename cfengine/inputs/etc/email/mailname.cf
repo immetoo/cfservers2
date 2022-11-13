@@ -1,0 +1,17 @@
+#
+# manages the mailname file.
+#
+
+control:
+	any::
+		etc_mailname = ( /etc/mailname )
+
+editfiles:
+	any::
+		{	${etc_mailname}
+			AutoCreate
+			Backup "false"
+			EmptyEntireFilePlease
+			IfElapsed 59
+			AppendIfNoSuchLine "${fqhost}"
+		}

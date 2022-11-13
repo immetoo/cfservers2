@@ -1,0 +1,20 @@
+#
+# installs maildrop and configs it.
+#
+
+packages:
+	install::
+		maildrop				action=install
+		
+control:
+	any::
+		maildrop_rc	= ( /etc/maildroprc )
+		
+copy:
+	any::
+		${cfe_files}${maildrop_rc}
+			dest=${maildrop_rc}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+		

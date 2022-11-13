@@ -1,0 +1,71 @@
+#
+# This file is managed by cfengine
+#
+
+start_backup_dir="/var/backups";
+backupname="psql";
+current_postfix="_current";
+location_backup_dir=$start_backup_dir/$backupname;
+
+permissions_backup_dir="0700";
+permissions_backup_file="0600";
+
+postgresql_username="postgres";
+postgresql_password="";
+postgresql_hostname="localhost";
+
+exclusions="template0 template1 postgres backup";
+backup_args="-Fc";
+
+
+#################
+# Functions     #
+#################
+#
+# Obtain a list of available databases with reference to the user
+# defined exclusions
+db_connectivity() {
+	tmp=`echo -n '(';echo -n $exclusions | sed 's/\ /\|/g'; echo -n ')'`;
+	if [ "$exclusions" = "" ]; then
+		databases=`psql -h $postgresql_hostname -U $postgresql_username -q -c "\l" template1 | sed -n 4,/\eof/p | egrep -v "rows\)|:" | awk {'print $1'}`;
+	else
+		databases=`psql -h $postgresql_hostname -U $postgresql_username -q -c "\l" template1 | sed -n 4,/\eof/p | egrep -v "rows\)|:" | grep -Ev $tmp | awk {'print $1'}`;
+	fi
+}
+
+# Setup the permissions according to the Permissions section
+set_permissions() {
+	# Make the backup directories and secure them.
+	mkdir -m $permissions_backup_dir -p "$location_backup_dir$current_postfix";
+	mkdir -m $permissions_backup_dir -p "$location_backup_dir";
+
+	# Make the backup tree
+	chmod -f $permissions_backup_dir "$location_backup_dir";
+}
+
+# Run backup
+run_b() {
+	for i in $databases; do
+		start_time=`date '+%s'`;
+		dump_file_new="$location_backup_dir$current_postfix/$i-backup.Fc";
+		dump_file="$location_backup_dir/$i-backup.Fc";
+				
+		#test -f $dump_file.1 && mv $dump_file.1 $dump_file.2;
+		test -f $dump_file_new && mv $dump_file_new $dump_file.1;
+		
+		pg_dump $backup_args -U $postgresql_username -h $postgresql_hostname $i > $dump_file_new;
+		chmod $permissions_backup_file "$dump_file_new";
+		finish_time=`date '+%s'`;
+		duration=`expr $finish_time - $start_time`;
+		if [ "$LOG_MODE" == "" ]; then
+			echo "Backup complete in $duration seconds of database: $i";	
+		fi;
+	done
+}
+
+# run 
+db_connectivity
+set_permissions
+run_b
+
+BACKUP="$location_backup_dir$current_postfix/";

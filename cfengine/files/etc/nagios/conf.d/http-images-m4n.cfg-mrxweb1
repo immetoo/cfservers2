@@ -1,0 +1,5 @@
+#
+# This file is managed by cfengine
+#
+
+command[http_images_m4n]=/usr/lib/nagios/plugins/check_http -H images.mbuyu.nl -I 172.16.21.80 -u /m4n_systeem/storing.png -w 2 -c 5

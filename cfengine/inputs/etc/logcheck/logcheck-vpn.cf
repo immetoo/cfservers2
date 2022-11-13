@@ -1,0 +1,27 @@
+#
+# Manages logcheck
+#
+
+control:
+	any::
+		logcheck_ignore_vpn		= ( /etc/logcheck/ignore.d.server/logcheck-vpn_mbuyu_nl )
+		logcheck_ignore_vpnlive	= ( /etc/logcheck/ignore.d.server/logcheck-vpnlive_mbuyu_nl )
+
+copy:
+	any::
+		${cfe_files}${logcheck_ignore_vpn}
+			dest=${logcheck_ignore_vpn}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+
+		${cfe_files}${logcheck_ignore_vpnlive}
+			dest=${logcheck_ignore_vpnlive}
+			server=${cfe_host}
+			type=checksum backup=false
+			mode=640 owner=root	group=logcheck
+						
+files:
+	any::
+		${logcheck_ignore_vpn}			mode=640 owner=root group=logcheck	action=fixall
+		${logcheck_ignore_vpnlive}		mode=640 owner=root group=logcheck	action=fixall

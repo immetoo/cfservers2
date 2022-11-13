@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_srv	= ( /etc/rbackup/conf.d/backup-srv )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_srv}
+			dest=${rbackup_srv}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

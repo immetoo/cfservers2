@@ -1,0 +1,19 @@
+#
+# copy default
+#
+
+control:
+	any::
+		rcS_config = ( /etc/default/rcS )
+
+copy:
+	any::
+		${cfe_files}${rcS_config}
+			dest=${rcS_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+files:
+	any::
+		${rcS_config}		mode=644 owner=root group=root action=fixall

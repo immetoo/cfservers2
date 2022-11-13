@@ -1,0 +1,104 @@
+dn: olcDatabase={1}bdb
+objectClass: olcDatabaseConfig
+objectClass: olcBdbConfig
+olcDatabase: {1}bdb
+olcSuffix: dc=m4n,dc=nl
+olcAccess: {0}to dn.base=""  by * read
+olcAccess: {1}to dn.subtree="ou=users,dc=m4n,dc=nl"  attrs=userPassword,sambaL
+ MPassword,sambaNTPassword,autoResponseActive,autoresponseMessage,cn,givenName
+ ,sn  by anonymous auth  by self write  by * +0 break
+olcAccess: {2}to dn.subtree="ou=boxes,ou=mail,dc=m4n,dc=nl"  attrs=userPasswor
+ d,cn,givenName,uid  by anonymous auth  by self read  by * +0 break
+olcAccess: {3}to dn.regex="uid=(.*),ou=users,dc=m4n,dc=nl"  by anonymous auth 
+  by self read  by * +0 break
+olcAccess: {4}to dn.subtree="ou=services,dc=m4n,dc=nl"  attrs=userPassword  by
+  anonymous auth  by self read  by * +0 break
+olcAccess: {5}to dn.subtree="ou=www,dc=m4n,dc=nl"  attrs=userPassword  by anon
+ ymous auth  by self read  by * +0 break
+olcAccess: {6}to dn.subtree="dc=m4n,dc=nl"  by dn.base="uid=syncrepl,ou=servic
+ es,dc=m4n,dc=nl" read  by * +0 break
+olcAccess: {7}to dn.subtree="ou=users,dc=m4n,dc=nl"  filter="(&(objectClass=m4
+ nAccount)(m4nAccountActive=TRUE))"  attrs=uid,cn,userPassword,mail,objectClas
+ s,entry  by dn.base="uid=lunchapp,ou=services,dc=m4n,dc=nl" read  by * +0 bre
+ ak
+olcAccess: {8}to dn.base="cn=lunch,ou=groups,dc=m4n,dc=nl"  by dn.base="uid=lu
+ nchapp,ou=services,dc=m4n,dc=nl" write  by * +0 break
+olcAccess: {9}to dn.base="cn=lunchadmins,ou=groups,dc=m4n,dc=nl"  by dn.base="
+ uid=lunchapp,ou=services,dc=m4n,dc=nl" write  by * +0 break
+olcAccess: {10}to dn.subtree="ou=users,dc=m4n,dc=nl"  by dn.base="uid=apache2,
+ ou=services,dc=m4n,dc=nl" read  by dn.base="uid=libnss,ou=services,dc=m4n,dc=
+ nl" read  by dn.base="uid=openvpn,ou=services,dc=m4n,dc=nl" read  by dn.base=
+ "uid=pam,ou=services,dc=m4n,dc=nl" read  by dn.base="uid=postfix,ou=services,
+ dc=m4n,dc=nl" read  by dn.base="uid=extauth,ou=services,dc=m4n,dc=nl" read  b
+ y dn.base="uid=samba,ou=services,dc=m4n,dc=nl" write  by dn.base="uid=admin-u
+ sers,ou=services,dc=m4n,dc=nl" write
+olcAccess: {11}to dn.subtree="ou=groups,dc=m4n,dc=nl"  by dn.base="uid=apache2
+ ,ou=services,dc=m4n,dc=nl" read  by dn.base="uid=libnss,ou=services,dc=m4n,dc
+ =nl" read  by dn.base="uid=openvpn,ou=services,dc=m4n,dc=nl" read  by dn.base
+ ="uid=postfix,ou=services,dc=m4n,dc=nl" read  by dn.base="uid=extauth,ou=serv
+ ices,dc=m4n,dc=nl" read  by dn.base="uid=samba,ou=services,dc=m4n,dc=nl" writ
+ e  by dn.base="uid=admin-users,ou=services,dc=m4n,dc=nl" write
+olcAccess: {12}to dn.subtree="ou=domains,dc=m4n,dc=nl"  by dn.base="uid=samba,
+ ou=services,dc=m4n,dc=nl" write
+olcAccess: {13}to dn.subtree="ou=idmap,dc=m4n,dc=nl"  by dn.base="uid=samba,ou
+ =services,dc=m4n,dc=nl" write
+olcAccess: {14}to dn.subtree="ou=machines,dc=m4n,dc=nl"  by dn.base="uid=samba
+ ,ou=services,dc=m4n,dc=nl" write  by dn.base="uid=libnss,ou=services,dc=m4n,d
+ c=nl" read
+olcAccess: {15}to dn.subtree="ou=dns,dc=m4n,dc=nl"  by dn.base="uid=powerdns,o
+ u=services,dc=m4n,dc=nl" read  by dn.base="uid=admin-dns,ou=services,dc=m4n,d
+ c=nl" write
+olcAccess: {16}to dn.subtree="ou=mail,dc=m4n,dc=nl"  by dn.base="uid=postfix,o
+ u=services,dc=m4n,dc=nl" read  by dn.base="uid=admin-mail,ou=services,dc=m4n,
+ dc=nl" write
+olcAccess: {17}to dn.subtree="ou=www,dc=m4n,dc=nl"  by dn.base="uid=apache2,ou
+ =services,dc=m4n,dc=nl" read  by dn.base="uid=proftpd,ou=services,dc=m4n,dc=n
+ l" read  by dn.base="uid=admin-hosting,ou=services,dc=m4n,dc=nl" write
+olcAccess: {18}to dn.subtree="ou=services,dc=m4n,dc=nl"  by dn.base="uid=admin
+ -services,ou=services,dc=m4n,dc=nl" write
+olcAccess: {19}to dn.subtree="ou=sudoers,dc=m4n,dc=nl"  by dn.base="uid=sudo,o
+ u=services,dc=m4n,dc=nl" read  by dn.base="uid=admin-sudo,ou=services,dc=m4n,
+ dc=nl" write
+olcLastMod: TRUE
+olcMaxDerefDepth: 15
+olcReadOnly: FALSE
+olcRootDN: cn=admin,dc=m4n,dc=nl
+olcMonitoring: FALSE
+olcDbDirectory: /usr/local/etc/openldap/slapd_data
+olcDbCacheSize: 1000
+olcDbCheckpoint: 512 30
+olcDbConfig: {0}set_cachesize 0 2097152 0
+olcDbConfig: {1}set_lk_max_objects 1500
+olcDbConfig: {2}set_lk_max_locks 1500
+olcDbConfig: {3}set_lk_max_lockers 1500
+olcDbNoSync: FALSE
+olcDbDirtyRead: FALSE
+olcDbIDLcacheSize: 0
+olcDbIndex: default sub
+olcDbIndex: objectClass eq
+olcDbIndex: entryUUID eq
+olcDbIndex: entryCSN eq
+olcDbIndex: cn pres,eq,sub
+olcDbIndex: uid pres,eq,sub
+olcDbIndex: uidNumber eq
+olcDbIndex: gidNumber eq
+olcDbIndex: displayName pres,eq,sub
+olcDbIndex: sambaPrimaryGroupSID eq
+olcDbIndex: sn pres,eq,sub
+olcDbIndex: memberUid pres,eq,sub
+olcDbIndex: sambaSID eq
+olcDbIndex: sambaDomainName eq
+olcDbIndex: associatedDomain pres,eq,sub
+olcDbLinearIndex: FALSE
+olcDbMode: 384
+olcDbSearchStack: 16
+olcDbShmKey: 0
+olcDbCacheFree: 1
+olcDbDNcacheSize: 0
+structuralObjectClass: olcBdbConfig
+entryUUID: 7ea7c7ce-72d4-102e-8eaf-2353b6bdb77e
+creatorsName: cn=config
+createTimestamp: 20091201144938Z
+entryCSN: 20091201144938.721370Z#000000#000#000000
+modifiersName: cn=config
+modifyTimestamp: 20091201144938Z

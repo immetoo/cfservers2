@@ -1,0 +1,10 @@
+
+#
+# This file is managed by cfengine
+#
+MAILTO=systeembeheer@m4n.nl
+
+# Elke laatste donderdag van de maand updates genereren
+35 7     * * 4   root    /usr/local/sbin/mail-apt-upgrades.sh
+
+# EOF

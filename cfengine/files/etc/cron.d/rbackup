@@ -1,0 +1,7 @@
+#
+# This file is managed by cfengine
+#
+# Backups this server
+4 4		* * *	root	/etc/rbackup/rbackup.sh s
+
+# EOF

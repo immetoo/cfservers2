@@ -1,0 +1,71 @@
+#!/usr/bin/perl
+#
+# check_sftp user host private-key
+#
+# Nagios host script to check sftp server
+# 
+# ** only intended for Linux **
+
+require 5.003;
+BEGIN { $ENV{PATH} = '/bin:/usr/bin' }
+use POSIX;
+use strict;
+
+sub usage;
+
+my $TIMEOUT = 15;
+
+my %ERRORS = ('UNKNOWN', '-1',
+              'OK',       '0',
+              'WARNING',  '1',
+              'CRITICAL', '2');
+
+my $user = shift;
+my $host = shift;
+my $key = shift || &usage(%ERRORS);
+
+my $batch = "/var/tmp/.check_sftp.bat.$$";
+my $error = "/var/tmp/.check_sftp.err.$$";
+
+my $state = "OK";
+my $answer = undef;
+
+$SIG{'ALRM'} = sub { 
+     close(Server);
+     select(STDOUT);
+     print "Command has timed out\n";
+     unlink $batch;
+     unlink $error;
+     exit $ERRORS{"UNKNOWN"};
+};
+alarm($TIMEOUT);
+
+my $ret = system("echo -e \"ls\\nquit\\n\" > $batch && sftp -o \"IdentityFile=$key\" -o \"PasswordAuthentication=no\" -b $batch $user\@$host >$error 2>&1");
+
+alarm(0);
+
+if ($ret == 0){
+  $state  = "OK";
+  $answer = "OK - sftp $user\@$host is successful.\n";
+}
+else {
+  $state = "CRITICAL";
+  open ERROR, $error or die;
+  my @error_msg = <ERROR>;
+  close ERROR;
+  # -- we want the second to last line
+  pop @error_msg;
+  my $error_msg = pop @error_msg;
+  $answer = "CRITICAL: sftp $user\@$host has failed: $error_msg";
+}
+
+unlink $batch;
+unlink $error;
+
+print $answer;
+exit $ERRORS{$state};
+
+sub usage {
+  print "Usage: $0 <user> <host> <private-key>\n\n";
+  exit $ERRORS{"UNKNOWN"};
+}

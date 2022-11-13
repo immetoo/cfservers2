@@ -1,0 +1,7 @@
+#
+# Adds phpmyadmin to apache2
+#
+
+packages:
+	any::
+		phpmyadmin			action=install

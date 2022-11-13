@@ -1,0 +1,20 @@
+#
+# added views/clicks/leads to apache2
+#
+
+control:
+	any::
+		apache2_m4n_satellite	= ( /etc/apache2/sites-available/satellite.m4n.nl )
+		
+copy:
+	any::
+		${cfe_files}${apache2_m4n_satellite}
+			dest=${apache2_m4n_satellite}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=APACHE2_RESTART
+
+links:
+	any::
+		/etc/apache2/sites-enabled/satellite.m4n.nl ->! ${apache2_m4n_satellite} define=APACHE2_RESTART

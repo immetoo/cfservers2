@@ -1,0 +1,20 @@
+#
+# installs clamav and configs it.
+#
+
+packages:
+	install::
+		amavisd-new				action=install
+
+
+control:
+	any::
+		amavis	= ( /etc/amavis/conf.d/50-user )
+		
+copy:
+	any::
+		${cfe_files}${amavis}
+			dest=${amavis}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

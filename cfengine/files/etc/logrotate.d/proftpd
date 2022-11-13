@@ -1,0 +1,19 @@
+#
+# This file is managed by cfengine
+#
+
+/var/log/proftpd/*.log {
+	weekly
+	missingok
+	rotate 13
+	compress
+	delaycompress
+	notifempty
+	create 640 root adm
+	sharedscripts
+	postrotate
+		if [ -f /var/run/proftpd.pid ]; then
+			/usr/bin/killall -SIGHUP proftpd
+		fi
+	endscript
+}

@@ -1,0 +1,8 @@
+#
+# Add dav_fs support
+#
+
+links:
+	any::
+		/etc/apache2/mods-enabled/dav_fs.load ->! ../mods-available/dav_fs.load define=APACHE2_RESTART
+		/etc/apache2/mods-enabled/dav_fs.conf ->! ../mods-available/dav_fs.conf define=APACHE2_RESTART

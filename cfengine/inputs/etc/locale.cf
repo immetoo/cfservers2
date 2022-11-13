@@ -1,0 +1,43 @@
+#
+# copy default locale config
+#
+
+packages:
+	any::
+			locales			action=install		
+			
+control:
+	any::
+		locale_config		= ( /etc/locale.gen )
+		locale_environment	= ( /etc/environment )
+		locale_default    	= ( /etc/default/locale )
+
+copy:
+	any::
+		${cfe_files}${locale_config}
+			dest=${locale_config}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+			define=LOCALE_UPDATE
+			
+		${cfe_files}${locale_environment}
+			dest=${locale_environment}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+		${cfe_files}${locale_default}
+			dest=${locale_default}
+			server=${cfe_host}
+			type=checksum
+			owner=root group=root mode=644
+
+files:
+	any::
+		${locale_config}		owner=root group=root mode=644	action=fixall define=LOCALE_UPDATE
+		${locale_environment}	owner=root group=root mode=644	action=fixall
+
+shellcommands:
+	LOCALE_UPDATE::
+		"/usr/sbin/locale-gen"

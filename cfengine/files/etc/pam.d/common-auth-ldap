@@ -1,0 +1,17 @@
+#
+# /etc/pam.d/common-auth - authentication settings common to all services
+#
+# This file is included from other service-specific PAM config files,
+# and should contain a list of the authentication modules that define
+# the central authentication scheme for use on the system
+# (e.g., /etc/shadow, LDAP, Kerberos, etc.).  The default is to use the
+# traditional Unix authentication mechanisms.
+#
+
+auth    [success=done default=ignore]   pam_unix.so nullok_secure try_first_pass
+# If LDAP is unavailable, go to next line.  If authentication via LDAP is successful, skip 1 line.
+# If LDAP is available, but authentication is NOT successful, skip 2 lines.
+auth    [authinfo_unavail=ignore success=1 default=2] pam_ldap.so use_first_pass
+auth    [default=done]  pam_ccreds.so action=validate use_first_pass
+auth    [default=done]  pam_ccreds.so action=store
+auth    [default=bad]   pam_ccreds.so action=update

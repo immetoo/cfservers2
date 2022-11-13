@@ -1,0 +1,31 @@
+#
+# manages drbd
+#
+
+control:
+	any::
+		drbd_conf		= ( /etc/drbd.conf )
+		drbd_lvm_reinit	= ( /etc/rc2.d/S71lvm-extra )
+
+packages:
+	any::
+#		drbd8-source installeren uit lenny-backports!
+        drbd8-utils action=install
+		
+
+copy:
+	any::
+		${cfe_files}${drbd_lvm_reinit}
+			dest=${drbd_lvm_reinit}
+			server=${cfe_host}
+			mode=755 owner=root group=root type=checksum
+	mrhxen5|mrhxen6.!mrhxen7.!mrhxen8::
+		${cfe_files}${drbd_conf}-mrhxen5
+			dest=${drbd_conf}
+			server=${cfe_host}
+			mode=644 owner=root group=root type=checksum
+	mrhxen7|mrhxen8.!mrhxen5.!mrhxen6::
+		${cfe_files}${drbd_conf}-mrhxen7
+			dest=${drbd_conf}
+			server=${cfe_host}
+			mode=644 owner=root	group=root type=checksum

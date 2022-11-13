@@ -1,0 +1,120 @@
+#
+# This file is managed by cfengine
+#
+
+# Includes DSO modules
+ModulePath              /usr/lib/proftpd
+ModuleControlsACLs      insmod,rmmod allow user root
+ModuleControlsACLs      lsmod allow user *
+LoadModule              mod_ctrls_admin.c
+LoadModule              mod_sql.c
+LoadModule              mod_sql_postgres.c
+LoadModule              mod_ifsession.c
+
+# main server config
+UseIPv6                 off
+Port                    21
+PassivePorts            5500 5700
+MaxInstances            30
+User                    proftpd
+Group                   nogroup
+
+# welcome stuff
+ServerIdent             on "Rocking images to the web."
+ServerName              "IMAGES FTP"
+ServerType              standalone
+DeferWelcome            off
+MultilineRFC2228        on
+UseReverseDNS           off
+
+# Auth config
+PersistentPasswd        off
+RequireValidShell       off
+AuthPAM                 off
+AuthPAMConfig           proftpd
+AuthOrder               mod_sql.c
+
+# only allow to pass printf-Formats for cmd's
+AllowFilter             "^[a-zA-Z0-9@~ /,_.-]*$"
+# We don't want to allow any commands with % being sent to the server
+DenyFilter              "%"
+
+# These Path filters are only applied to the following FTP commands:
+# DELE, MKD/XMKD, RMD/XRMD, RNFR, RNTO, STOR, STOU, and to the SITE commands CHGRP and CHMOD
+# It is a very good idea to allow only filenames containing normal
+# alphanumeric characters for uploads (and not shell code...)
+PathAllowFilter         ^[/A-Za-z0-9._-]+$
+# no .ftpaccess files
+PathDenyFilter          "(\\.ftpaccess)$"
+
+# Logging config
+LogFormat               default "%h %l %u %t \"%r\" %s %b"
+LogFormat               auth    "%v [%P] %h %t \"%r\" %s"
+LogFormat               write   "%h %l %u %t \"%r\" %s %b"
+
+TransferLog             /var/log/proftpd/xferlog
+SystemLog               /var/log/proftpd/proftpd.log
+ExtendedLog             /var/log/proftpd/proftpd-access.log    WRITE,READ write
+ExtendedLog             /var/log/proftpd/proftpd-auth.log      AUTH auth
+#ExtendedLog             /var/log/proftpd/proftpd-paranoid.log  ALL default
+
+# Ldap auth
+# vhosts get defaults from global ipv server_config (which is a sort of default vhost)
+<Global>
+        # TODO puth this skel dir in cfe
+	    CreateHome              on 0755 skel /etc/skel-images
+        RequireValidShell       off
+	
+        SQLBackend              postgres
+        SQLAuthTypes            Plaintext
+        SQLConnectInfo          m4n_update@db0.update.mbuyu.nl mbuyu eephoh2O
+        SQLUserInfo             user_hosting username password uid gid homedir shell
+
+        # Let ownership be full www-data
+        SQLDefaultUID           33
+        SQLDefaultGID           33
+
+        SQLNegativeCache        off
+        SQLLogFile              /var/log/proftpd/proftpd-sql.log	
+</Global>
+
+# Modules config
+<IfModule mod_delay.c>
+		DelayEngine off
+</IfModule>
+
+<IfModule mod_quota.c>
+        QuotaEngine on
+</IfModule>
+
+<IfModule mod_ctrls.c>
+        ControlsEngine          on
+        ControlsMaxClients      2
+        ControlsLog             /var/log/proftpd/controls.log
+        ControlsInterval        5
+        ControlsSocket          /var/run/proftpd/proftpd.sock
+</IfModule>
+
+<IfModule mod_ctrls_admin.c>
+        AdminControlsEngine on
+</IfModule>
+
+# images hosting
+SQLAuthenticate         users
+AllowOverwrite          on
+AllowRetrieveRestart    on
+DefaultServer           on
+ShowSymlinks            on
+TimeoutNoTransfer       600
+TimeoutStalled          600
+TimeoutIdle             1200
+DisplayLogin            /etc/motd
+DisplayChdir            .message
+ListOptions             "-l"
+IdentLookups            off
+Umask                   022  022
+AllowForeignAddress     off
+MaxLoginAttempts        5
+DefaultRoot             ~
+
+

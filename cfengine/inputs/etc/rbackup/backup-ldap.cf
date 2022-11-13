@@ -1,0 +1,12 @@
+
+control:
+	any::
+		rbackup_ldap	= ( /etc/rbackup/conf.d/backup-ldap )
+		
+copy:
+	any::
+		${cfe_files}${rbackup_ldap}
+			dest=${rbackup_ldap}
+			server=${cfe_host}
+			type=checksum backup=false
+			owner=root group=root mode=644

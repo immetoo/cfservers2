@@ -1,0 +1,15 @@
+#
+# Create dynamily and autoreply alias for use to yaa
+#
+bind_dn= uid=postfix,ou=services,dc=m4n,dc=nl
+bind_pw= superP
+server_host=ldaps://ldap3.lan.mbuyu.nl ldaps://ldap1.lan.mbuyu.nl
+server_port=636
+bind= yes
+timeout= 20
+search_base= ou=users,dc=m4n,dc=nl
+query_filter= (&(objectclass=mailAccount)(mail=%s)(mailActive=TRUE)(autoResponseActive=TRUE))
+result_attribute= uid
+result_format  =  %s@autoreply.m4n.nl,%s@m4n.nl
+scope=sub
+version=3

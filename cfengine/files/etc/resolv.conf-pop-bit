@@ -1,0 +1,6 @@
+#
+# Cfengine manages this file
+#
+search dmz.bit.mbuyu.com 
+nameserver 213.136.12.52
+nameserver 213.136.12.60
